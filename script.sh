@@ -17,13 +17,10 @@ elif [ "$1" = "firebase" ]
 # utilizando Angular Github Pages
 	then
 		echo "Inicia despliegue con Firebase"
-		if [ "$2" = "compile" ]
-			then
-				rm -rf dist
-				echo "Carpeta /dist borrada. Comienzo de la compilación"
-				ng build --prod=true --aot=true --buildOptimizer=true --optimization=true --vendorChunk=true
-				echo "Aplicación compilada"
-		fi
+		rm -rf dist
+		echo "Carpeta /dist borrada. Comienzo de la compilación"
+		ng build --prod=true --aot=true --buildOptimizer=true --optimization=true --vendorChunk=true
+		echo "Aplicación compilada"
 		echo "Lista para cargar al servidor"
 		firebase deploy --only hosting:intercambios-sin-fronteras
 		echo "Aplicación desplegada"
