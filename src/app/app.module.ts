@@ -3,9 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-import { MaterializeModule } from 'angular2-materialize';
-
-import { AppRoutingModule } from './app-routing/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -13,8 +12,8 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
   ],
   imports: [
     BrowserModule,
-    MaterializeModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
