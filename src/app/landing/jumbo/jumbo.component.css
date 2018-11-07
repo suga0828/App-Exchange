@@ -1,0 +1,23 @@
+.jumbo {
+	height: calc(100vh - 64px);
+}
+
+.jumbo-title {
+	font-size: 1.5em;
+}
+
+.title {
+
+}
+
+.jumbo-calculator {
+
+}
+
+select {
+	display: inherit !important;
+}
+
+.btn-large {
+	margin: 15px;
+}
