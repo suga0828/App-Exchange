@@ -1,5 +1,8 @@
-.jumbo {
-	height: calc(100vh - 64px);
+#jumbo {
+	height: calc(100vmin - 64px);
+	width: 100%;
+	background: url(../../../assets/images/bg11.jpg) center top no-repeat;
+	background-size: cover;
 }
 
 .jumbo-title {
@@ -18,6 +21,11 @@ select {
 	display: inherit !important;
 }
 
-.btn-large {
-	margin: 15px;
+.button-container {
+	width: 100%;
+}
+
+.btn {
+	margin-bottom: 15px;
+	width: 100%;
 }

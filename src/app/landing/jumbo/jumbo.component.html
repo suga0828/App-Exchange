@@ -1,4 +1,4 @@
-<section class="jumbo valign-wrapper">
+<section class="valign-wrapper" id="jumbo">
 	<div class="container">
 		<div class="row valign-wrapper">
 			<div class="col m6 s12 jumbo-title center-align">
@@ -16,12 +16,11 @@
 					</h5>
 				</div>
 				<div class="row">
-					<div class="form-group col s6">
-						<label for="submit">Enviar</label>
-						<input type="number" class="form-control" id="submit" required>
+					<div class="input-field col s6">
+						<input id="last_name" type="number">
+						<label for="last_name">Enviar</label>
 					</div>
 					<div class="form-group col s6">
-						<label>Materialize Select</label>
 						<select>
 							<option value="" disabled selected>Choose your option</option>
 							<option value="1">Option 1</option>
@@ -31,12 +30,11 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="form-group col s6">
+					<div class="input-field col s6">
 						<label for="get">Recibir</label>
 						<input type="number" class="form-control" id="get">
 					</div>
 					<div class="form-group col s6">
-						<label>Materialize Select</label>
 						<select>
 							<option value="" disabled selected>Choose your option</option>
 							<option value="1">Option 1</option>
@@ -48,14 +46,15 @@
 				<div class="row">
 					<div class="col s12">
 						<p>Valor USD: 3000 - Comision: .160 CLP (2,50%)</p>
-						<br />
 						<span>Comisión mínima de 1 USD</span>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col s12">
-						<a class="waves-effect waves-light btn-large red darken-1">Quiero Transferir</a>
-						<a class="waves-effect waves-light btn-large red darken-1">Quiero Retirar</a>
+				<div class="row hide-on-small-only">
+					<div class="col l12 xl6 button-container">
+						<a class="waves-effect waves-light btn red darken-1">Quiero Transferir</a>
+					</div>
+					<div class="col l12 xl6 button-container">
+						<a class="waves-effect waves-light btn red darken-1">Quiero Retirar</a>
 					</div>
 				</div>
 			</div>
