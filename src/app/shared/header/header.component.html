@@ -1,10 +1,10 @@
-<div class="navbar-fixed">
+<div class="navbar-fixed" #top>
 	<nav>
 		<div class="nav-wrapper">
 			<a href="#!" class="brand-logo">Logo</a>
 			<a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
 			<ul class="right hide-on-med-and-down">
-				<li>
+				<li (click)="scrollToElement(top)">
 					<a>Inicio</a>
 				</li>
 				<li>
@@ -25,7 +25,7 @@
 </div>
 
 <ul class="sidenav" id="mobile-demo">
-	<li>
+	<li (click)="scrollToElement(top)">
 		<a>Inicio</a>
 	</li>
 	<li>
@@ -41,3 +41,7 @@
 		<a routerLink="register">Registrarse</a>
 	</li>
 </ul>
+
+<div class="scroll" (click)="scrollToElement(top)">
+	<i class="material-icons">keyboard_arrow_up</i>
+</div>
