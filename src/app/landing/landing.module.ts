@@ -8,10 +8,13 @@ import { TransferComponent } from './transfer/transfer.component';
 
 import { LandingRoutingModule } from './landing-routing.module';
 
+import { FormsModule } from '@angular/forms';
+
 @NgModule({
   imports: [
     CommonModule,
-    LandingRoutingModule
+    LandingRoutingModule,
+    FormsModule
   ],
   declarations: [
   	JumboComponent,

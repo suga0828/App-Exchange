@@ -3,18 +3,28 @@
 	width: 100%;
 	background: url(../../../assets/images/bg11.jpg) center top no-repeat;
 	background-size: cover;
+	color: whitesmoke;
 }
 
 .jumbo-title {
 	font-size: 1.5em;
 }
 
-.title {
+.jumbo-calculator {
 
 }
 
-.jumbo-calculator {
+.input-field {
+	margin: 0;
+}
 
+.calculator-title {
+	font-weight: bold;
+	padding-bottom: 20px;
+}
+
+.tax {
+	padding: 10px;
 }
 
 select {
