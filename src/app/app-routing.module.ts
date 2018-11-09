@@ -26,6 +26,10 @@ const routes: Routes = [
 		path: "signup",
 		component: SignupComponent
 	},
+	{
+		path: "console",
+		loadChildren: "./console/console.module#ConsoleModule"
+	}
 ]
 
 @NgModule({
