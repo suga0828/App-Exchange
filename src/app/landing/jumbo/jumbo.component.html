@@ -17,22 +17,22 @@
 				</div>
 				<div class="row calculator">
 					<div class="input-field col s6">
-						<input type="number" (keyup)="onKey($event)">
 						<label for="send">Enviar</label>
+            <input [(ngModel)]="value" type="number" (keyup)="onKey($event)">
 					</div>
 					<div class="form-group col s6">
-						<select #send>
+						<select #tax>
 							<option *ngFor="let tax of taxs" value="{{tax}}">Comisión de {{tax}}%</option>
 						</select>
 					</div>
 				</div>
 				<div class="row calculator">
 					<div class="input-field col s6">
-						<label for="get">Recibir</label>
+						<label for="get" [ngClass]="{'active' : value}">Recibir</label>
 						<input type="number" class="form-control" id="get" value="{{result}}">
 					</div>
 					<div class="form-group col s6">
-						<select #get>
+						<select #rate>
 							<option *ngFor="let rate of rates | keyvalue" value="{{rate.value}}">
 								{{rate.value + ' ' + rate.key + ' por dolar'}}
 							</option>
@@ -41,8 +41,8 @@
 				</div>
 				<div class="row tax">
 					<div class="col s12">
-						<span>Valor USD: 3000 - Comision: .160 CLP (2,50%)</span>
-						<span>Comisión mínima de 1 USD</span>
+						<span>Valor USD: {{ rateN }} - Comision: {{ taxedN }} COP ({{ taxN }}%). </span>
+						<span>Comisión mínima de 1 USD.</span>
 					</div>
 				</div>
 				<div class="row hide-on-small-only">
