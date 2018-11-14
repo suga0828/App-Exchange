@@ -1,21 +1,42 @@
-#jumbo {
-	height: calc(100vmin - 64px);
-	width: 100%;
-	background: url(../../../assets/images/bg11.jpg) center top no-repeat;
-	background-size: cover;
-	color: whitesmoke;
+.jumbo {
+	height: 100vh;
+  padding: 15px 0;
 }
 
+
 .jumbo-title {
-	font-size: 1.5em;
+	font-size: 50px;
+  line-height: 60px;
+  letter-spacing: -.01em;
+}
+
+.form-row {
+  display: flex;
+  padding: 4px 0px;
+}
+
+.jumbo-text {
+  font-size: 24px;
+  line-height: 36px;
+  font-weight: 300;
+  color: #424770;
 }
 
 .jumbo-calculator {
-
+  padding: 50px 30px 30px 30px;
+  background-color: #FFFFFF;
+  box-shadow:
+    0 7px 14px rgba(50,50,93,.5),
+    0 3px 6px rgba(0,0,0,.08);
 }
 
 .input-field {
 	margin: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
 .calculator-title {
@@ -27,8 +48,16 @@
 	padding: 10px;
 }
 
+.tax-text {
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 28px;
+  color: #525f7f;
+}
+
 select {
 	display: inherit !important;
+  background-color: #f6f9fc;
 }
 
 .button-container {
@@ -38,4 +67,163 @@ select {
 .btn {
 	margin-bottom: 15px;
 	width: 100%;
+  box-shadow:
+    0 4px 6px rgba(50,50,93,.11),
+    0 1px 3px rgba(0,0,0,.08);
+}
+
+.background-filling {
+  position: absolute;
+  background-color: #e4effa;
+  min-width: 100%;
+  top: 50px;
+  min-height: 200px;
+  z-index: -1;
+}
+
+/*background*/
+.common-StripeGrid{
+  --stripe-height:48px;
+  --content-columns:17;
+  position:absolute;
+  width:100%;
+  top:0;
+  bottom:0;
+  z-index:-1;
+  pointer-events:none;
+}
+.common-StripeGrid .backgroundContainer,
+.common-StripeGrid .stripeContainer{
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:  flex;
+  -webkit-box-orient:vertical;
+  -webkit-box-direction:normal;
+  -ms-flex-direction:column;
+  flex-direction:column;
+  -webkit-box-align:center;
+  -ms-flex-align:center;
+  align-items:center;
+  position:absolute;
+  width:100%;
+  height:100%;
+  -webkit-transform:skewY(-12deg);
+  transform:skewY(-12deg);
+}
+.common-StripeGrid .backgroundContainer .grid{
+  grid-template-columns:1fr;
+  min-width:0
+}
+.common-StripeGrid .backgroundContainer .background{
+  grid-row:1/-1;
+  grid-column:1/-1;
+  z-index:-1
+}
+/*Stripes*/
+.common-StripeGrid .stripeContainer{
+  overflow:hidden
+}
+.StripeBackground {
+  position:absolute;
+  left:0;
+  top:50%;
+ right:0;
+     -webkit-transform:skewY(-12deg);
+      transform:skewY(-12deg);
+      pointer-events:none
+     }
+.StripeBackground .stripe{
+      position:absolute;
+      top:auto;
+      left:0;
+      right:0
+    }
+
+@media (min-width:670px){
+      .common-StripeGrid{--stripe-height:64px}
+    }
+
+.common-StripeGrid .grid{
+      --content-column-width:minmax(0,calc(100vw / var(--content-columns)));
+      --gutter-column-width:1fr;
+      position:absolute;
+      width:100%;
+      height:100%;
+      display:grid;
+      grid-template-rows:repeat(auto-fill,var(--stripe-height));
+      grid-template-columns:
+        [viewport-start] 1fr
+        [left-gutter-start] repeat(var(--gutter-columns),var(--gutter-column-width))
+        [left-gutter-end content-start] repeat(var(--content-columns),var(--content-column-width))
+        [content-end right-gutter-start] repeat(var(--gutter-columns),var(--gutter-column-width))
+        [right-gutter-end] 1fr [viewport-end]
+    }
+
+.jumbo .common-StripeGrid .stripe:first-child{
+  background-color:#e4effa;
+  grid-column: 1 / span 16;
+  grid-row: 1 / span 6;
+}
+
+.jumbo .common-StripeGrid .stripe:nth-child(2){
+  -webkit-box-shadow:inset 0 0 0 2px #e6ebf1;
+  box-shadow:inset 0 0 0 2px #e6ebf1;
+  background-color:#e4effa;
+  grid-column: 1 / span 2;
+  grid-row: 5 / span 1;
+}
+.jumbo .common-StripeGrid .stripe:nth-child(3){
+  background-color:#e4effa;
+  grid-column: 3 / span 14;
+  grid-row: 5 / span 1;
+}
+.jumbo .common-StripeGrid .stripe:nth-child(4){
+  background-color:#32325d;
+  grid-column: 1 / span 2;
+  grid-row: 7 / span 1;
+  z-index:1
+}
+.jumbo .common-StripeGrid .stripe:nth-child(5){
+  background-color:#e6ebf1;
+  grid-column: 3 / span 3;
+  grid-row: 7 / span 1;
+}
+.jumbo .common-StripeGrid .stripe:nth-child(6){
+  background-color: #e4effa;
+  grid-column: 6 / span 5;
+  grid-row: 7 / span 1;
+}
+.jumbo .common-StripeGrid .stripe:nth-child(7){
+  background-color:#32325d;
+  grid-column: 11 / span 6;
+  grid-row: 7 / span 1;
+}
+.jumbo .common-StripeGrid .stripe:nth-child(8){
+  background-color:#fcd669;
+  grid-column: 1 / span 1;
+  grid-row: 8 / span 1;
+}
+.jumbo .common-StripeGrid .stripe:nth-child(9){
+  background-color:#87bbfd;
+  grid-column: 12 / span 4;
+  grid-row: 8 / span 1;
+}
+.jumbo .common-StripeGrid .stripe:nth-child(10){
+  background-color:#6772e5;
+  grid-column: 15 / span 2;
+  grid-row: 8 / span 1;
+}
+.jumbo .common-StripeGrid .stripe:nth-child(11){
+  background-color:#fcd669;
+  grid-column: 14 / span 3;
+  grid-row: 9 / span 1;
+  z-index:1;
+}
+.jumbo .common-StripeGrid .stripe:nth-child(12){
+  -webkit-box-shadow:inset 0 0 0 2px #e6ebf1;
+  box-shadow:inset 0 0 0 2px #e6ebf1;
+  grid-column: 13 / span 3;
+  grid-row: 10 / span 1;
+  -webkit-transform:translateY(-2px);
+  transform:translateY(-2px);
 }

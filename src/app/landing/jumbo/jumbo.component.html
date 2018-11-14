@@ -1,21 +1,21 @@
-<section class="valign-wrapper" id="jumbo">
+<section class="jumbo">
 	<div class="container">
-		<div class="row valign-wrapper">
-			<div class="col m6 s12 jumbo-title center-align">
-				<h2 class="title">
-					¡Rápido y Seguro!
+		<div class="row">
+			<div class="jumbo-present col s12 m6">
+				<h2 class="jumbo-title">
+					Rápido y Seguro
 				</h2>
-				<p>
-					¡Transfiere y retira de tu sala favorita con la comisión más barata del mercado y la tranquilidad que mereces!
+				<p class="jumbo-text">
+					Transfiere y retira de tu sala favorita con la comisión más barata del mercado y la tranquilidad que mereces.
 				</p>
 			</div>
-			<div class="col m6 s12 jumbo-calculator center-align">
+			<div class="jumbo-calculator col s12 m6 center-align">
 				<div class="row">
 					<h5 class="calculator-title">
 					Simula tu transferencia o retiro
 					</h5>
 				</div>
-				<div class="row calculator">
+				<div class="form-row calculator">
 					<div class="input-field col s6">
 						<label for="send">Enviar</label>
             <input [(ngModel)]="value" type="number" (keyup)="onKey($event)">
@@ -26,7 +26,7 @@
 						</select>
 					</div>
 				</div>
-				<div class="row calculator">
+				<div class="form-row calculator">
 					<div class="input-field col s6">
 						<label for="get" [ngClass]="{'active' : value}">Recibir</label>
 						<input type="number" class="form-control" id="get" value="{{result}}">
@@ -41,21 +41,45 @@
 				</div>
 				<div class="row tax">
 					<div class="col s12">
-						<span>Valor USD: {{ rateN }} - Comision: {{ taxedN }} COP ({{ taxN }}%). </span>
-						<span>Comisión mínima de 1 USD.</span>
+						<p class="tax-text">Valor USD: {{ rateN }} - Comision: {{ taxedN }} COP ({{ taxN }}%). </p>
+						<p class="tax-text">Comisión mínima de 1 USD.</p>
 					</div>
 				</div>
 				<div class="row hide-on-small-only">
 					<div class="col l12 xl6 button-container">
-						<a class="waves-effect waves-light btn red darken-1">Quiero Transferir</a>
+						<a class="waves-effect waves-light btn azulito">Quiero Transferir</a>
 					</div>
 					<div class="col l12 xl6 button-container">
-						<a class="waves-effect waves-light btn red darken-1">Quiero Retirar</a>
+						<a class="waves-effect waves-light btn azulito">Quiero Retirar</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+  <div class="background-filling"></div>
+  <div class="common-StripeGrid">
+    <div class="backgroundContainer">
+      <div class="grid">
+        <div class="background"></div>
+      </div>
+    </div>
+    <div class="stripeContainer">
+      <div class="grid">
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+        <div class="stripe"></div>
+      </div>
+    </div>
+  </div>
 </section>
 <app-experience></app-experience>
 <app-transfer></app-transfer>
