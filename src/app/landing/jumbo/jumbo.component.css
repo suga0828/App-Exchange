@@ -227,3 +227,9 @@ select {
   -webkit-transform:translateY(-2px);
   transform:translateY(-2px);
 }
+
+@media screen and (max-width: 1200px){
+  .show-on-xlarge {
+    display: none
+  }
+}

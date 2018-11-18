@@ -25,6 +25,12 @@ nav ul a {
 	z-index: 1 !important;
 }
 
+@media screen and (max-width: 600px) {
+  .scroll {
+    display: none;
+  }
+}
+
 .scroll:hover {
   border: 2px solid #e4effa;
   color: #e4effa;
