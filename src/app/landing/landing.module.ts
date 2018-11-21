@@ -9,6 +9,7 @@ import { TransferComponent } from './transfer/transfer.component';
 import { LandingRoutingModule } from './landing-routing.module';
 
 import { FormsModule } from '@angular/forms';
+import { TestimonyComponent } from './testimony/testimony.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { FormsModule } from '@angular/forms';
   	JumboComponent,
   	ExperienceComponent,
   	WithdrawComponent,
-  	TransferComponent]
+  	TransferComponent,
+  	TestimonyComponent]
 })
 export class LandingModule { }
