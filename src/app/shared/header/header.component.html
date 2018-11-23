@@ -26,7 +26,10 @@
 	</nav>
 </header>
 
-<ul class="sidenav" id="mobile-demo">
+<ul class="sidenav" id="mobile-demo" #sidenav>
+  <li>
+    <a class="sidenav-close closebtn">&times;</a>
+  </li>
 	<li (click)="scrollToElement(top)">
 		<a routerLink="/landing">Inicio</a>
 	</li>

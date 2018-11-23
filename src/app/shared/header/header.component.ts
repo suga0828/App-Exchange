@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/core';
 import * as M from 'materialize-css/dist/js/materialize';
 
 import { ScrollService } from '../../services/scroll.service';
@@ -10,6 +10,8 @@ import { ScrollService } from '../../services/scroll.service';
 })
 export class HeaderComponent implements OnInit {
 
+  @ViewChild('sidenav') sidenav: ElementRef;
+
   constructor(
     private scrollService: ScrollService,
     private renderer: Renderer2) { }
@@ -17,7 +19,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
 
   	// let elems = document.querySelectorAll(".sidenav");
-	  let elems = this.renderer.selectRootElement('.sidenav')
+	  let elems = this.renderer.selectRootElement(this.sidenav).nativeElement
     let instances = M.Sidenav.init(elems);
   }
 
