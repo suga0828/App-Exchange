@@ -1,5 +1,5 @@
-.carousel .carousel-item {
-  height: 70vh !important;
+.carousel {
+  min-height: 25vh;
 }
 
 .testimony-title {

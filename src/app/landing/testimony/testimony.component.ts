@@ -10,19 +10,21 @@ import * as M from 'materialize-css/dist/js/materialize';
 export class TestimonyComponent implements OnInit {
 
   @ViewChild('carousel') carousel: ElementRef;
-  @ViewChild('item') item: ElementRef;
 
   constructor(private renderer: Renderer2) { }
 
   ngOnInit() {
     // let elems = document.querySelectorAll('.carousel')
+
     let elems = this.renderer.selectRootElement(this.carousel).nativeElement
     let instances = M.Carousel.init(elems, {
       fullWidth: true,
-      indicators: true,
-      duration: 100
+      duration: 200
     },);
 
+    setInterval(function() {
+      let instance = M.Carousel.getInstance(elems).next();
+    }, 3000);
   }
 
 }
