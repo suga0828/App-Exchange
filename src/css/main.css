@@ -31,6 +31,8 @@ h6 {
 }
 section {
 	width: 100%;
+  height: auto;
+  padding: 35px 0;
 }
 
 .row {
@@ -44,4 +46,20 @@ section {
 
 .azulito:hover {
   background-color: #7795f8;
+}
+
+@media screen and (max-width: 992px) {
+  section {
+    height: auto !important;
+    padding: 25px 0;
+  }
+  .carousel {
+    min-height: 80vmin !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .carousel {
+    min-height: 90vmin !important;
+  }
 }
