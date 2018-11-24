@@ -69,26 +69,18 @@ select {
     0 4px 6px rgba(50,50,93,.11),
     0 1px 3px rgba(0,0,0,.08);
 }
-
-.background-filling {
-  position: absolute;
-  background-color: #e4effa;
-  min-width: 100%;
-  top: 50px;
-  min-height: 200px;
-  z-index: -1;
-}
-
 /*background*/
 .common-StripeGrid{
-  /*--stripe-height:48px;*/
-  --content-columns:17;
+  --grid-height: 11%;
+  --grid-content: 70%;
+  --grid-viewportL: 15%;
+  --grid-viewportR: 15%;
+
   position:absolute;
   width:100%;
   top:0;
   bottom:0;
   z-index:-1;
-  pointer-events:none;
 }
 .common-StripeGrid .backgroundContainer,
 .common-StripeGrid .stripeContainer{
@@ -105,17 +97,26 @@ select {
   position:absolute;
   width:100%;
   height:100%;
+}
+/* For top horizontal background  */
+.common-StripeGrid .backgroundContainer .background {
+  position: absolute;
+  height: 50%;
+  width: 100%;
+  background-color: #e4effa;
+}
+/* For bottom skew background  */
+.common-StripeGrid .backgroundContainer .skew {
+  position: absolute;
+  height: calc( 6 * var(--grid-height) );
+  width: 100%;
+  background-color: #e4effa;
   -webkit-transform:skewY(-12deg);
-  transform:skewY(-12deg);
+          transform:skewY(-12deg);
 }
-.common-StripeGrid .backgroundContainer .grid{
-  grid-template-columns:1fr;
-  min-width:0
-}
-.common-StripeGrid .backgroundContainer .background{
-  grid-row:1/-1;
-  grid-column:1/-1;
-  z-index:-1
+.common-StripeGrid .stripeContainer {
+  -webkit-transform:skewY(-12deg);
+          transform:skewY(-12deg);
 }
 /*Stripes*/
 .common-StripeGrid .stripeContainer{
@@ -135,93 +136,138 @@ select {
       top:auto;
       left:0;
       right:0
-    }
-
-@media (min-width:670px) {
-  /*.common-StripeGrid{--stripe-height:64px}*/
 }
-
 .common-StripeGrid .grid {
-  --content-column-width:minmax(0,calc(100vw / var(--content-columns)));
-  --gutter-column-width:1fr;
   position:absolute;
   width:100%;
   height:100%;
   display:grid;
-  grid-template-rows:repeat(auto-fill,var(--stripe-height));
+  grid-template-rows:
+    [start-line]   var(--grid-height)
+    [first-line]   var(--grid-height)
+    [second-line]  var(--grid-height)
+    [third-line]   var(--grid-height)
+    [quarter-line] var(--grid-height)
+    [fifth-line]   var(--grid-height)
+    [sixth-line]   var(--grid-height)
+    [seventh-line] var(--grid-height)
+    [eighth-line]  var(--grid-height)  [last-line];
+  grid-template-columns:
+    [viewport-start]            calc( var(--grid-viewportL) / 2 )
+    [viewportS-contentS-middle] calc( var(--grid-viewportL) / 2 )
+    [content-star]              calc( var(--grid-content) / 4 )
+    [contentS-contentM-middle]  calc( var(--grid-content) / 4 )
+    [content-middle]            calc( var(--grid-content) / 4 )
+    [contentM-contentE-middle]  calc( var(--grid-content) / 4 )
+    [content-end]               calc( var(--grid-viewportR) / 2 )
+    [contentE-viewportE-middle] calc( var(--grid-viewportR) / 2 ) [viewport-end];
 }
 
-.jumbo .common-StripeGrid .stripe:first-child{
-  background-color:#e4effa;
-  grid-column: 1 / span 16;
-  grid-row: 1 / span 6;
-}
-
-.jumbo .common-StripeGrid .stripe:nth-child(2){
+.jumbo .common-StripeGrid .stripe:nth-child(1){
   -webkit-box-shadow:inset 0 0 0 2px #e6ebf1;
   box-shadow:inset 0 0 0 2px #e6ebf1;
   background-color:#e4effa;
-  grid-column: 1 / span 2;
-  grid-row: 5 / span 1;
+  grid-column: viewport-start / content-star;
+  grid-row: second-line / third-line;
+}
+.jumbo .common-StripeGrid .stripe:nth-child(2){
+  background-color:#32325d;
+  grid-column: viewport-start / content-star;
+  grid-row: quarter-line / fifth-line;
+  z-index:1
 }
 .jumbo .common-StripeGrid .stripe:nth-child(3){
-  background-color:#e4effa;
-  grid-column: 3 / span 14;
-  grid-row: 5 / span 1;
+  background-color:#e6ebf1;
+  grid-column: content-star / contentS-contentM-middle;
+  grid-row: quarter-line / fifth-line;
 }
 .jumbo .common-StripeGrid .stripe:nth-child(4){
   background-color:#32325d;
-  grid-column: 1 / span 2;
-  grid-row: 7 / span 1;
-  z-index:1
+  grid-column: content-end / viewport-end;
+  grid-row: quarter-line / fifth-line;
 }
 .jumbo .common-StripeGrid .stripe:nth-child(5){
-  background-color:#e6ebf1;
-  grid-column: 3 / span 3;
-  grid-row: 7 / span 1;
+  background-color:#fcd669;
+  grid-column: viewport-start / viewportS-contentS-middle;
+  grid-row: fifth-line / sixth-line;
 }
 .jumbo .common-StripeGrid .stripe:nth-child(6){
-  background-color: #e4effa;
-  grid-column: 6 / span 5;
-  grid-row: 7 / span 1;
+  background-color:#87bbfd;
+  grid-column: contentM-contentE-middle / contentE-viewportE-middle;
+  grid-row: fifth-line / sixth-line;
 }
 .jumbo .common-StripeGrid .stripe:nth-child(7){
-  background-color:#32325d;
-  grid-column: 11 / span 6;
-  grid-row: 7 / span 1;
+  background-color:#6772e5;
+  grid-column: contentE-viewportE-middle / viewport-end;
+  grid-row: fifth-line / sixth-line;
 }
 .jumbo .common-StripeGrid .stripe:nth-child(8){
   background-color:#fcd669;
-  grid-column: 1 / span 1;
-  grid-row: 8 / span 1;
-}
-.jumbo .common-StripeGrid .stripe:nth-child(9){
-  background-color:#87bbfd;
-  grid-column: 12 / span 4;
-  grid-row: 8 / span 1;
-}
-.jumbo .common-StripeGrid .stripe:nth-child(10){
-  background-color:#6772e5;
-  grid-column: 15 / span 2;
-  grid-row: 8 / span 1;
-}
-.jumbo .common-StripeGrid .stripe:nth-child(11){
-  background-color:#fcd669;
-  grid-column: 14 / span 3;
-  grid-row: 9 / span 1;
+  grid-column: content-end / viewport-end;
+  grid-row: sixth-line / seventh-line;
   z-index:1;
 }
-.jumbo .common-StripeGrid .stripe:nth-child(12){
+.jumbo .common-StripeGrid .stripe:nth-child(9){
   -webkit-box-shadow:inset 0 0 0 2px #e6ebf1;
   box-shadow:inset 0 0 0 2px #e6ebf1;
-  grid-column: 13 / span 3;
-  grid-row: 10 / span 1;
-  -webkit-transform:translateY(-2px);
-  transform:translateY(-2px);
+  grid-column: contentM-contentE-middle / content-end;
+  grid-row: seventh-line / eighth-line;
+}
+.jumbo .common-StripeGrid .stripe:nth-child(10){
+  grid-column: viewport-start / viewport-end;
+  grid-row: eighth-line / last-line;
 }
 
 @media screen and (max-width: 1200px){
   .show-on-xlarge {
     display: none
+  }
+}
+@media (max-width:600px) {
+  .common-StripeGrid {
+    --grid-height: 11%;
+    --grid-content: 90%;
+    --grid-viewportL: 5%;
+    --grid-viewportR: 5%;
+  }
+  .jumbo .common-StripeGrid .stripe:nth-child(5){
+    grid-column: viewport-start / contentS-contentM-middle;
+  }
+  .jumbo .common-StripeGrid .stripe:nth-child(6){
+    grid-column: contentM-contentE-middle / content-end;
+  }
+  .jumbo .common-StripeGrid .stripe:nth-child(7){
+    grid-column: content-end / viewport-end;
+  }
+  .jumbo .common-StripeGrid .stripe:nth-child(8){
+    grid-column: contentM-contentE-middle / viewport-end;
+  }
+}
+@media (min-width:600px) (max-width:992px) {
+  .common-StripeGrid {
+    --grid-height: 11%;
+    --grid-content: 85%;
+    --grid-viewportL: 7.5%;
+    --grid-viewportR: 7.5%;
+  }
+  .jumbo .common-StripeGrid .stripe:nth-child(5){
+    grid-column: viewport-start / content-start;
+  }
+  .jumbo .common-StripeGrid .stripe:nth-child(6){
+    grid-column: contentM-contentE-middle / content-end;
+  }
+  .jumbo .common-StripeGrid .stripe:nth-child(7){
+    grid-column: content-end / viewport-end;
+  }
+  .jumbo .common-StripeGrid .stripe:nth-child(8){
+    grid-column: contentM-contentE-middle / viewport-end;
+  }
+}
+@media (min-width:992px) {
+  .common-StripeGrid {
+    --grid-height: 11%;
+    --grid-content: 70%;
+    --grid-viewportL: 15%;
+    --grid-viewportR: 15%;
   }
 }
