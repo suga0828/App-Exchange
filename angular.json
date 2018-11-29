@@ -24,6 +24,7 @@
             ],
             "styles": [
               "node_modules/materialize-css/dist/css/materialize.css",
+              "node_modules/firebaseui/dist/firebaseui.css",
               "src/styles.css"
             ],
             "scripts": [
