@@ -1,1 +1,12 @@
 <firebase-ui></firebase-ui>
+<div class="container shadow" *ngIf="user">
+  <div class="row center">
+    <div class="col s12 m8 offset-m2">
+      <a class="waves-effect waves-light btn-large" (click)="logOut()">Cerrar sesión</a>
+      <br />
+      Nombre: {{user.displayName}}
+      <br />
+      Correo electrónico: {{user.email}}
+    </div>
+  </div> 
+</div>
