@@ -5,6 +5,14 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import {firebase, firebaseui} from 'firebaseui-angular';
 
 export const firebaseUiAuthConfig: firebaseui.auth.Config = {
+  callbacks: {
+    signInSuccessWithAuthResult(authResult, redirectUrl) {
+      if (authResult.additionalUserInfo.isNewUser) {
+        authResult.user.sendEmailVerification();
+      }
+      return false;
+    }
+  },
   signInFlow: 'popup',
   signInOptions: [
     {

@@ -20,12 +20,17 @@ export class LoginComponent implements OnInit {
 
   getUser() {
     this.user = this.authenticationService.getStatus()
-      .subscribe( response => this.user = response, error => console.log(error) );
-    console.log(this.user);
+      .subscribe( response => {
+        if (response.emailVerified) {
+          this.user = response.providerData;
+          this.user = JSON.stringify(this.user);
+        } else {
+          this.user = 'Por favor verificar email.';
+        }
+      }, error => console.log(error) );
   }
 
   logOut() {
-    console.log(this.user);
     this.authenticationService.logOut();
     console.log('Sesión cerrada.');
   }
