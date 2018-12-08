@@ -54,14 +54,21 @@ nav ul a {
 	height: 100%;
 }
 
-.brand {
-	line-height: 64px;
-  font-size: 20px;
-  font-weight: 900;
-  color: #32325d !important;
+.brand-logo {
+	height: 44px;
+  width: auto;
+  border-radius: 50%;
+  margin-top: 10px;
 }
 
 .navbar-item {
   font-weight: 500;
   color:;
+}
+
+.sidenav .closebtn {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    font-size: 27px !important;
 }

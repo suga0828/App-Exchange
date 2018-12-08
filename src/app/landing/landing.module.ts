@@ -19,6 +19,8 @@ import { faThumbsUp, faGrinAlt,faClock } from '@fortawesome/free-regular-svg-ico
 // Add an icon to the library for convenient access in other components
 library.add(faUserCheck, faThumbsUp, faGrinAlt, faClock);
 
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   imports: [
@@ -32,6 +34,9 @@ library.add(faUserCheck, faThumbsUp, faGrinAlt, faClock);
   	ExperienceComponent,
   	WithdrawComponent,
   	TransferComponent,
-  	TestimonyComponent]
+  	TestimonyComponent,
+    HeaderComponent,
+    FooterComponent
+  ]
 })
 export class LandingModule { }
