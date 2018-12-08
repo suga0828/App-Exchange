@@ -15,11 +15,10 @@ nav ul a {
 }
 
 .sidenav .closebtn {
-  /*position: absolute;
-  right: 0;
-  top: 0;*/
-  display: inline-block;
-  font-size: 27px !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    font-size: 27px !important;
 }
 
 .scroll {
@@ -49,11 +48,6 @@ nav ul a {
   padding-right: 1px;
 }
 
-.material-icons {
-	width: 100%;
-	height: 100%;
-}
-
 .brand-logo {
 	height: 44px;
   width: auto;
@@ -66,9 +60,6 @@ nav ul a {
   color:;
 }
 
-.sidenav .closebtn {
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    font-size: 27px !important;
+.sidenav-trigger {
+  font-size: 23px;
 }
