@@ -1,0 +1,29 @@
+#profile {
+  padding: 30px 0;
+}
+
+.profile {
+  padding: 30px 0;
+}
+
+.background {
+  background-color: #e4effa !important;
+}
+
+.profileTitle {
+  display: inline;
+}
+
+@media screen and (max-width: 992px) {
+  .profileTitle {
+    display: block;
+  }
+  .secondary-content {
+    float: none;
+  }
+  .btn {
+    margin-top: 15px;
+  }
+}
+
+

@@ -1,12 +1,25 @@
-<p>
-  user works!
-</p>
-<div class="container shadow" *ngIf="user">
-  <div class="row center">
-    <div class="col s12 m8 offset-m2">
-      <a class="waves-effect waves-light btn-large" (click)="logOut()">Cerrar sesión</a>
-      <br />
-      {{user}}
+<section id="profile">
+  <div class="profile container z-depth-1">
+    <div class="row">
+      <div class="col s12 m8 offset-m2">
+        <ul class="collection with-header">
+          <li class="collection-header center background">
+            <h4 class="profileTitle">Información Personal</h4>
+            <a class="waves-effect waves-light btn secondary-content" (click)="logOut()">Cerrar sesión</a>
+          </li>
+          <li class="collection-item" *ngFor="let item of user | keyvalue">
+            <span>{{item.key}}:</span> <span class="secondary-content">{{item.value}}</span>
+          </li>
+        </ul>
+      </div>
+    <div class="row center">
+      <div class="col s12 m5 offset-m1">
+        <a routerLink="/console/transfer" class="waves-effect waves-light btn-large btn">Quiero Transferir</a>
+      </div>
+      <div class="col s12 m5">
+        <a routerLink="/console/withdraw" class="waves-effect waves-light btn-large btn">Quiero retirar</a>
+      </div>
+    </div>
     </div>
   </div>
-</div>
+</section>

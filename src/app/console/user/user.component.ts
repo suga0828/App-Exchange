@@ -24,8 +24,8 @@ export class UserComponent implements OnInit {
     this.user = this.authenticationService.getStatus()
       .subscribe( response => {
         if (response.emailVerified) {
-          this.user = response.providerData;
-          this.user = JSON.stringify(this.user);
+          console.log(response.providerData[0]);
+          this.user = response.providerData[0];
         } else {
           this.user = 'Por favor verificar email.';
         }
