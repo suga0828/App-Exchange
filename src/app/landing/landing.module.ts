@@ -14,13 +14,10 @@ import { TestimonyComponent } from './testimony/testimony.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserCheck } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp, faGrinAlt,faClock } from '@fortawesome/free-regular-svg-icons';
+import { faThumbsUp, faGrinAlt, faClock } from '@fortawesome/free-regular-svg-icons';
 
 // Add an icon to the library for convenient access in other components
 library.add(faUserCheck, faThumbsUp, faGrinAlt, faClock);
-
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   imports: [
@@ -30,13 +27,11 @@ import { FooterComponent } from './footer/footer.component';
     FontAwesomeModule
   ],
   declarations: [
-  	JumboComponent,
-  	ExperienceComponent,
-  	WithdrawComponent,
-  	TransferComponent,
-  	TestimonyComponent,
-    HeaderComponent,
-    FooterComponent
+    JumboComponent,
+    ExperienceComponent,
+    WithdrawComponent,
+    TransferComponent,
+    TestimonyComponent
   ]
 })
 export class LandingModule { }

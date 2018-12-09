@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
+import { HeaderComponent } from './landing/header/header.component';
+import { FooterComponent } from './landing/footer/footer.component';
+
 import { AppRoutingModule } from './app-routing.module';
 
 import { AngularFireModule } from '@angular/fire';
@@ -11,7 +14,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
