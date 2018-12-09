@@ -1,10 +1,3 @@
-<firebase-ui></firebase-ui>
-<div class="container shadow" *ngIf="user">
-  <div class="row center">
-    <div class="col s12 m8 offset-m2">
-      <a class="waves-effect waves-light btn-large" (click)="logOut()">Cerrar sesión</a>
-      <br />
-      {{user}}
-    </div>
-  </div>
-</div>
+<firebase-ui
+  (signInSuccessWithAuthResult)="successCallback($event)">
+</firebase-ui>

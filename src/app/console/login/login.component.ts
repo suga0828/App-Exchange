@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../../services/authentication.service';
 
@@ -9,30 +10,23 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class LoginComponent implements OnInit {
 
-  user: any;
-  authResult = this.authenticationService.authResult;
-
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router) { }
 
   ngOnInit() {
-    this.getUser();
   }
 
-  getUser() {
-    this.user = this.authenticationService.getStatus()
-      .subscribe( response => {
-        if (response.emailVerified) {
-          this.user = response.providerData;
-          this.user = JSON.stringify(this.user);
-        } else {
-          this.user = 'Por favor verificar email.';
-        }
-      }, error => console.log(error) );
+  successCallback(response) {
+    console.log(response);
+    if (response.authResult.additionalUserInfo.isNewUser) {
+        response.authResult.user.sendEmailVerification();
+      }
+    this.router.navigate(['console/user']);
   }
 
-  logOut() {
-    this.authenticationService.logOut();
-    console.log('Sesión cerrada.');
+  errorCallback(errorData) {
+    console.log(errorData);
   }
 
 }
