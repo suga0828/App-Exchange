@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthenticationService } from '../../services/authentication.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { UserService } from 'src/app/services/user.service';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-user',
@@ -10,26 +13,34 @@ import { Router } from '@angular/router';
 })
 export class UserComponent implements OnInit {
 
-  user;
+  user: User;
+  uid: string;
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router) { }
+    private router: Router,
+    private userService: UserService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.getUser();
   }
 
   getUser() {
-    this.user = this.authenticationService.getStatus()
-      .subscribe( response => {
-        if (response.emailVerified) {
-          console.log(response.providerData[0]);
-          this.user = response.providerData[0];
-        } else {
-          this.user = 'Por favor verificar email.';
-        }
-      }, error => console.log(error) );
+    this.getUserId()
+      .subscribe( params => {
+        this.uid = params.uid;
+        this.userService.getUserById(this.uid)
+          .subscribe( (response: User) => {
+            console.log(response);
+            this.user = response;
+          }, error => console.log(error)
+          );
+      });
+  }
+
+  getUserId() {
+    return this.activatedRoute.queryParams;
   }
 
   logOut() {
