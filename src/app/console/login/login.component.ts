@@ -30,7 +30,10 @@ export class LoginComponent implements OnInit {
       };
         this.userService.createUser(newUser);
       }
-    this.router.navigate(['console/user'], { queryParams: { uid: response.authResult.user.uid }});
+    this.router.navigate(['console/user'], { queryParams: {
+      uid: response.authResult.user.uid,
+      emailVerified: response.authResult.user.emailVerified,
+    }});
   }
 
   errorCallback(errorData) {

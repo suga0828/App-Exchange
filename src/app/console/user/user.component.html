@@ -7,6 +7,9 @@
             <h4 class="profileTitle">Información Personal</h4>
             <a class="waves-effect waves-light btn secondary-content" (click)="logOut()">Cerrar sesión</a>
           </li>
+          <li class="collection-item" *ngIf="message">
+            <p>{{message}}</p>
+          </li>
           <li class="collection-item" *ngFor="let item of user | keyvalue">
             <span>{{item.key}}:</span> <span class="secondary-content">{{item.value}}</span>
           </li>

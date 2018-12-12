@@ -15,6 +15,9 @@ export class UserComponent implements OnInit {
 
   user: User;
   uid: string;
+  emailVerified: string;
+  message: string;
+
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -24,12 +27,17 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.getUser();
+    if (this.emailVerified === 'false') {
+      this.message = 'Por favor verifique su correo electrónico';
+    }
   }
 
   getUser() {
     this.getUserId()
       .subscribe( params => {
         this.uid = params.uid;
+        this.emailVerified = params.emailVerified;
+        console.log(params);
         this.userService.getUserById(this.uid)
           .subscribe( (response: User) => {
             console.log(response);
