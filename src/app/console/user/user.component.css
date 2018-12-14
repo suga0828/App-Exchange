@@ -14,6 +14,20 @@
   display: inline;
 }
 
+.edit {
+  cursor: pointer;
+}
+
+.inline {
+  display: inline;
+}
+
+.img-responsive
+{
+  width: 100%;
+  height: auto;
+}
+
 @media screen and (max-width: 992px) {
   .profileTitle {
     display: block;
