@@ -14,5 +14,4 @@ export interface NewUser {
   uid: string;
   displayName: string;
   email: string;
-  emailVerified: boolean;
 }
