@@ -49,8 +49,7 @@
             <div *ngIf="edit" class="inline">
               <mat-form-field>
                 <mat-select placeholder="País de residencia" [(ngModel)]="user.country">
-                  <mat-option value="option1">Option1</mat-option>
-                  <mat-option value="option2">Option2</mat-option>
+                  <mat-option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</mat-option>
                 </mat-select>
               </mat-form-field>
             </div>

@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 
 import { UserService } from 'src/app/services/user.service';
 import { User } from '../../interfaces/user';
+import { GetCountriesService } from 'src/app/services/get-countries.service';
+import { Country } from 'src/app/interfaces/country';
 
 import { AngularFireStorage } from '@angular/fire/storage';
 
@@ -20,12 +22,14 @@ export class UserComponent implements OnInit {
 
   edit = false;
   userImage: any;
+  countries: Country[];
 
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
     private userService: UserService,
-    private firebaseStorage: AngularFireStorage) { }
+    private firebaseStorage: AngularFireStorage,
+    private countriesService: GetCountriesService) { }
 
   ngOnInit() {
     this.getUser();
@@ -33,17 +37,17 @@ export class UserComponent implements OnInit {
 
   getUser() {
     const currentUser = this.authenticationService.user;
+    if (currentUser.emailVerified !== true) {
+      this.message = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
+    }
     this.userService.getUserById(currentUser.uid)
         .subscribe( (user: User) => {
           this.user = user;
-          if (this.user.emailVerified !== currentUser.emailVerified) {
-            this.user.emailVerified = currentUser.emailVerified;
-            this.userService.editUser(user);
-            }
-          if (this.user.emailVerified !== true) {
-            this.message = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
-          }
-        }, error => console.log(error)
+          this.countriesService.getCountries()
+            .subscribe( (countries: Country[]) => {
+              this.countries = countries;
+            });
+          }, error => console.log(error)
         );
   }
 
