@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import {firebase, firebaseui} from 'firebaseui-angular';
+import { User } from 'firebase';
 
 export const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -39,6 +40,8 @@ export const firebaseUiAuthConfig: firebaseui.auth.Config = {
 })
 export class AuthenticationService {
 
+  user: User;
+
   constructor(private angularFireAuth: AngularFireAuth) { }
 
   getUserId() {
@@ -47,6 +50,10 @@ export class AuthenticationService {
 
   logOut() {
     return this.angularFireAuth.auth.signOut();
+  }
+
+  setUser(user: User) {
+    this.user = user;
   }
 
 }

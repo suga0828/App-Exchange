@@ -4,8 +4,7 @@ export interface User {
   country?: string;
   birthdate?: Date;
   email: string;
-  emailVerified: string;
-  providerId: string;
+  emailVerified: boolean;
   phoneNumber?: string | null;
   idDocument?: string | null;
   idDocumentImage?: string | null;
@@ -15,11 +14,5 @@ export interface NewUser {
   uid: string;
   displayName: string;
   email: string;
-  emailVerified: string;
-  providerId: string;
-}
-
-export interface UserVerified {
-  uid: string;
-  emailVerified: string;
+  emailVerified: boolean;
 }

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AuthenticationService } from 'src/app/services/authentication.service';
+import { FirebaseUISignInSuccessWithAuthResult } from 'firebaseui-angular';
 import { UserService } from '../../services/user.service';
 import { NewUser } from '../../interfaces/user';
 
@@ -12,28 +14,28 @@ import { NewUser } from '../../interfaces/user';
 export class LoginComponent implements OnInit {
 
   constructor(
+    private authenticationService: AuthenticationService,
     private userService: UserService,
     private router: Router) { }
 
   ngOnInit() {
   }
 
-  successCallback(response) {
+  successCallback(response: FirebaseUISignInSuccessWithAuthResult) {
+    const currentUser = response.authResult.user;
     if (response.authResult.additionalUserInfo.isNewUser) {
-      response.authResult.user.sendEmailVerification();
+      currentUser.sendEmailVerification();
       const newUser: NewUser = {
-        uid: response.authResult.user.uid,
-        displayName: response.authResult.user.displayName,
-        email: response.authResult.user.email,
-        emailVerified: response.authResult.user.emailVerified,
-        providerId: response.authResult.additionalUserInfo.providerId,
+        uid: currentUser.uid,
+        displayName: currentUser.displayName,
+        email: currentUser.email,
+        emailVerified: currentUser.emailVerified,
       };
-        this.userService.createUser(newUser);
-      }
-    this.router.navigate(['console/user'], { queryParams: {
-      uid: response.authResult.user.uid,
-      emailVerified: response.authResult.user.emailVerified,
-    }});
+      this.userService.createUser(newUser);
+    }
+    console.log('Sesión iniciada');
+    this.authenticationService.setUser(currentUser);
+    this.router.navigate(['console/user']);
   }
 
   errorCallback(errorData) {

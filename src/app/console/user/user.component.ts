@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AuthenticationService } from '../../services/authentication.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { UserService } from 'src/app/services/user.service';
-import { User, UserVerified } from '../../interfaces/user';
+import { User } from '../../interfaces/user';
 
 import { AngularFireStorage } from '@angular/fire/storage';
 
@@ -16,8 +16,6 @@ import { AngularFireStorage } from '@angular/fire/storage';
 export class UserComponent implements OnInit {
 
   user: User;
-  uid: string;
-  emailVerified: string;
   message: string;
 
   edit = false;
@@ -27,7 +25,6 @@ export class UserComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private router: Router,
     private userService: UserService,
-    private activatedRoute: ActivatedRoute,
     private firebaseStorage: AngularFireStorage) { }
 
   ngOnInit() {
@@ -35,35 +32,22 @@ export class UserComponent implements OnInit {
   }
 
   getUser() {
-    this.getUserParams()
-      .subscribe( params => {
-        this.uid = params.uid;
-        this.emailVerified = params.emailVerified;
-        console.log(params);
-        this.userService.getUserById(this.uid)
-          .subscribe( (response: User) => {
-            console.log(response);
-            this.user = response;
-            if (this.emailVerified !== this.user.emailVerified) {
-              const userVerified: UserVerified = {
-                uid: this.user.uid,
-                emailVerified: this.emailVerified
-              };
-              this.userService.editUser(userVerified);
+    const currentUser = this.authenticationService.user;
+    this.userService.getUserById(currentUser.uid)
+        .subscribe( (user: User) => {
+          this.user = user;
+          if (this.user.emailVerified !== currentUser.emailVerified) {
+            this.user.emailVerified = currentUser.emailVerified;
+            this.userService.editUser(user);
             }
-            if (this.user.emailVerified !== 'true') {
-              this.message = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
-            }
-          }, error => console.log(error)
-          );
-      });
+          if (this.user.emailVerified !== true) {
+            this.message = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
+          }
+        }, error => console.log(error)
+        );
   }
 
-  getUserParams() {
-    return this.activatedRoute.queryParams;
-  }
-
-  logOut() {
+    logOut() {
     this.authenticationService.logOut();
     console.log('Sesión cerrada.');
     this.router.navigate(['console/login']);

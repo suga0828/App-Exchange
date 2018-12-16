@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { AngularFireDatabase } from '@angular/fire/database';
 
-import { User, NewUser, UserVerified } from '../interfaces/user';
+import { User, NewUser } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class UserService {
     return this.angularFireDatabase.object('/users/' + user.uid).set(user);
   }
 
-  editUser(user: User | UserVerified) {
+  editUser(user: User) {
     return this.angularFireDatabase.object('/users/' + user.uid).update(user);
   }
 
