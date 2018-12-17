@@ -36,22 +36,25 @@ export class UserComponent implements OnInit {
   }
 
   getUser() {
-    const currentUser = this.authenticationService.user;
-    if (currentUser.emailVerified !== true) {
-      this.message = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
-    }
-    this.userService.getUserById(currentUser.uid)
-        .subscribe( (user: User) => {
-          this.user = user;
-          this.countriesService.getCountries()
-            .subscribe( (countries: Country[]) => {
-              this.countries = countries;
-            });
+    this.authenticationService.getStatus()
+      .subscribe( response => {
+        const currentUser = response;
+        if (currentUser.emailVerified !== true) {
+          this.message = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
+        }
+        this.userService.getUserById(currentUser.uid)
+          .subscribe( (user: User) => {
+            this.user = user;
+            this.countriesService.getCountries()
+              .subscribe( (countries: Country[]) => {
+                this.countries = countries;
+              });
           }, error => console.log(error)
-        );
+          );
+      });
   }
 
-    logOut() {
+  logOut() {
     this.authenticationService.logOut();
     console.log('Sesión cerrada.');
     this.router.navigate(['console/login']);

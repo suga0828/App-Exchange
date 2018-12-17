@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
       this.userService.createUser(newUser);
     }
     console.log('Sesión iniciada');
-    this.authenticationService.setUser(currentUser);
     this.router.navigate(['console/user']);
   }
 

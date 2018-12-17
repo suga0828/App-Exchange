@@ -40,20 +40,14 @@ export const firebaseUiAuthConfig: firebaseui.auth.Config = {
 })
 export class AuthenticationService {
 
-  user: User;
-
   constructor(private angularFireAuth: AngularFireAuth) { }
-
-  getUserId() {
-    return this.angularFireAuth.auth.currentUser.uid;
-  }
 
   logOut() {
     return this.angularFireAuth.auth.signOut();
   }
 
-  setUser(user: User) {
-    this.user = user;
+  getStatus() {
+    return this.angularFireAuth.authState;
   }
 
 }
