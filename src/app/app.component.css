@@ -1,0 +1,7 @@
+mat-sidenav {
+  position: fixed;
+}
+
+mat-sidenav-content {
+  overflow: hidden;
+}

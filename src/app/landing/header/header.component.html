@@ -1,46 +1,24 @@
 <header #top>
-	<nav class="container">
-		<div class="nav-wrapper">
-      <a href="#" data-target="mobile-demo" class="sidenav-trigger">
-        &#9776;
-      </a>
+  <nav class="container">
+    <div class="nav-wrapper">
       <img src="assets/images/brand-logo.png" alt="ISFront" class="brand-logo">
-			<ul class="right hide-on-med-and-down">
-				<li class="navbar-item">
-					<a routerLink="/landing">Inicio</a>
-				</li>
-				<li class="navbar-item">
-					<a>Quiero Transferir</a>
-				</li>
-				<li class="navbar-item">
-					<a>Quiero Retirar</a>
-				</li>
-				<li class="navbar-item">
-					<a routerLink="/console">Iniciar Sesión</a>
-				</li>
-			</ul>
-		</div>
-	</nav>
-
-  <ul class="sidenav" id="mobile-demo" #sidenav>
-    <li>
-      <a class="sidenav-close closebtn">&times;</a>
-    </li>
-    <li>
-      <a routerLink="/landing">Inicio</a>
-    </li>
-    <li>
-      <a>Quiero Transferir</a>
-    </li>
-    <li>
-      <a>Quiero Retirar</a>
-    </li>
-    <li>
-      <a routerLink="/console" class="sidenav-close">Iniciar Sesión</a>
-    </li>
-  </ul>
+      <ul class="right hide-on-med-and-down">
+        <li class="navbar-item">
+          <a routerLink="/landing">Inicio</a>
+        </li>
+        <li class="navbar-item">
+          <a routerLink="/console/transfer">Quiero Transferir</a>
+        </li>
+        <li class="navbar-item">
+          <a routerLink="/console/withdraw">Quiero Retirar</a>
+        </li>
+        <li class="navbar-item">
+          <a routerLink="/console">Iniciar Sesión</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
 </header>
-
-<div class="scroll" (click)="scrollToElement(top)">
-	<i class="material-icons">keyboard_arrow_up</i>
+<div (click)="scrollToElement(top)">
+  <fa-icon [icon]="['fas', 'arrow-circle-up']" size="2x" class="scroll"></fa-icon>
 </div>

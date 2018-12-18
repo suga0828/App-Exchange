@@ -10,22 +10,10 @@ nav ul a {
   color: #32325d !important;
 }
 
-.sidenav-trigger {
-  color: #32325d !important;
-}
-
-.sidenav .closebtn {
-    position: absolute !important;
-    top: 0 !important;
-    right: 0 !important;
-    font-size: 27px !important;
-}
-
 .scroll {
 	position: fixed;
-	border: 2px solid #6772e5;
-  bottom: 28px;
-	right: 30px;
+  bottom: 35px;
+	right: 35px;
 	color: #6772e5;
 	height: 30px;
 	width: 30px;
@@ -39,13 +27,7 @@ nav ul a {
 }
 
 .scroll:hover {
-  border: 2px solid #e4effa;
-  color: #e4effa;
-	background-color: #32325d;
-}
-
-.scroll i {
-  padding-right: 1px;
+  color: #32325d;
 }
 
 .brand-logo {
@@ -57,9 +39,4 @@ nav ul a {
 
 .navbar-item {
   font-weight: 500;
-  color:;
-}
-
-.sidenav-trigger {
-  font-size: 23px;
 }

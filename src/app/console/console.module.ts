@@ -12,21 +12,14 @@ import { ConsoleRoutingModule } from './console-routing.module';
 import { FirebaseUIModule } from 'firebaseui-angular';
 import { firebaseUiAuthConfig } from '../services/authentication.service';
 
-import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
-import { faCheckSquare, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
-
-// Add an icon to the library for convenient access in other components
-library.add(faEdit, faCheckSquare, faTimesCircle);
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [TransferComponent, WithdrawComponent, UserComponent, HistoricalComponent, LoginComponent],
@@ -38,10 +31,10 @@ library.add(faEdit, faCheckSquare, faTimesCircle);
     MatInputModule,
     MatSelectModule,
     MatButtonModule,
-    FontAwesomeModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    FormsModule
+    FormsModule,
+    FontAwesomeModule
 
   ],
   providers: [
