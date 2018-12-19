@@ -24,13 +24,15 @@ export class LoginComponent implements OnInit {
   successCallback(response: FirebaseUISignInSuccessWithAuthResult) {
     const currentUser = response.authResult.user;
     if (response.authResult.additionalUserInfo.isNewUser) {
-      currentUser.sendEmailVerification();
       const newUser: NewUser = {
         uid: currentUser.uid,
         displayName: currentUser.displayName,
         email: currentUser.email,
       };
       this.userService.createUser(newUser);
+    }
+    if (response.authResult.additionalUserInfo.isNewUser && response.authResult.additionalUserInfo.providerId === 'password') {
+      currentUser.sendEmailVerification();
     }
     console.log('Sesión iniciada');
     this.router.navigate(['console/user']);
