@@ -18,7 +18,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 export class UserComponent implements OnInit {
 
   user: User;
-  message: string;
+  messages: string[] = [];
 
   edit = false;
   userImage: any;
@@ -39,12 +39,17 @@ export class UserComponent implements OnInit {
     this.authenticationService.getStatus()
       .subscribe( response => {
         const currentUser = response;
-        if (currentUser.emailVerified !== true) {
-          this.message = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
+        if (currentUser.providerData[0].providerId === 'password' && currentUser.emailVerified !== true) {
+          const newMessage = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
+          this.messages.indexOf(newMessage) === -1 ? this.messages.push(newMessage) : console.log('This message already exists');
         }
         this.userService.getUserById(currentUser.uid)
           .subscribe( (user: User) => {
             this.user = user;
+            if ( Object.keys(this.user).length < 8 ) {
+              const newMessage = 'Por favor complete todos los campos solicitados  o inicie sesión nuevamente';
+              this.messages.indexOf(newMessage) === -1 ? this.messages.push(newMessage) : console.log('This message already exists');
+            }
             this.countriesService.getCountries()
               .subscribe( (countries: Country[]) => {
                 this.countries = countries;

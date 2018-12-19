@@ -16,8 +16,8 @@
               <fa-icon [icon]="['far', 'check-square']"></fa-icon>
             </a>
           </li>
-          <li class="collection-item" *ngIf="message">
-            <p>{{message}}</p>
+          <li class="collection-item" *ngIf="messages.length">
+            <p *ngFor="let message of messages">{{message}}</p>
           </li>
           <li class="collection-item">
             <span><b>Nombre:</b> {{user.displayName}}</span>
