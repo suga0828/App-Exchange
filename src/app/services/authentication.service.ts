@@ -24,7 +24,11 @@ export const firebaseUiAuthConfig: firebaseui.auth.Config = {
       requireDisplayName: true,
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
     },
-    firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+    {
+      provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+      authMethod: 'https://accounts.google.com',
+      clientId: '1014578548907-ata4ckg0ch59tto26g0ik8lpaaljss4d.apps.googleusercontent.com'
+    },
   ],
   tosUrl: 'https://suga0828.github.io/App-Exchange/assets/files/termsOfService.pdf',
   privacyPolicyUrl: 'https://suga0828.github.io/App-Exchange/assets/files/privacyPolicy.pdf',
