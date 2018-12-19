@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 
 import {firebase, firebaseui} from 'firebaseui-angular';
-import { User } from 'firebase';
 
 export const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -25,14 +24,11 @@ export const firebaseUiAuthConfig: firebaseui.auth.Config = {
       requireDisplayName: true,
       provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
     },
-    firebase.auth.PhoneAuthProvider.PROVIDER_ID,
     firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-    firebase.auth.GithubAuthProvider.PROVIDER_ID,
-    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
   ],
-  tosUrl: '<your-tos-link>',
-  privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
-  credentialHelper: firebaseui.auth.CredentialHelper.NONE
+  tosUrl: 'https://suga0828.github.io/App-Exchange/assets/files/termsOfService.pdf',
+  privacyPolicyUrl: 'https://suga0828.github.io/App-Exchange/assets/files/privacyPolicy.pdf',
+  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
 };
 
 @Injectable({
