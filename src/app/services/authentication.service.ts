@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 
-import {firebase, firebaseui} from 'firebaseui-angular';
+import { firebase } from 'firebaseui-angular';
+import firebaseui from './npm__es_419';
 
 export const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
