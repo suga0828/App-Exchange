@@ -14,7 +14,10 @@ const routes: Routes = [
   {
     path: 'console',
     loadChildren: './console/console.module#ConsoleModule'
-  }
+  },
+
+  // otherwise redirect to home
+  { path: '**', redirectTo: '/landing' }
 ];
 
 @NgModule({

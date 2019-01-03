@@ -33,7 +33,7 @@ export const firebaseUiAuthConfig: firebaseui.auth.Config = {
   ],
   tosUrl: 'https://suga0828.github.io/App-Exchange/assets/files/termsOfService.pdf',
   privacyPolicyUrl: 'https://suga0828.github.io/App-Exchange/assets/files/privacyPolicy.pdf',
-  credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
+  credentialHelper: firebaseui.auth.CredentialHelper.NONE
 };
 
 @Injectable({

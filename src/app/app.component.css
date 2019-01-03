@@ -1,7 +1,13 @@
 mat-sidenav {
   position: fixed;
+  width: 300px;
 }
 
 mat-sidenav-content {
   overflow: hidden;
+}
+
+.menu {
+  margin: 15px;
+  position: fixed;
 }

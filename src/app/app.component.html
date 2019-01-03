@@ -6,13 +6,14 @@
         <a mat-list-item routerLink="/console/transfer">Quiero Transferir</a>
         <a mat-list-item routerLink="/console/withdraw">Quiero Retirar</a>
         <a mat-list-item routerLink="/console/historical">Historial</a>
-        <a mat-list-item routerLink="/console">Iniciar Sesión</a>
+        <a mat-list-item *ngIf="!currentUser" routerLink="/console">Iniciar Sesión</a>
+        <a mat-list-item *ngIf="currentUser" (click)="logOut(); sidenav.toggle()">Cerrar Sesión</a>
       </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <button mat-button (click)="sidenav.toggle()">&#9776;</button>
-    <app-header></app-header>
+    <app-header *ngIf="router.url === '/landing' || router.url == '/console/login'"></app-header>
+    <a class="waves-effect waves-light btn menu" (click)="sidenav.toggle()" *ngIf=" router.url != '/' && router.url != '/landing' && router.url != '/console/login'">&#9776;</a>
     <router-outlet></router-outlet>
     <app-footer></app-footer>
   </mat-sidenav-content>

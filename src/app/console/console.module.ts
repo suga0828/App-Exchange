@@ -35,7 +35,6 @@ import { FormsModule } from '@angular/forms';
     MatNativeDateModule,
     FormsModule,
     FontAwesomeModule
-
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-CO' },
