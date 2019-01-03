@@ -59,12 +59,6 @@ export class UserComponent implements OnInit {
       });
   }
 
-  logOut() {
-    this.authenticationService.logOut();
-    console.log('Sesión cerrada.');
-    this.router.navigate(['console/login']);
-  }
-
   changeToEdit() {
     if (this.edit) {
       this.edit = false;

@@ -15,9 +15,9 @@ export const firebaseUiAuthConfig: firebaseui.auth.Config = {
         'user_likes',
         'user_friends'
       ],
-      customParameters: {
-        'auth_type': 'reauthenticate'
-      },
+      // customParameters: {
+      //   'auth_type': 'reauthenticate'
+      // },
       provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
     },
     firebase.auth.TwitterAuthProvider.PROVIDER_ID,

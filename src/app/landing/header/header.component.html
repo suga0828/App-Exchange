@@ -12,8 +12,11 @@
         <li class="navbar-item">
           <a routerLink="/console/withdraw">Quiero Retirar</a>
         </li>
-        <li class="navbar-item">
+        <li class="navbar-item" *ngIf="!currentUser">
           <a routerLink="/console">Iniciar Sesión</a>
+        </li>
+        <li class="navbar-item" *ngIf="currentUser">
+          <a routerLink="/console">Cuenta</a>
         </li>
       </ul>
     </div>
