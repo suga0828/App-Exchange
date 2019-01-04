@@ -7,6 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistoricalComponent implements OnInit {
 
+  messages = [
+    'Aún no tiene operaciones realizadas.',
+  ];
+
   constructor() { }
 
   ngOnInit() {

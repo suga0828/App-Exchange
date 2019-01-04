@@ -1,3 +1,14 @@
-<p>
-  historical works!
-</p>
+<mat-card class="container">
+  <mat-list>
+    <mat-list-item class="header">
+      <h4 class="transferTitle">Historial</h4>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <ng-container *ngFor="let message of messages">
+      <mat-list-item>
+        {{message}}
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </ng-container>
+  </mat-list>
+</mat-card>

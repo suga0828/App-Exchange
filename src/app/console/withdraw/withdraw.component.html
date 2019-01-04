@@ -1,3 +1,33 @@
-<p>
-  withdraw works!
-</p>
+<mat-card class="container">
+  <mat-list>
+    <mat-list-item class="header">
+      <h4 class="transferTitle">Retiros</h4>
+      <a class="add" (click)="changeToAdd()" *ngIf="!edit">
+        <fa-icon [icon]="['far', 'plus-square']" size="lg"></fa-icon>
+      </a>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <ng-container *ngFor="let message of messages">
+      <mat-list-item *ngIf="user">
+        {{message}}
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </ng-container>
+    <mat-list-item>
+      <span><b>Cuentas: </b></span>
+      <mat-form-field class="secondary-content">
+        <mat-select>
+          <mat-option [value]="'888'">
+            888
+          </mat-option>
+          <mat-option [value]="'skrill'">
+            Skrill
+          </mat-option>
+          <mat-option [value]="'paypal'">
+            Paypal
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-list-item>
+  </mat-list>
+</mat-card>
