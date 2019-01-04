@@ -40,3 +40,16 @@ nav ul a {
 .navbar-item {
   font-weight: 500;
 }
+
+.menu {
+  position: fixed;
+  top: 35px;
+	left: 35px;
+	z-index: 1 !important;
+}
+
+@media screen and (min-width: 992px) {
+  .menu {
+    display: none;
+  }
+}
