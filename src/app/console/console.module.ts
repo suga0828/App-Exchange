@@ -12,14 +12,8 @@ import { ConsoleRoutingModule } from './console-routing.module';
 import { FirebaseUIModule } from 'firebaseui-angular';
 import { firebaseUiAuthConfig } from '../services/authentication.service';
 
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
+import { MAT_DATE_LOCALE } from '@angular/material';
 
 @NgModule({
   declarations: [TransferComponent, WithdrawComponent, UserComponent, HistoricalComponent, LoginComponent],
@@ -27,14 +21,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     ConsoleRoutingModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    FormsModule,
-    FontAwesomeModule
+    SharedModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-CO' },

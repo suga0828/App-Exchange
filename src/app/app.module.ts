@@ -8,7 +8,7 @@ import { FooterComponent } from './landing/footer/footer.component';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { MatSidenavModule, MatListModule } from '@angular/material';
+import { SharedModule } from './shared/shared.module';
 
 import { AngularFireModule } from '@angular/fire';
 import { environment } from '../environments/environment';
@@ -21,10 +21,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUserCheck, faEdit, faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp, faGrinAlt, faClock, faCheckSquare, faTimesCircle } from '@fortawesome/free-regular-svg-icons';
+import { faThumbsUp, faGrinAlt, faClock, faCheckSquare, faTimesCircle, faPlusSquare } from '@fortawesome/free-regular-svg-icons';
 
 // Add an icon to the library for convenient access in other components
-library.add(faUserCheck, faThumbsUp, faGrinAlt, faClock, faEdit, faCheckSquare, faTimesCircle, faArrowCircleUp);
+library.add(faUserCheck, faThumbsUp, faGrinAlt, faClock, faEdit, faCheckSquare, faTimesCircle, faArrowCircleUp, faPlusSquare);
 
 @NgModule({
   declarations: [
@@ -36,8 +36,7 @@ library.add(faUserCheck, faThumbsUp, faGrinAlt, faClock, faEdit, faCheckSquare, 
     BrowserModule,
     AppRoutingModule,
     FontAwesomeModule,
-    MatSidenavModule,
-    MatListModule,
+    SharedModule,
     AngularFireModule.initializeApp(environment.firebase, 'App-Exchange'),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
