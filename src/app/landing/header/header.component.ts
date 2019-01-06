@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 
 import { ScrollService } from '../../services/scroll.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { User } from 'src/app/interfaces/user';
+import { MatSidenav } from '@angular/material';
 
 @Component({
   selector: 'app-header',
@@ -11,6 +12,7 @@ import { User } from 'src/app/interfaces/user';
 })
 export class HeaderComponent implements OnInit {
 
+  @Input('sidenav') sidenav: MatSidenav;
   currentUser: User;
 
   constructor(

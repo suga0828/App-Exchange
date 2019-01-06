@@ -12,7 +12,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <app-header *ngIf="router.url === '/landing' || router.url == '/console/login'"></app-header>
+    <app-header [sidenav]="sidenav" *ngIf="router.url === '/landing' || router.url == '/console/login'"></app-header>
     <a class="waves-effect waves-light btn menu" (click)="sidenav.toggle()" *ngIf=" router.url != '/' && router.url != '/landing' && router.url != '/console/login'">&#9776;</a>
     <router-outlet></router-outlet>
     <app-footer></app-footer>
