@@ -11,3 +11,9 @@ mat-sidenav-content {
   margin: 15px;
   position: fixed;
 }
+
+.closebtn {
+  position: absolute;
+  right: 20px;
+  font-size: 27px;
+}

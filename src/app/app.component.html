@@ -1,6 +1,7 @@
 <mat-sidenav-container>
     <mat-sidenav #sidenav mode="side">
       <mat-nav-list>
+        <a mat-list-item (click)="sidenav.toggle()"><span class="closebtn">&times;</span></a>
         <a mat-list-item (click)="sidenav.toggle()" routerLink="/landing">Inicio</a>
         <a mat-list-item routerLink="/console/user">Cuenta</a>
         <a mat-list-item routerLink="/console/transfer">Quiero Transferir</a>
