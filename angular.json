@@ -26,6 +26,7 @@
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "node_modules/materialize-css/dist/css/materialize.css",
               "node_modules/firebaseui/dist/firebaseui.css",
+              "./node_modules/bulma/css/bulma.min.css",
               "src/styles.css"
             ],
             "scripts": [
