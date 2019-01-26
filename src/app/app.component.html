@@ -1,14 +1,14 @@
 <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="side">
+    <mat-sidenav #sidenav>
       <mat-nav-list>
         <a mat-list-item (click)="sidenav.toggle()"><span class="closebtn">&times;</span></a>
         <a mat-list-item (click)="sidenav.toggle()" routerLink="/landing">Inicio</a>
-        <a mat-list-item routerLink="/console/user">Cuenta</a>
-        <a mat-list-item routerLink="/console/transfer">Quiero Transferir</a>
-        <a mat-list-item routerLink="/console/withdraw">Quiero Retirar</a>
-        <a mat-list-item routerLink="/console/historical">Historial</a>
-        <a mat-list-item *ngIf="!currentUser" routerLink="/console">Iniciar Sesión</a>
-        <a mat-list-item *ngIf="currentUser" (click)="logOut(); sidenav.toggle()">Cerrar Sesión</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="/console/user">Cuenta</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="/console/transfer">Quiero Transferir</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="/console/withdraw">Quiero Retirar</a>
+        <a mat-list-item (click)="sidenav.toggle()" routerLink="/console/historical">Historial</a>
+        <a mat-list-item (click)="sidenav.toggle()" *ngIf="!currentUser" routerLink="/console">Iniciar Sesión</a>
+        <a mat-list-item (click)="sidenav.toggle()" *ngIf="currentUser" (click)="logOut(); sidenav.toggle()">Cerrar Sesión</a>
       </mat-nav-list>
   </mat-sidenav>
 
