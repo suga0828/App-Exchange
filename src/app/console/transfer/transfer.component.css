@@ -1,11 +1,51 @@
+.container {
+  padding: 0 36px;
+}
+
+.mat-list-base {
+  padding-top: 0px;
+}
+
 mat-card {
-  margin: 3em auto;
+  padding: 0px;
 }
 
-.add {
+mat-card-title {
+  margin: 0px;
+}
+
+mat-card-content {
+  padding: 0px 10px 10px 10px;
+  margin: 0px;
+}
+
+button {
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.header {
+  text-align: center;
+  position: relative;
+  width: 100%;
+  padding: 16px;
+  background-color: #e4effa !important;
+}
+
+.title {
+  align-self: center;
+  display: inline;
+}
+
+.mat-list-item {
+  height: auto;
+  padding: 10px 0px;
+}
+
+.register {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translate(-50%, -50%);
   cursor: pointer;
-}
-
-h4 {
-  margin:  auto;
 }

@@ -1,3 +1,5 @@
+import { Account } from './account';
+
 export interface User {
   uid: string;
   displayName: string;
@@ -8,6 +10,7 @@ export interface User {
   phoneNumber?: string | null;
   idDocument?: string | null;
   idDocumentImage?: string | null;
+  accounts?: Account[];
 }
 
 export interface NewUser {
