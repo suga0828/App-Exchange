@@ -22,11 +22,6 @@ export class TransferComponent implements OnInit {
   originAccount;
   destinationAccount;
 
-  cuentas = [
-    { plataforma: 'Paypal', nombre: 'Alexander', apellido: 'Sandoval' },
-    { plataforma: 'Skriller', nombre: 'Alexander', apellido: 'Sandoval' },
-  ];
-
   plataforms = [
    'Paypal', 'Skriller'
   ];
@@ -45,7 +40,7 @@ export class TransferComponent implements OnInit {
 
   getUser() {
     this.authenticationService.getStatus()
-      .subscribe((user: User) => {
+      .subscribe( (user: User) => {
         this.user = user;
         this.messageImportant = `Importante: La cuenta debe estar registrada a nombre de ${this.user.displayName}.`;
         this.getAccounts();
@@ -88,9 +83,9 @@ export class TransferComponent implements OnInit {
 
   transfer() {
     if (!this.originAccount || !this.destinationAccount) {
-      alert('Seleccione una cuenta');
+      alert('Seleccione una cuenta de origen y una de destino');
     } else {
-      alert('Solicitud de transferencia realizada');
+      alert('Solicitud de transferencia realizada.');
     }
   }
 

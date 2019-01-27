@@ -12,9 +12,8 @@ export class AppComponent implements OnInit {
   title = 'App-Exchange';
   currentUser: User;
   constructor(
-    private router: Router,
+    public router: Router,
     private authenticationService: AuthenticationService) {
-    console.log(this.router.url);
   }
   ngOnInit() {
     this.getUser();
@@ -23,7 +22,6 @@ export class AppComponent implements OnInit {
     this.authenticationService.getStatus()
       .subscribe( (user: User) => {
         this.currentUser = user;
-        console.log(user);
       });
   }
   logOut() {
