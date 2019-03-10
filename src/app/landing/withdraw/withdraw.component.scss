@@ -1,0 +1,171 @@
+.withdraw {
+  position: relative;
+}
+
+.withdraw-title {
+  color: #32325d;
+  margin: 0 0 10px;
+  font-size: 22px;
+  line-height: 33px;
+  text-transform: uppercase;
+  letter-spacing: .025em;
+  font-weight: 600;
+}
+
+.withdraw-text {
+  font-weight: 400;
+  color: #525f7f;
+  font-size: 19px;
+  line-height: 32px;
+}
+
+/*background*/
+.background-filling {
+  position: absolute;
+  background-color: #e4effa;
+  min-width: 100%;
+  top: -50px;
+  min-height: 50px;
+  z-index: -100;
+  -webkit-transform:skewY(-12deg);
+  transform:skewY(-12deg);
+}
+
+.common-StripeGrid{
+  --stripe-height:48px;
+  --content-columns:17;
+  position:absolute;
+  width:100%;
+  top:0;
+  bottom:0;
+  z-index:-1;
+  pointer-events:none;
+}
+.common-StripeGrid .backgroundContainer,
+.common-StripeGrid .stripeContainer{
+  display:-webkit-box;
+  display:-ms-flexbox;
+  display:  flex;
+  -webkit-box-orient:vertical;
+  -webkit-box-direction:normal;
+  -ms-flex-direction:column;
+  flex-direction:column;
+  -webkit-box-align:center;
+  -ms-flex-align:center;
+  align-items:center;
+  position:absolute;
+  width:100%;
+  height:100%;
+  -webkit-transform:skewY(-12deg);
+  transform:skewY(-12deg);
+}
+.common-StripeGrid .backgroundContainer .grid{
+  grid-template-columns:1fr;
+  min-width:0
+}
+.common-StripeGrid .backgroundContainer .background{
+  grid-row:1/-1;
+  grid-column:1/-1;
+  z-index:-1
+}
+/*Stripes*/
+.common-StripeGrid .stripeContainer{
+  overflow:hidden
+}
+.StripeBackground {
+  position:absolute;
+  left:0;
+  top:50%;
+ right:0;
+     -webkit-transform:skewY(-12deg);
+      transform:skewY(-12deg);
+      pointer-events:none
+     }
+.StripeBackground .stripe{
+      position:absolute;
+      top:auto;
+      left:0;
+      right:0
+    }
+
+@media (min-width:670px){
+      .common-StripeGrid{--stripe-height:64px}
+    }
+
+
+.common-StripeGrid .grid{
+  --content-column-width:minmax(0,calc(100vw / var(--content-columns)));
+  --gutter-column-width:1fr;
+  position:absolute;
+  width:100%;
+  height:100%;
+  display:grid;
+  grid-template-rows:repeat(auto-fill,var(--stripe-height));
+  grid-template-columns:
+   [viewport-start] 1fr
+   [left-gutter-start] repeat(var(--gutter-columns),var(--gutter-column-width))
+   [left-gutter-end content-start] repeat(var(--content-columns),var(--content-column-width))
+   [content-end right-gutter-start] repeat(var(--gutter-columns),var(--gutter-column-width))
+   [right-gutter-end] 1fr [viewport-end]
+}
+
+.withdraw .common-StripeGrid .stripeW:first-child{
+  background-color: #e4effa;
+  grid-column: 1 / span 16;
+  grid-row: 1 / span 2;
+}
+.withdraw .common-StripeGrid .stripeW:nth-child(2){
+  background-color:#e4effa;
+  grid-column: 1 / span 14;
+  grid-row: 3 / span 1;
+}
+.withdraw .common-StripeGrid .stripeW:nth-child(3){
+  background-color: #6772e5;
+  grid-column: 15 / span 2;
+  grid-row: 3 / span 1;
+}
+.withdraw .common-StripeGrid .stripeW:nth-child(4){
+  background-color:#e4effa;
+  grid-column: 1 / span 10;
+  grid-row: 4 / span 1;
+}
+.withdraw .common-StripeGrid .stripeW:nth-child(5){
+  background-color: #87bbfd;
+  grid-column: 11 / span 2;
+  grid-row: 4 / span 1;
+}
+.withdraw .common-StripeGrid .stripeW:nth-child(6){
+  background-color:#32325d;
+  grid-column: 13 / span 4;
+  grid-row: 4 / span 1;
+}
+.withdraw .common-StripeGrid .stripeW:nth-child(7){
+  background-color:#e4effa;
+  grid-column: 1 / span 11;
+  grid-row: 5 / span 1;
+}
+.withdraw .common-StripeGrid .stripeW:nth-child(8){
+  background-color: #e6ebf1;
+  grid-column: 12 / span 3;
+  grid-row: 5 / span 1;
+}
+.withdraw .common-StripeGrid .stripeW:nth-child(9){
+  background-color: #e4effa;
+  grid-column: 15 / span 2;
+  grid-row: 5 / span 1;
+}
+.withdraw .common-StripeGrid .stripeW:nth-child(10){
+  background-color: #e4effa;
+  grid-column: 1 / span 10;
+  grid-row: 6 / span 1;
+}
+.withdraw .common-StripeGrid .stripeW:nth-child(11){
+  background-color: #fcd669;
+  grid-column: 11 / span 2;
+  grid-row: 6 / span 1;
+}
+.withdraw .common-StripeGrid .stripeW:nth-child(12){
+  background-color: #e4effa;
+  grid-column: 13 / span 4;
+  grid-row: 6 / span 1;
+}

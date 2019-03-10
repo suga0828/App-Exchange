@@ -5,7 +5,7 @@ import * as M from 'materialize-css/dist/js/materialize';
 @Component({
   selector: 'app-testimony',
   templateUrl: './testimony.component.html',
-  styleUrls: ['./testimony.component.css']
+  styleUrls: ['./testimony.component.scss']
 })
 export class TestimonyComponent implements OnInit {
 
@@ -16,14 +16,14 @@ export class TestimonyComponent implements OnInit {
   ngOnInit() {
     // let elems = document.querySelectorAll('.carousel')
 
-    let elems = this.renderer.selectRootElement(this.carousel).nativeElement
-    let instances = M.Carousel.init(elems, {
+    const elems = this.renderer.selectRootElement(this.carousel).nativeElement;
+    const instances = M.Carousel.init(elems, {
       fullWidth: true,
       duration: 200
-    },);
+    }, );
 
     setInterval(function() {
-      let instance = M.Carousel.getInstance(elems).next();
+      const instance = M.Carousel.getInstance(elems).next();
     }, 3000);
   }
 

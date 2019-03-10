@@ -9,15 +9,15 @@ import { TestimonyComponent } from './testimony/testimony.component';
 
 import { LandingRoutingModule } from './landing-routing.module';
 
-import { FormsModule } from '@angular/forms';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [
     CommonModule,
+
     LandingRoutingModule,
-    FormsModule,
-    FontAwesomeModule
+
+    SharedModule
   ],
   declarations: [
     JumboComponent,

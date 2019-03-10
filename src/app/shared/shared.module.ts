@@ -34,6 +34,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatSnackBarModule,
     MatSidenavModule,
     MatCardModule,
+
     FontAwesomeModule
   ],
   exports: [
@@ -50,6 +51,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatSnackBarModule,
     MatSidenavModule,
     MatCardModule,
+
     FontAwesomeModule
   ]
 })

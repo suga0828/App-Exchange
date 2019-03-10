@@ -9,7 +9,7 @@ import { Account } from 'src/app/interfaces/account';
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html',
-  styleUrls: ['./transfer.component.css']
+  styleUrls: ['./transfer.component.scss']
 })
 export class TransferComponent implements OnInit {
 

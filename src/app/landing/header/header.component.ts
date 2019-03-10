@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ElementRef } from '@angular/core';
 
 import { ScrollService } from '../../services/scroll.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
@@ -8,11 +8,14 @@ import { MatSidenav } from '@angular/material';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
 
   @Input('sidenav') sidenav: MatSidenav;
+
+  isActive = false;
+
   currentUser: User;
 
   constructor(
@@ -22,6 +25,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.getUser();
   }
+
   getUser() {
     this.authenticationService.getStatus()
       .subscribe((user: User) => {
@@ -32,6 +36,10 @@ export class HeaderComponent implements OnInit {
 
   scrollToElement($e) {
     this.scrollService.scrollToElement($e);
+  }
+
+  toggleMenu(event) {
+    this.isActive = !this.isActive;
   }
 
 }

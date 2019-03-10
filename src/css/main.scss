@@ -1,0 +1,60 @@
+/* Breakpoints */
+  $bp-sm: 600px;
+  $bp-md: 768px;
+  $bp-lg: 992px;
+  $bp-xlg: 1200px;
+
+html,
+body,
+div {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body {
+	height: auto;
+	width: 100%;
+}
+
+body {
+  color: #32325d;
+  background-color: #FFF;
+  font-size: 100%;
+  font-weight: 400;
+  font-style: normal;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0;
+}
+
+section {
+	width: 100%;
+  height: auto;
+  padding: 35px 0;
+}
+
+.row {
+	margin-bottom: 0;
+}
+
+.carousel {
+  min-height: 90vmin !important;
+}
+
+@media screen and (min-width: $bp-sm) {
+  section {
+    height: auto !important;
+    padding: 25px 0;
+  }
+  .carousel {
+    min-height: 80vmin !important;
+  }
+}

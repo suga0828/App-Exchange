@@ -1,90 +1,80 @@
-<section class="jumbo">
-	<div class="container">
-		<div class="row">
-			<div class="jumbo-present col s11 offset-s1 l6">
-				<br class="show-on-xlarge">
-        <br class="show-on-xlarge">
-        <br class="show-on-xlarge">
-        <br class="show-on-xlarge">
-        <h2 class="jumbo-title center-align">
-					Rápido y Seguro
-				</h2>
-				<p class="jumbo-text">
-					Transfiere y retira de tu monedero electrónico con la comisión más barata del mercado.
-          Haz cambio de divisas y envío de remesas con la tranquilidad que mereces.
-				</p>
-			</div>
-			<div class="jumbo-calculator col s12 m8 offset-m2 l6 center-align">
-				<div class="row">
-					<h5 class="calculator-title">
-					Simula tu transferencia o retiro
-					</h5>
+<section class="hero is-fullheight-with-navbar jumbo">
+	<div class="hero-body">
+		<div class="container">
+			<div class="columns is-vcentered">
+				<div class="column jumbo-presentation">
+					<h2 class="jumbo-title">
+						Rápido y Seguro
+					</h2>
+					<p class="jumbo-text">
+						Transfiere y retira de tu monedero electrónico con la comisión más barata del mercado.
+						Haz cambio de divisas y envío de remesas con la tranquilidad que mereces.
+					</p>
 				</div>
-				<div class="form-row calculator">
-					<div class="input-field col s6">
-						<label for="send"
-            [ngClass]="{'active' : receiver !== null}">Enviar</label>
-            <input [(ngModel)]="sender" type="number" min="0" (keyup)="onKey($event)">
-					</div>
-					<div class="form-group col s6">
-						<select #send>
-							<option *ngFor="let sender of senders" value="{{sender}}">{{sender}}</option>
-						</select>
-					</div>
-				</div>
-				<div class="form-row calculator">
-					<div class="input-field col s6">
-						<label for="get"
-            [ngClass]="{'active' : sender !== null}">Recibir</label>
-						<input [(ngModel)]="receiver" type="number" min="0" (keyup)="onKey($event)">
-					</div>
-					<div class="form-group col s6">
-						<select #get>
-							<option *ngFor="let receiver of receivers" value="{{receiver}}">{{receiver}}</option>
-						</select>
-					</div>
-				</div>
-				<div class="row tax">
-					<div class="col s12">
-						<p class="tax-text">
-              <span *ngIf="comission">Comisión de {{ tax }}%: USD {{ comissionN }}.</span>
-            </p>
-            <p class="tax-text">
-              Transferencia mínima de USD 10.
-            </p>
-					</div>
-				</div>
-				<div class="row hide-on-small-only">
-					<div class="col l12 xl6 button-container">
-						<a class="waves-effect waves-light btn azulito">Quiero Transferir</a>
-					</div>
-					<div class="col l12 xl6 button-container">
-						<a class="waves-effect waves-light btn azulito">Quiero Retirar</a>
-					</div>
+				<div class="column">
+					<mat-card class="jumbo-card">
+						<mat-card-header>
+							<mat-card-title>Simula tu transferencia o retiro</mat-card-title>
+						</mat-card-header>
+						<mat-card-content class="columns is-multiline">
+							<mat-form-field class="column is-half">
+								<mat-label>Envia</mat-label>
+								<input matInput placeholder="Ingresa un monto" type="number">
+								<span matPrefix>$&nbsp;</span>
+							</mat-form-field>
+							<mat-form-field class="column is-half">
+								<mat-select placeholder="Monedero">
+									<mat-option *ngFor="let sender of senders" [value]="sender">
+										{{sender}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+							<mat-form-field class="column is-half">
+								<mat-label>Recibe</mat-label>
+								<input matInput placeholder="Ingresa un monto" type="number">
+								<span matPrefix>$&nbsp;</span>
+							</mat-form-field>
+							<mat-form-field class="column is-half">
+								<mat-select placeholder="Monedero">
+									<mat-option *ngFor="let receiver of receivers" [value]="receiver">
+										{{receiver}}
+									</mat-option>
+								</mat-select>
+							</mat-form-field>
+							<div class="column">
+								<span *ngIf="comission">Comisión de {{ tax }}%: USD {{ comissionN }}.</span>
+								<p class="tax-text">Transferencia mínima de USD 10.</p>
+							</div>
+						</mat-card-content>
+						<mat-card-actions class="columns is-centered">
+							<button mat-raised-button color="primary" class="column is-narrow blue">Quiero Transferir</button>
+							<button mat-raised-button color="accent" class="column is-narrow blue">Quiero Retirar</button>
+						</mat-card-actions>
+					</mat-card>
 				</div>
 			</div>
 		</div>
 	</div>
-  <div class="common-StripeGrid">
-    <div class="backgroundContainer">
-      <div class="background"></div>
-      <div class="skew"></div>
-    </div>
-    <div class="stripeContainer">
-      <div class="grid">
-        <div class="stripe"></div>
-        <div class="stripe"></div>
-        <div class="stripe"></div>
-        <div class="stripe"></div>
-        <div class="stripe"></div>
-        <div class="stripe"></div>
-        <div class="stripe"></div>
-        <div class="stripe"></div>
-        <div class="stripe"></div>
-        <div class="stripe"></div>
-      </div>
-    </div>
-  </div>
+	<div class="common-StripeGrid">
+		<div class="backgroundContainer">
+			<div class="background"></div>
+			<div class="skew"></div>
+		</div>
+		<div class="stripeContainer">
+			<div class="grid">
+				<div class="stripe"></div>
+				<div class="stripe"></div>
+				<div class="stripe"></div>
+				<div class="stripe"></div>
+				<div class="stripe"></div>
+				<div class="stripe"></div>
+				<div class="stripe"></div>
+				<div class="stripe"></div>
+				<div class="stripe"></div>
+				<div class="stripe"></div>
+			</div>
+		</div>
+	</div>
 </section>
 <app-experience></app-experience>
 <app-transfer></app-transfer>

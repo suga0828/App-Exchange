@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild, ElementRef,  Renderer2 } from '@angular/c
 @Component({
   selector: 'app-jumbo',
   templateUrl: './jumbo.component.html',
-  styleUrls: ['./jumbo.component.css']
+  styleUrls: ['./jumbo.component.scss']
 })
 export class JumboComponent implements OnInit {
 

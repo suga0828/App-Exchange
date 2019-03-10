@@ -1,29 +1,29 @@
-<a class="waves-effect waves-light btn menu" (click)="sidenav.toggle()">&#9776;</a>
-
 <header #top>
-  <nav class="container">
-    <div class="nav-wrapper">
-      <img src="assets/images/brand-logo.png" alt="ISFront" class="brand-logo">
-      <ul class="right hide-on-med-and-down">
-        <li class="navbar-item">
-          <a routerLink="/landing">Inicio</a>
-        </li>
-        <li class="navbar-item">
-          <a routerLink="/console/transfer">Quiero Transferir</a>
-        </li>
-        <li class="navbar-item">
-          <a routerLink="/console/withdraw">Quiero Retirar</a>
-        </li>
-        <li class="navbar-item" *ngIf="!currentUser">
-          <a routerLink="/console">Iniciar Sesión</a>
-        </li>
-        <li class="navbar-item" *ngIf="currentUser">
-          <a routerLink="/console">Cuenta</a>
-        </li>
-      </ul>
+  <nav class="navbar is-transparent" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" routerLink="/landing">
+        <img src="assets/images/brand-logo.png" alt="ISFront" class="brand-logo">
+      </a>
+      <a role="button" (click)="toggleMenu()" [ngClass]="{'is-active': isActive}" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu" [ngClass]="{'is-active': isActive}">
+      <div class="navbar-end">
+        <a class="navbar-item" routerLink="/landing">Inicio</a>
+        <a class="navbar-item" routerLink="/console/transfer">Quiero transferir</a>
+        <a class="navbar-item" routerLink="/console/withdraw">Quiero retirar</a>
+        <a class="navbar-item" routerLink="/console">
+          <span *ngIf="!currentUser">Iniciar sesión</span>
+          <span *ngIf="currentUser">Cuenta</span>
+        </a>
+      </div>
     </div>
   </nav>
 </header>
+
 <div (click)="scrollToElement(top)">
   <fa-icon [icon]="['fas', 'arrow-circle-up']" size="2x" class="scroll"></fa-icon>
 </div>
