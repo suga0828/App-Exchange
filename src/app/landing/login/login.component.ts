@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       currentUser.sendEmailVerification();
     }
     console.log('Sesión iniciada');
-    this.router.navigate(['console/user']);
+    this.router.navigate(['/console']);
   }
 
   errorCallback(errorData) {
