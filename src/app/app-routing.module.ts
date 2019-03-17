@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
+
 import { RouterModule, Routes } from '@angular/router';
+
+import { AuthenticationGuard } from './services/authentication.guard';
 
 const routes: Routes = [
   {
@@ -13,7 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'console',
-    loadChildren: './console/console.module#ConsoleModule'
+    loadChildren: './console/console.module#ConsoleModule',
+    canActivate: [AuthenticationGuard]
   },
 
   // otherwise redirect to home

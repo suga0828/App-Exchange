@@ -2,10 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-
-import { HeaderComponent } from './landing/header/header.component';
-import { FooterComponent } from './landing/footer/footer.component';
-
 import { AppRoutingModule } from './app-routing.module';
 
 import { SharedModule } from './shared/shared.module';
@@ -28,9 +24,7 @@ library.add(faUserCheck, faThumbsUp, faGrinAlt, faClock, faEdit, faCheckSquare, 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

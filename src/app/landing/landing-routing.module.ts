@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { JumboComponent } from './jumbo/jumbo.component';
+import { LandingComponent } from './landing.component';
+
+import { NoAuthenticationGuard } from '../services/no-authentication.guard';
 
 const routes: Routes = [
-  { path: '', component: JumboComponent}
+  { path: '', component: LandingComponent },
+  { path: 'login', component: LandingComponent, canActivate: [NoAuthenticationGuard] }
 ];
 
 @NgModule({

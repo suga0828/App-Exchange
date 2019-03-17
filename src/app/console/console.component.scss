@@ -1,0 +1,25 @@
+mat-sidenav {
+  position: fixed;
+  width: 250px;
+}
+
+mat-sidenav-content {
+  overflow: hidden;
+}
+
+.menu {
+  margin: 15px;
+  position: fixed;
+}
+
+.closebtn {
+  position: absolute;
+  right: 20px;
+  font-size: 27px;
+}
+
+.btn-lg {
+  font-size: 16px;
+  font-weight:bold;
+  padding: 7px 20px;
+}

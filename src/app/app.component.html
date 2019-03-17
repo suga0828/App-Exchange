@@ -1,21 +1,3 @@
-<mat-sidenav-container>
-    <mat-sidenav #sidenav>
-      <mat-nav-list>
-        <a mat-list-item (click)="sidenav.toggle()"><span class="closebtn">&times;</span></a>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="/landing">Inicio</a>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="/console/user">Cuenta</a>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="/console/transfer">Quiero Transferir</a>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="/console/withdraw">Quiero Retirar</a>
-        <a mat-list-item (click)="sidenav.toggle()" routerLink="/console/historical">Historial</a>
-        <a mat-list-item (click)="sidenav.toggle()" *ngIf="!currentUser" routerLink="/console">Iniciar Sesión</a>
-        <a mat-list-item (click)="sidenav.toggle()" *ngIf="currentUser" (click)="logOut(); sidenav.toggle()">Cerrar Sesión</a>
-      </mat-nav-list>
-  </mat-sidenav>
-
-  <mat-sidenav-content>
-    <app-header [sidenav]="sidenav" *ngIf="router.url === '/landing' || router.url == '/console/login'"></app-header>
-    <a class="waves-effect waves-light btn menu" (click)="sidenav.toggle()" *ngIf=" router.url != '/' && router.url != '/landing' && router.url != '/console/login'">&#9776;</a>
-    <router-outlet></router-outlet>
-    <app-footer></app-footer>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+<main>
+  <router-outlet></router-outlet>
+</main>

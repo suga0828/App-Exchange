@@ -1,0 +1,10 @@
+<app-header></app-header>
+<div class="landing-section">
+	<app-login *ngIf="login"></app-login>
+	<app-jumbo *ngIf="!login"></app-jumbo>
+	<app-experience *ngIf="!login"></app-experience>
+	<app-transfer *ngIf="!login"></app-transfer>
+	<app-withdraw *ngIf="!login"></app-withdraw>
+	<!-- <app-testimony></app-testimony> -->
+</div>
+<app-footer></app-footer>

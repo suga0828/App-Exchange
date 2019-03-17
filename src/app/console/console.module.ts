@@ -5,22 +5,19 @@ import { TransferComponent } from './transfer/transfer.component';
 import { WithdrawComponent } from './withdraw/withdraw.component';
 import { UserComponent } from './user/user.component';
 import { HistoricalComponent } from './historical/historical.component';
-import { LoginComponent } from './login/login.component';
 
 import { ConsoleRoutingModule } from './console-routing.module';
-
-import { FirebaseUIModule } from 'firebaseui-angular';
-import { firebaseUiAuthConfig } from '../services/authentication.service';
+import { ConsoleComponent } from './console.component';
+import { SidenavListComponent } from './sidenav-list/sidenav-list.component';
 
 import { SharedModule } from '../shared/shared.module';
 import { MAT_DATE_LOCALE } from '@angular/material';
 
 @NgModule({
-  declarations: [TransferComponent, WithdrawComponent, UserComponent, HistoricalComponent, LoginComponent],
+  declarations: [TransferComponent, WithdrawComponent, UserComponent, HistoricalComponent, ConsoleComponent, SidenavListComponent],
   imports: [
     CommonModule,
     ConsoleRoutingModule,
-    FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     SharedModule
   ],
   providers: [

@@ -1,0 +1,15 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav>
+    <mat-nav-list>
+      <app-sidenav-list></app-sidenav-list>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <button mat-raised-button color="primary" class="btn-lg is-narrow  closeBtn menu" (click)="sidenav.toggle()">&#9776;</button>
+    <app-user *ngIf="user"></app-user>
+    <app-transfer *ngIf="transfer"></app-transfer>
+    <app-withdraw *ngIf="withdraw"></app-withdraw>
+    <app-historical *ngIf="historical"></app-historical>
+  </mat-sidenav-content>
+</mat-sidenav-container>
