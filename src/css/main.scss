@@ -38,23 +38,18 @@ h6 {
 section {
 	width: 100%;
   height: auto;
-  padding: 35px 0;
-}
-
-.row {
-	margin-bottom: 0;
+  padding: 3rem 1.5rem;
 }
 
 .carousel {
-  min-height: 90vmin !important;
+  min-height: 90vmin;
 }
 
 @media screen and (min-width: $bp-sm) {
   section {
-    height: auto !important;
-    padding: 25px 0;
+    height: auto;
   }
   .carousel {
-    min-height: 80vmin !important;
+    min-height: 80vmin;
   }
 }

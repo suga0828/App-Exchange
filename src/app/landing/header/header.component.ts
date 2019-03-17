@@ -30,8 +30,11 @@ export class HeaderComponent implements OnInit {
     this.authenticationService.getStatus()
       .subscribe((user: User) => {
         this.currentUser = user;
-        console.log(user);
       });
+  }
+
+  logout() {
+    this.authenticationService.logOut();
   }
 
   scrollToElement($e) {

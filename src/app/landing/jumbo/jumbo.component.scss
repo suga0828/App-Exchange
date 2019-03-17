@@ -27,7 +27,7 @@
 }
 
 .jumbo-card {
-  padding: 50px 30px 30px 30px;
+  padding: 50px;
 }
 
 .tax {
@@ -192,11 +192,6 @@
   grid-row: eighth-line / last-line;
 }
 
-@media screen and (max-width: 1200px){
-  .show-on-xlarge {
-    display: none
-  }
-}
 @media (max-width:600px) {
   .common-StripeGrid {
     --grid-height: 11%;

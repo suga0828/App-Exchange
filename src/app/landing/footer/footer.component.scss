@@ -1,7 +1,8 @@
-.page-footer {
+#footer {
   background-color: #f0f4fa;
   color: #8898aa !important;
   position: relative;
+  text-align: center;
 }
 
 .background-filling {
@@ -19,29 +20,38 @@
 
 .footer-title {
   font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: .025em;
-    margin: 0 0 5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .025em;
+  margin: 0 0 5px;
 }
 
-.footer-link {
-  margin: 13px 0 0;
-      color: #6772e5;
-    font-weight: 500;
-    -webkit-transition: color .1s ease;
-    transition: color .1s ease;
-    cursor: pointer;
+.footer-link,
+.footer-button {
+  color: #6772e5;
+  font-weight: bold;
+  -webkit-transition: color .1s ease;
+          transition: color .1s ease;
 }
 
-.collection-item {
-	background-color: inherit !important;
-}
-
-.bold {
-	font-weight: bold;
+.footer-button {
+  display: block;
+  margin: 8px auto;
+  width: 150px;
 }
 
 .footer-copyright {
   color: #8898aa;
+  text-align: center;
+}
+
+@media screen and (min-width: 768px) {
+  .footer-button {
+    display: inline-block;
+    margin: 0 8px 8px 0;
+  }
+
+  .footer-button:last-of-type {
+    margin: 0;
+  }
 }

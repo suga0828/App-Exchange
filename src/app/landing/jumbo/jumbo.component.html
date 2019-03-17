@@ -13,10 +13,10 @@
 				</div>
 				<div class="column">
 					<mat-card class="jumbo-card">
-						<mat-card-header>
-							<mat-card-title>Simula tu transferencia o retiro</mat-card-title>
+						<mat-card-header class="columns is-centered">
+							<mat-card-title class="column">Simula tu transferencia o retiro</mat-card-title>
 						</mat-card-header>
-						<mat-card-content class="columns is-multiline">
+						<mat-card-content class="columns is-multiline is-centered">
 							<mat-form-field class="column is-half">
 								<mat-label>Envia</mat-label>
 								<input matInput placeholder="Ingresa un monto" type="number">
@@ -41,14 +41,14 @@
 									</mat-option>
 								</mat-select>
 							</mat-form-field>
-							<div class="column">
-								<span *ngIf="comission">Comisión de {{ tax }}%: USD {{ comissionN }}.</span>
+							<div class="column if-full">
+								<p *ngIf="comission">Comisión de {{ tax }}%: USD {{ comissionN }}.</p>
 								<p class="tax-text">Transferencia mínima de USD 10.</p>
 							</div>
 						</mat-card-content>
 						<mat-card-actions class="columns is-centered">
-							<button mat-raised-button color="primary" class="column is-narrow blue">Quiero Transferir</button>
-							<button mat-raised-button color="accent" class="column is-narrow blue">Quiero Retirar</button>
+							<button mat-raised-button color="primary" class="btn-lg column is-half">Quiero Transferir</button>
+							<button mat-raised-button color="accent" class="btn-lg column is-half">Quiero Retirar</button>
 						</mat-card-actions>
 					</mat-card>
 				</div>
@@ -76,7 +76,3 @@
 		</div>
 	</div>
 </section>
-<app-experience></app-experience>
-<app-transfer></app-transfer>
-<app-withdraw></app-withdraw>
-<app-testimony></app-testimony>
