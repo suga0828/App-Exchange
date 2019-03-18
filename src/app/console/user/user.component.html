@@ -99,7 +99,9 @@
                 </ng-container>
               </span>
               <ng-container *ngIf="edit">
-                <input type="file" #image (change)="changeImage($event)" accept=".png, .jpg, .jpeg" />
+                <mat-form-field>
+                  <input type="file" #image (change)="changeImage($event)" accept=".png, .jpg, .jpeg" />
+                </mat-form-field>
                 <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage">
               </ng-container>
             </mat-list-item>
