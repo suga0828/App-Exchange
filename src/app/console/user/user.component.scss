@@ -6,6 +6,10 @@
   padding-top: 0px;
 }
 
+.content {
+  padding-top: 0;
+}
+
 mat-card {
   padding: 0px;
 }
@@ -43,11 +47,12 @@ button {
 }
 
 .edit {
+  cursor: pointer;
+  font-size: 16px;
   position: absolute;
   right: 20px;
   top: 50%;
   transform: translate(-50%, -50%);
-  cursor: pointer;
 }
 
 .img-responsive

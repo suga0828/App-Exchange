@@ -5,10 +5,11 @@
         <h2 class="title">Información Personal</h2>
         <a class="edit" (click)="changeToEdit()" *ngIf="!edit">
           <fa-icon [icon]="['fas', 'edit']" size="lg"></fa-icon>
+          <p>Editar</p> 
         </a>
       </mat-card-title>
       <mat-card-content class="columns is-multiline is-centered">
-        <div class="column is-four-fifths content" *ngIf="user" style="padding-top:0px;">
+        <div class="column is-four-fifths content" *ngIf="user">
           <mat-list>
             <ng-container *ngIf="messages.length">
               <ng-container *ngFor="let message of messages">
@@ -20,19 +21,20 @@
             </ng-container>
             <mat-divider></mat-divider>
             <mat-list-item>
-              <b>Nombre:</b> {{user.displayName}}
+              <span><b>Nombre: </b> {{user.displayName}}</span>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
-              <span><b>Email:</b>{{user.email}}</span>
+              <span><b>Email: </b> {{user.email}}</span>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
-              <span><b>Fecha de nacimiento:</b></span>
-              <ng-container *ngIf="!edit">
-                <span *ngIf="!user.birthdate">Ingrese su fecha de nacimiento</span>
-                <span *ngIf="user.birthdate"> {{ user.birthdate | date: 'shortDate' }}</span>
-              </ng-container>
+              <span><b>Fecha de nacimiento: </b> 
+                <ng-container *ngIf="!edit">
+                  <span *ngIf="!user.birthdate">Ingrese su fecha de nacimiento.</span>
+                  <span *ngIf="user.birthdate"> {{ user.birthdate | date: 'shortDate' }}</span>
+                </ng-container>
+              </span>
               <ng-container *ngIf="edit">
                 <mat-form-field>
                   <input matInput name="birthdate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [(ngModel)]="user.birthdate"
@@ -44,10 +46,11 @@
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
-              <span><b>País de residencia: </b></span>
-              <ng-container *ngIf="!edit">
-                <span>{{user.country || 'Ingrese su país de residencia'}}</span>
-              </ng-container>
+              <span><b>País de residencia: </b> 
+                <ng-container *ngIf="!edit">
+                  <span>{{user.country || 'Ingrese su país de residencia.'}}</span>
+                </ng-container>
+              </span>
               <ng-container *ngIf="edit">
                 <mat-form-field>
                   <mat-select placeholder="País de residencia" [(ngModel)]="user.country">
@@ -58,10 +61,11 @@
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
-              <span><b>Número de teléfono: </b></span>
-              <ng-container *ngIf="!edit">
-                <span>{{user.phoneNumber || 'Agregue su número de teléfono'}}</span>
-              </ng-container>
+              <span><b>Número de teléfono: </b> 
+                <ng-container *ngIf="!edit">
+                  <span>{{user.phoneNumber || 'Agregue su número de teléfono.'}}</span>
+                </ng-container>
+              </span>
               <ng-container *ngIf="edit">
                 <mat-form-field>
                   <input matInput type="tel" placeholder="Ingrese su número de teléfono" [(ngModel)]="user.phoneNumber">
@@ -70,15 +74,15 @@
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
-              <b>Saldo en cuenta: </b>{{ user.balance || 'USD 0.'}}
+              <span><b>Saldo en cuenta: </b>{{ user.balance || 'USD 0.'}}</span>
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
               <span><b>Documento de identificación (DI): </b>
+                <ng-container *ngIf="!edit">
+                  <span>{{user.idDocument || 'Agregue su número de DI.'}}</span>
+                </ng-container>
               </span>
-              <ng-container *ngIf="!edit">
-                <span>{{user.idDocument || 'Agregue su número de DI'}}</span>
-              </ng-container>
               <ng-container *ngIf="edit">
                 <mat-form-field>
                   <input matInput type="number" placeholder="Ingrese su número de DI" [(ngModel)]="user.idDocument">
@@ -87,11 +91,13 @@
             </mat-list-item>
             <mat-divider></mat-divider>
             <mat-list-item>
-              <span><b>Imagen de DI: </b></span>
-              <ng-container *ngIf="!edit">
-                <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage">
-                <span *ngIf="!user.idDocumentImage">Agregue una imagen de su DI</span>
-              </ng-container>
+              <span><b>Imagen de DI: </b>
+                <ng-container *ngIf="!edit">
+                  <!-- <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage"> -->
+                  <span *ngIf="user.idDocumentImage">Ya registró una imagen de su DI.</span>
+                  <span *ngIf="!user.idDocumentImage">Agregue una imagen de su DI.</span>
+                </ng-container>
+              </span>
               <ng-container *ngIf="edit">
                 <input type="file" #image (change)="changeImage($event)" accept=".png, .jpg, .jpeg" />
                 <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage">

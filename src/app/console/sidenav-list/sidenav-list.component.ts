@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+
+import { MatSidenav } from '@angular/material';
 
 @Component({
   selector: 'app-sidenav-list',
@@ -6,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidenav-list.component.scss']
 })
 export class SidenavListComponent implements OnInit {
+
+  @Input('sidenav') sidenav: MatSidenav;
 
   constructor() { }
 
