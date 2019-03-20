@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
     this.scrollService.scrollToElement($e);
   }
 
-  toggleMenu(event) {
+  toggleMenu() {
     this.isActive = !this.isActive;
   }
 
