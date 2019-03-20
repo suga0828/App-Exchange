@@ -6,7 +6,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <button mat-raised-button color="primary" class="btn-lg is-narrow  closeBtn menu" (click)="sidenav.toggle()">&#9776;</button>
+    <button mat-raised-button color="primary" class="btn-lg is-narrow menu" (click)="sidenav.toggle()">&#9776;</button>
     <app-user *ngIf="user"></app-user>
     <app-transfer *ngIf="transfer"></app-transfer>
     <app-withdraw *ngIf="withdraw"></app-withdraw>

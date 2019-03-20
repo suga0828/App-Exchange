@@ -1,134 +1,132 @@
 <section id="profile">
-  <div class="container">
-    <mat-card>
-      <mat-card-title class="header">
-        <h2 class="title">Información Personal</h2>
-        <a class="edit" (click)="changeToEdit()" *ngIf="!edit">
-          <fa-icon [icon]="['fas', 'edit']" size="lg"></fa-icon>
-          <p>Editar</p> 
-        </a>
-      </mat-card-title>
-      <mat-card-content class="columns is-multiline is-centered">
-        <div class="column is-four-fifths content" *ngIf="user">
-          <mat-list>
-            <ng-container *ngIf="messages.length">
-              <ng-container *ngFor="let message of messages">
-                <mat-list-item>
-                  <p>{{message}}</p>
-                </mat-list-item>
-                <mat-divider></mat-divider>
-              </ng-container>
+  <mat-card>
+    <mat-card-title class="header">
+      <h2 class="title">Información Personal</h2>
+      <a class="edit" (click)="changeToEdit()" *ngIf="!edit">
+        <fa-icon [icon]="['fas', 'edit']" size="lg"></fa-icon>
+        Editar 
+      </a>
+    </mat-card-title>
+    <mat-card-content class="columns is-multiline is-centered">
+      <div class="column is-four-fifths content" *ngIf="user">
+        <mat-list>
+          <ng-container *ngIf="messages.length">
+            <ng-container *ngFor="let message of messages">
+              <mat-list-item>
+                <p>{{message}}</p>
+              </mat-list-item>
+              <mat-divider></mat-divider>
             </ng-container>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span><b>Nombre: </b> {{user.displayName}}</span>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span><b>Email: </b> {{user.email}}</span>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span><b>Fecha de nacimiento: </b> 
-                <ng-container *ngIf="!edit">
-                  <span *ngIf="!user.birthdate">Ingrese su fecha de nacimiento.</span>
-                  <span *ngIf="user.birthdate"> {{ user.birthdate | date: 'shortDate' }}</span>
-                </ng-container>
-              </span>
-              <ng-container *ngIf="edit">
-                <mat-form-field>
-                  <input matInput name="birthdate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [(ngModel)]="user.birthdate"
-                    placeholder="Ingrese su fecha de nacimiento">
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker touchUi #picker></mat-datepicker>
-                </mat-form-field>
+          </ng-container>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <span><b>Nombre: </b> {{user.displayName}}</span>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <span><b>Email: </b> {{user.email}}</span>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <span><b>Fecha de nacimiento: </b> 
+              <ng-container *ngIf="!edit">
+                <span *ngIf="!user.birthdate">Ingrese su fecha de nacimiento.</span>
+                <span *ngIf="user.birthdate"> {{ user.birthdate | date: 'shortDate' }}</span>
               </ng-container>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span><b>País de residencia: </b> 
-                <ng-container *ngIf="!edit">
-                  <span>{{user.country || 'Ingrese su país de residencia.'}}</span>
-                </ng-container>
-              </span>
-              <ng-container *ngIf="edit">
-                <mat-form-field>
-                  <mat-select placeholder="País de residencia" [(ngModel)]="user.country">
-                    <mat-option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
+            </span>
+            <ng-container *ngIf="edit">
+              <mat-form-field>
+                <input matInput name="birthdate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [(ngModel)]="user.birthdate"
+                  placeholder="Ingrese su fecha de nacimiento">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #picker></mat-datepicker>
+              </mat-form-field>
+            </ng-container>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <span><b>País de residencia: </b> 
+              <ng-container *ngIf="!edit">
+                <span>{{user.country || 'Ingrese su país de residencia.'}}</span>
               </ng-container>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span><b>Número de teléfono: </b> 
-                <ng-container *ngIf="!edit">
-                  <span>{{user.phoneNumber || 'Agregue su número de teléfono.'}}</span>
-                </ng-container>
-              </span>
-              <ng-container *ngIf="edit">
-                <mat-form-field>
-                  <input matInput type="tel" placeholder="Ingrese su número de teléfono" [(ngModel)]="user.phoneNumber">
-                </mat-form-field>
+            </span>
+            <ng-container *ngIf="edit">
+              <mat-form-field>
+                <mat-select placeholder="País de residencia" [(ngModel)]="user.country">
+                  <mat-option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </ng-container>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <span><b>Número de teléfono: </b> 
+              <ng-container *ngIf="!edit">
+                <span>{{user.phoneNumber || 'Agregue su número de teléfono.'}}</span>
               </ng-container>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span><b>Saldo en cuenta: </b>{{ user.balance || 'USD 0.'}}</span>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span><b>Documento de identificación (DI): </b>
-                <ng-container *ngIf="!edit">
-                  <span>{{user.idDocument || 'Agregue su número de DI.'}}</span>
-                </ng-container>
-              </span>
-              <ng-container *ngIf="edit">
-                <mat-form-field>
-                  <input matInput type="number" placeholder="Ingrese su número de DI" [(ngModel)]="user.idDocument">
-                </mat-form-field>
+            </span>
+            <ng-container *ngIf="edit">
+              <mat-form-field>
+                <input matInput type="tel" placeholder="Ingrese su número de teléfono" [(ngModel)]="user.phoneNumber">
+              </mat-form-field>
+            </ng-container>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <span><b>Saldo en cuenta: </b>{{ user.balance || 'USD 0.'}}</span>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <span><b>Documento de identificación (DI): </b>
+              <ng-container *ngIf="!edit">
+                <span>{{user.idDocument || 'Agregue su número de DI.'}}</span>
               </ng-container>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-            <mat-list-item>
-              <span><b>Imagen de DI: </b>
-                <ng-container *ngIf="!edit">
-                  <!-- <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage"> -->
-                  <span *ngIf="user.idDocumentImage">Ya registró una imagen de su DI.</span>
-                  <span *ngIf="!user.idDocumentImage">Agregue una imagen de su DI.</span>
-                </ng-container>
-              </span>
-              <ng-container *ngIf="edit">
-                <mat-form-field>
-                  <input type="file" #image (change)="changeImage($event)" accept=".png, .jpg, .jpeg" />
-                </mat-form-field>
-                <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage">
+            </span>
+            <ng-container *ngIf="edit">
+              <mat-form-field>
+                <input matInput type="number" placeholder="Ingrese su número de DI" [(ngModel)]="user.idDocument">
+              </mat-form-field>
+            </ng-container>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item>
+            <span><b>Imagen de DI: </b>
+              <ng-container *ngIf="!edit">
+                <!-- <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage"> -->
+                <span *ngIf="user.idDocumentImage">Ya registró una imagen de su DI.</span>
+                <span *ngIf="!user.idDocumentImage">Agregue una imagen de su DI.</span>
               </ng-container>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-          </mat-list>
-        </div>
-        <div class="column is-four-fifths content" *ngIf="!edit">
-            <div class="columns is-mobile is-multiline is-centered">
-              <div class="column is-narrow">
-                <button mat-raised-button color="primary" routerLink="/console/transfer">Quiero Transferir</button>
-              </div>
-              <div class="column is-narrow">
-                <button mat-raised-button color="primary" routerLink="/console/withdraw">Quiero Retirar</button>
-              </div>
+            </span>
+            <ng-container *ngIf="edit">
+              <mat-form-field>
+                <input type="file" #image (change)="changeImage($event)" accept=".png, .jpg, .jpeg" />
+              </mat-form-field>
+              <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage">
+            </ng-container>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        </mat-list>
+      </div>
+      <div class="column is-four-fifths content" *ngIf="!edit">
+          <div class="columns is-mobile is-multiline is-centered">
+            <div class="column is-narrow">
+              <button mat-raised-button color="primary" routerLink="/console/transfer">Quiero Transferir</button>
             </div>
-        </div>
-        <div class="column is-four-fifths content" *ngIf="edit">
-            <div class="columns is-centered">
-              <div class="column">
-                <button mat-raised-button color="primary" (click)="changeToEdit()">Cancelar</button>
-              </div>
-              <div class="column">
-                <button mat-raised-button color="primary" (click)="save()">Actualizar</button>
-              </div>
+            <div class="column is-narrow">
+              <button mat-raised-button color="primary" routerLink="/console/withdraw">Quiero Retirar</button>
             </div>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+          </div>
+      </div>
+      <div class="column is-four-fifths content" *ngIf="edit">
+          <div class="columns is-centered">
+            <div class="column">
+              <button mat-raised-button color="primary" (click)="changeToEdit()">Cancelar</button>
+            </div>
+            <div class="column">
+              <button mat-raised-button color="primary" (click)="save()">Actualizar</button>
+            </div>
+          </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </section>
