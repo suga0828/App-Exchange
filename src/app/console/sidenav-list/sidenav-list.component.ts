@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 
 import { MatSidenav } from '@angular/material';
 
+import { Router } from '@angular/router';
+
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { User } from '../../interfaces/user';
 
@@ -16,7 +18,10 @@ export class SidenavListComponent implements OnInit {
 
   currentUser: User;
 
-  constructor(private authenticationService: AuthenticationService) { }
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.getUser();
@@ -27,6 +32,12 @@ export class SidenavListComponent implements OnInit {
       .subscribe((user: User) => {
         this.currentUser = user;
       });
+  }
+
+  logout() {
+    this.authenticationService.logOut();
+    console.log('Sesión cerrada.');
+    this.router.navigate(['console/login']);
   }
 
 }
