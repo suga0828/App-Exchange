@@ -8,7 +8,7 @@
       </a>
     </mat-card-title>
     <mat-card-content class="columns is-multiline is-centered">
-      <div class="column is-four-fifths content" *ngIf="user">
+      <div class="column is-four-fifths" *ngIf="user">
         <mat-list>
           <ng-container *ngIf="messages.length">
             <ng-container *ngFor="let message of messages">
@@ -98,32 +98,26 @@
               </ng-container>
             </span>
             <ng-container *ngIf="edit">
-              <mat-form-field>
-                <input type="file" #image (change)="changeImage($event)" accept=".png, .jpg, .jpeg" />
-              </mat-form-field>
+              <!-- <label for="image">
+                agregar
+                <button mat-icon-button type="button"><fa-icon [icon]="['far', 'file-image']" size="lg"></fa-icon>Editar</button>
+              </label> -->
+              <input type="file" #image (change)="changeImage($event)" accept="image/*" />
               <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage">
             </ng-container>
           </mat-list-item>
           <mat-divider></mat-divider>
         </mat-list>
       </div>
-      <div class="column is-four-fifths content" *ngIf="!edit">
+      <div class="column is-four-fifths">
           <div class="columns is-mobile is-multiline is-centered">
             <div class="column is-narrow">
-              <button mat-raised-button color="primary" routerLink="/console/transfer">Quiero Transferir</button>
+              <button mat-raised-button color="primary" *ngIf="!edit" routerLink="/console/transfer">Quiero Transferir</button>
+              <button mat-raised-button color="primary" *ngIf="edit" (click)="changeToEdit()">Cancelar</button>
             </div>
             <div class="column is-narrow">
-              <button mat-raised-button color="primary" routerLink="/console/withdraw">Quiero Retirar</button>
-            </div>
-          </div>
-      </div>
-      <div class="column is-four-fifths content" *ngIf="edit">
-          <div class="columns is-centered">
-            <div class="column">
-              <button mat-raised-button color="primary" (click)="changeToEdit()">Cancelar</button>
-            </div>
-            <div class="column">
-              <button mat-raised-button color="primary" (click)="save()">Actualizar</button>
+              <button mat-raised-button color="primary" *ngIf="!edit" routerLink="/console/withdraw">Quiero Retirar</button>
+              <button mat-raised-button color="primary" *ngIf="edit" (click)="save()">Actualizar</button>
             </div>
           </div>
       </div>

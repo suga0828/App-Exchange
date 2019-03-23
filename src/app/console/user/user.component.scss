@@ -6,10 +6,6 @@
   padding-top: 0px;
 }
 
-.content {
-  padding-top: 0;
-}
-
 mat-card {
   padding: 0px;
   max-width: 768px;
@@ -67,6 +63,19 @@ button {
   width: auto;
   height: 100px;
   display: block;
+}
+
+@media screen and (max-width: 400px){ 
+  .mat-list-base .mat-list-item .mat-list-item-content {
+    display: block;
+    background: red;
+  }
+}
+
+@media screen and (min-width: 480px){
+  mat-card{
+    width: 90%;
+  }
 }
 
 @media screen and (min-width: 768px){
