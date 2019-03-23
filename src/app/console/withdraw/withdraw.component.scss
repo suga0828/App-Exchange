@@ -1,13 +1,12 @@
-.container {
-  padding: 0 36px;
-}
-
 .mat-list-base {
   padding-top: 0px;
 }
 
 mat-card {
   padding: 0px;
+  max-width: 768px;
+  width: 100%;
+  margin: 0 auto;
 }
 
 mat-card-title {
@@ -17,6 +16,16 @@ mat-card-title {
 mat-card-content {
   padding: 0px 10px 10px 10px;
   margin: 0px;
+}
+
+.label {
+  text-align: center;
+  margin: 0 auto;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-right: 10px;
 }
 
 button {
@@ -48,4 +57,16 @@ button {
   top: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
+}
+
+@media screen and (min-width: 480px){
+  mat-card{
+    width: 90%;
+  }
+}
+
+@media screen and (min-width: 768px){
+  mat-card{
+    width: 70%;
+  }
 }

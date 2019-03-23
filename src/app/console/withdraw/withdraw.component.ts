@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
@@ -6,12 +6,15 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/interfaces/user';
 import { Account } from 'src/app/interfaces/account';
 
+// ES6 Modules or TypeScript
+import swal from 'sweetalert2';
+
 @Component({
   selector: 'app-withdraw',
   templateUrl: './withdraw.component.html',
   styleUrls: ['./withdraw.component.scss']
 })
-export class WithdrawComponent implements OnInit {
+export class WithdrawComponent implements OnInit, OnDestroy {
 
   user: User;
   accounts: Account[];
@@ -21,13 +24,16 @@ export class WithdrawComponent implements OnInit {
   buttonDisable = false;
   originAccount;
   toWithdraw: number;
+  showAlert = false;
+  subscribeAccount: any;
+  subscribeUser: any;
 
   plataforms = [
     'Paypal', 'Skriller'
   ];
 
-  messages: String[] = [];
-  messageNoAccount = 'Para retirar primero debes agregar una cuenta Monedero Electrónico.';
+  messages = '';
+  messageNoAccount = 'Para transferir primero debes agregar una cuenta Monedero Electrónico.';
   messageImportant: string;
 
   constructor(
@@ -48,13 +54,21 @@ export class WithdrawComponent implements OnInit {
   }
 
   getAccounts() {
-    this.userService.getUserAccounts(this.user.uid)
+    this.subscribeAccount = this.userService.getUserAccounts(this.user.uid)
       .subscribe((accounts: Account[]) => {
         if (!accounts.length) {
           this.disabled = true;
-          this.addMessageIf();
+          if (!this.showAlert) {
+            swal.fire({
+              type: 'warning',
+              title: 'No tiene cuentas registradas',
+              text: this.messageNoAccount,
+            });
+            this.showAlert = true;
+          }
         } else {
           this.disabled = false;
+          this.showAlert = true;
           this.accounts = accounts;
         }
       }, error => console.log(error));
@@ -64,11 +78,10 @@ export class WithdrawComponent implements OnInit {
     if (this.register) {
       this.register = false;
       this.getAccounts();
-      this.removeMessageIf();
-      this.removeMessageImportant();
+      this.messages = '';
     } else {
       this.register = true;
-      this.addMessageImportant();
+      this.messages = this.messageImportant
       this.account = {
         uid: Date.now(),
         accountNumber: 0,
@@ -84,36 +97,22 @@ export class WithdrawComponent implements OnInit {
 
   withdraw() {
     if (!this.originAccount || !this.toWithdraw) {
-      alert('Seleccione una cuenta o cantidad a retirar');
+      swal.fire({
+        type: 'warning',
+        title: 'Seleccione una cuenta de origen y un monto'
+      });
     } else {
-      alert('Solicitud de retiro realizada.');
+      swal.fire({
+        type: 'success',
+        title: 'Solicitud de retiro realizada',
+        text: `Su solicitud de retiro de ${this.originAccount} por $${this.toWithdraw} será procesada a la brevedad posible.`,
+      });
     }
   }
 
-  addMessageIf() {
-    if (this.messages.indexOf(this.messageNoAccount) === -1) {
-      this.messages.push(this.messageNoAccount);
-    }
-  }
-
-  removeMessageIf() {
-    if (this.messages.indexOf(this.messageNoAccount) > -1) {
-      this.messages.splice(
-        this.messages.indexOf(this.messageNoAccount), 1);
-    }
-  }
-
-  addMessageImportant() {
-    if (this.messages.indexOf(this.messageImportant) === -1) {
-      this.messages.push(this.messageImportant);
-    }
-  }
-
-  removeMessageImportant() {
-    if (this.messages.indexOf(this.messageImportant) > -1) {
-      this.messages.splice(
-        this.messages.indexOf(this.messageImportant), 1);
-    }
+  ngOnDestroy() {
+    this.subscribeAccount.unsubscribe();
+    this.subscribeUser.unsubscribe();
   }
 
 }
