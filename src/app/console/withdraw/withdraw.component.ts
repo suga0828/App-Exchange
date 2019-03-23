@@ -45,7 +45,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   }
 
   getUser() {
-    this.authenticationService.getStatus()
+    this.subscribeUser = this.authenticationService.getStatus()
       .subscribe( (user: User) => {
         this.user = user;
         this.messageImportant = `Importante: La cuenta debe estar registrada a nombre de ${this.user.displayName}.`;

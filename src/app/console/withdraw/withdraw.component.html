@@ -16,8 +16,8 @@
             <div class="column">
               <p class="label"><b>Cuenta Origen: </b></p>
               <mat-form-field>
-                <mat-select [disabled]="disabled" [(ngModel)]="originAccount">
-                  <mat-option *ngFor="let account of accounts" [value]="account.plataform" placeholder="Seleccione una cuenta">
+                <mat-select [disabled]="disabled" [(ngModel)]="originAccount" placeholder="Seleccione una cuenta">
+                  <mat-option *ngFor="let account of accounts" [value]="account.plataform">
                     {{account.plataform}}: {{account.accountNumber}}
                   </mat-option>
                 </mat-select>
