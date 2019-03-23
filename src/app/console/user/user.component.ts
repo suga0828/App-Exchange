@@ -10,6 +10,9 @@ import { Country } from 'src/app/interfaces/country';
 
 import { AngularFireStorage } from '@angular/fire/storage';
 
+// ES6 Modules or TypeScript
+import swal from 'sweetalert2';
+
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -18,9 +21,12 @@ import { AngularFireStorage } from '@angular/fire/storage';
 export class UserComponent implements OnInit {
 
   user: User;
-  messages: string[] = [];
+  messages: String;
 
   edit = false;
+  disabled = false;
+  updateImage = false;
+  showAlert = false;
   userImage: any;
   countries: Country[];
 
@@ -39,16 +45,28 @@ export class UserComponent implements OnInit {
     this.authenticationService.getStatus()
       .subscribe( response => {
         const currentUser = response;
-        if (currentUser.providerData[0].providerId === 'password' && currentUser.emailVerified !== true) {
-          const newMessage = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
-          this.messages.indexOf(newMessage) === -1 ? this.messages.push(newMessage) : console.log('This message already exists');
+        if (currentUser) {
+          if (currentUser.providerData[0].providerId === 'password' && currentUser.emailVerified !== true) {
+            const newMessage = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
+            swal.fire({
+              type: 'warning',
+              title: 'No tiene cuentas registradas',
+              text: newMessage,
+            });
+          }
         }
         this.userService.getUserById(currentUser.uid)
           .subscribe( (user: User) => {
             this.user = user;
             if ( Object.keys(this.user).length < 8 ) {
-              const newMessage = 'Por favor complete todos los campos solicitados  o inicie sesión nuevamente';
-              this.messages.indexOf(newMessage) === -1 ? this.messages.push(newMessage) : console.log('This message already exists');
+              if (!this.showAlert) {
+                swal.fire({
+                  type: 'warning',
+                  title: 'Por favor complete todos los campos solicitados',
+                });
+              }
+            } else {
+              this.showAlert = true;
             }
             this.countriesService.getCountries()
               .subscribe( (countries: Country[]) => {
@@ -60,11 +78,8 @@ export class UserComponent implements OnInit {
   }
 
   changeToEdit() {
-    if (this.edit) {
-      this.edit = false;
-    } else {
-      this.edit = true;
-    }
+    this.edit = !this.edit;
+    this.updateImage = false;
   }
 
   saveImage() {
@@ -75,19 +90,34 @@ export class UserComponent implements OnInit {
       this.userImage.subscribe( (path: string) => {
         this.userService.setIdImage(path, this.user.uid)
           .then( () => {
-            alert('imagen guardada correctamente');
+            swal.fire({
+              type: 'success',
+              title: 'Datos guardados correctamente'
+            });
             this.changeToEdit();
+            this.disabled = false;
           }, error => console.log(error) );
       });
     }, error => console.log(error) );
   }
 
   changeImage(event: any) {
+    if (this.edit && !this.updateImage) {
+      this.updateImage = true;
+    }
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = this.handleReaderLoaded.bind(this);
-      reader.readAsBinaryString(file);
+    if(file) {
+      if (file.size < 2096000) {
+        const reader = new FileReader();
+        reader.onload = this.handleReaderLoaded.bind(this);
+        reader.readAsBinaryString(file);
+      } else {
+        swal.fire({
+          type: 'error',
+          title: 'Hay un error con el archivo',
+          text: 'El tamaño del archivo es muy grande, debe ser menor a 2MB.'
+        });
+      }
     }
   }
 
@@ -97,20 +127,26 @@ export class UserComponent implements OnInit {
   }
 
   save() {
+    this.disabled = true;
     if (this.userImage) {
       this.saveUser(this.user);
       this.saveImage();
     } else {
       this.saveUser(this.user);
-
+      swal.fire({
+        type: 'success',
+        title: 'Datos guardados correctamente'
+      });
       this.changeToEdit();
+      this.disabled = false;
     }
+    
   }
 
   saveUser(user: User) {
     this.userService.editUser(user)
       .then(() => {
-        console.log('guardado!');
+        console.log('datos guardados correctamente')
       }, error => console.log(error));
   }
 
