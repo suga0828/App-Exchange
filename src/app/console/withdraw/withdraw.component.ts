@@ -97,7 +97,21 @@ export class WithdrawComponent implements OnInit, OnDestroy {
       numberAccount: this.account.numberAccount,
       plataform: this.account.plataform
     }
-    this.userService.registerAccount(account, this.user.uid);
+    this.userService.registerAccount(account, this.user.uid)
+      .then(r => {
+        swal.fire({
+          type: 'success',
+          title: 'Registro de cuenta realizada',
+          text: `Su cuenta  ${account.id} ha sido registrada exitosamente.`,
+        });
+      })
+      .catch(error => {
+        console.log(error)
+        swal.fire({
+          type: 'error',
+          title: 'Ocurrió un error registrando su cuenta'
+        });
+      });
     this.changeToRegister();
   }
 
@@ -127,7 +141,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
         console.log(error)
         swal.fire({
           type: 'error',
-          title: 'Ocurrió un error registrando su cuenta'
+          title: 'Ocurrió un error registrando su retiro'
         });
       });
   }
