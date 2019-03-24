@@ -1,5 +1,5 @@
 export interface Account {
-  uid: number;
-  accountNumber: number;
+  id: string;
+  numberAccount: number;
   plataform: string;
 }

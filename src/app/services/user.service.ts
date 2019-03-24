@@ -4,6 +4,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 
 import { User, NewUser } from '../interfaces/user';
 import { Account } from '../interfaces/account';
+import { Transference, Withdraw } from '../interfaces/operation';
 
 @Injectable({
   providedIn: 'root'
@@ -30,11 +31,23 @@ export class UserService {
   }
 
   registerAccount(account: Account, uid: string) {
-    return this.angularFireDatabase.object('/users/' + uid + '/accounts/' + account.uid ).set(account);
+    return this.angularFireDatabase.object('/users/' + uid + '/accounts/' + account.id ).set(account);
   }
 
   getUserAccounts(uid: string) {
     return this.angularFireDatabase.list('/users/' + uid + '/accounts/').valueChanges();
+  }
+
+  registerTransfer(transfer: Transference, uid: string) {
+    return this.angularFireDatabase.object('/users/' + uid + '/operations/' + transfer.date).set(transfer);
+  }
+
+  registerWithdraw(withdraw: Withdraw, uid: string) {
+    return this.angularFireDatabase.object('/users/' + uid + '/operations/' + withdraw.date).set(withdraw);
+  }
+
+  getUserOperations(uid: string) {
+    return this.angularFireDatabase.list('/users/' + uid + '/operations/').valueChanges();
   }
 
 }

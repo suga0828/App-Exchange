@@ -16,11 +16,11 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faUserCheck, faEdit, faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
+import { faUserCheck, faEdit, faArrowCircleUp, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 import { faThumbsUp, faGrinAlt, faClock, faCheckSquare, faTimesCircle, faPlusSquare, faFileImage } from '@fortawesome/free-regular-svg-icons';
 
 // Add an icon to the library for convenient access in other components
-library.add(faUserCheck, faThumbsUp, faGrinAlt, faClock, faEdit, faCheckSquare, faTimesCircle, faArrowCircleUp, faPlusSquare,faFileImage);
+library.add(faUserCheck, faThumbsUp, faGrinAlt, faClock, faEdit, faCheckSquare, faTimesCircle, faArrowCircleUp, faPlusSquare,faFileImage, faEllipsisV);
 
 @NgModule({
   declarations: [

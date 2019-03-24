@@ -1,11 +1,65 @@
 mat-card {
-  margin: 3em auto;
+  padding: 0px;
+  max-width: 768px;
+  width: 100%;
+  margin: 0 auto;
 }
 
-.add {
-  cursor: pointer;
+mat-card-title {
+  margin: 0px;
 }
 
-h4 {
-  margin:  auto;
+.header {
+  text-align: center;
+  position: relative;
+  width: 100%;
+  padding: 16px;
+  background-color: #e4effa !important;
+}
+
+.title {
+  align-self: center;
+  display: inline;
+}
+
+.mat-list-item {
+  height: auto;
+  padding: 10px 0px;
+  margin: 0  !important;
+}
+
+.mat-column-date {
+  flex: 0 0 20%;
+}
+
+.mat-column-type {
+  flex: 0 0 20%;
+}
+
+.mat-column-origin_account {
+  flex: 0 0 18%;
+}
+
+.mat-column-amount {
+  flex: 0 0 15%;
+}
+
+.mat-column-destination_account {
+  flex: 0 0 18%;
+}
+
+.mat-column-options {
+  flex: 0 0 9%;
+}
+
+@media screen and (min-width: 480px){
+  mat-card{
+    width: 90%;
+  }
+}
+
+@media screen and (min-width: 768px){
+  mat-card{
+    width: 70%;
+  }
 }
