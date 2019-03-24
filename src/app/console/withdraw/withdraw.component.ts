@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { AuthenticationService } from 'src/app/services/authentication.service';
-import { UserService } from 'src/app/services/user.service';
+import { AuthenticationService } from '../../services/authentication.service';
+import { UserService } from '../../services/user.service';
 
-import { User } from 'src/app/interfaces/user';
-import { Account } from 'src/app/interfaces/account';
+import { User } from '../../interfaces/user';
+import { Account } from '../../interfaces/account';
+import { Withdraw } from '../../interfaces/operation';
 
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
@@ -83,15 +84,20 @@ export class WithdrawComponent implements OnInit, OnDestroy {
       this.register = true;
       this.messages = this.messageImportant
       this.account = {
-        uid: Date.now(),
-        accountNumber: 0,
+        id: '',
+        numberAccount: null,
         plataform: ''
       };
     }
   }
 
   registerAccount() {
-    this.userService.registerAccount(this.account, this.user.uid);
+    const account: Account = {
+      id: `${this.account.plataform}:${this.account.numberAccount}`,
+      numberAccount: this.account.numberAccount,
+      plataform: this.account.plataform
+    }
+    this.userService.registerAccount(account, this.user.uid);
     this.changeToRegister();
   }
 
@@ -101,13 +107,29 @@ export class WithdrawComponent implements OnInit, OnDestroy {
         type: 'warning',
         title: 'Seleccione una cuenta de origen y un monto'
       });
-    } else {
-      swal.fire({
-        type: 'success',
-        title: 'Solicitud de retiro realizada',
-        text: `Su solicitud de retiro de ${this.originAccount} por $${this.toWithdraw} será procesada a la brevedad posible.`,
-      });
+      return;
     }
+    const withdraw: Withdraw = {
+      amount: this.toWithdraw,
+      date: Date.now(),
+      originAccount: this.originAccount,
+      type: 'Withdraw'
+    }
+    this.userService.registerWithdraw(withdraw, this.user.uid)
+      .then(r => {
+        swal.fire({
+          type: 'success',
+          title: 'Solicitud de retiro realizada',
+          text: `Su solicitud de retiro de ${this.originAccount} por $${this.toWithdraw} será procesada a la brevedad posible.`,
+        });
+      })
+      .catch(error => {
+        console.log(error)
+        swal.fire({
+          type: 'error',
+          title: 'Ocurrió un error registrando su cuenta'
+        });
+      });
   }
 
   ngOnDestroy() {

@@ -1,10 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { AuthenticationService } from 'src/app/services/authentication.service';
-import { UserService } from 'src/app/services/user.service';
+import { AuthenticationService } from '../../services/authentication.service';
+import { UserService } from '../../services/user.service';
 
-import { User } from 'src/app/interfaces/user';
-import { Account } from 'src/app/interfaces/account';
+import { User } from '../../interfaces/user';
+import { Account } from '../../interfaces/account';
+import { Transference } from '../../interfaces/operation';
 
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
@@ -83,14 +84,20 @@ export class TransferComponent implements OnInit, OnDestroy {
       this.register = true;
       this.messages = this.messageImportant
       this.account = {
-        uid: Date.now(),
-        accountNumber: null,
-        plataform: '' };
+        id: '',
+        numberAccount: null,
+        plataform: ''
+      };
     }
   }
 
   registerAccount() {
-    this.userService.registerAccount(this.account, this.user.uid);
+    const account: Account = {
+      id: `${this.account.plataform}:${this.account.numberAccount}`,
+      numberAccount: this.account.numberAccount,
+      plataform: this.account.plataform
+    }
+    this.userService.registerAccount(account, this.user.uid);
     this.changeToRegister();
   }
 
@@ -100,13 +107,30 @@ export class TransferComponent implements OnInit, OnDestroy {
         type: 'warning',
         title: 'Seleccione una cuenta de origen y una de destino'
       });
-    } else {
-      swal.fire({
-        type: 'success',
-        title: 'Solicitud de transferencia realizada',
-        text: `Su solicitud de transferencia de ${this.originAccount} a ${this.destinationAccount} será procesada a la brevedad posible.`,
-      });
+      return;
     }
+    const transference: Transference = {
+      amount: 1,
+      date: Date.now(),
+      destinationAccout: this.destinationAccount,
+      originAccount: this.originAccount,
+      type: 'Transference'
+    }
+    this.userService.registerTransfer(transference, this.user.uid)
+      .then( r => {
+        swal.fire({
+          type: 'success',
+          title: 'Solicitud de transferencia realizada',
+          text: `Su solicitud de transferencia de ${this.originAccount} a ${this.destinationAccount} será procesada a la brevedad posible.`,
+        });
+      })
+      .catch( error => {
+        console.log(error)
+        swal.fire({
+          type: 'error',
+          title: 'Ocurrió un error registrando su cuenta'
+        });
+      });
   }
 
   ngOnDestroy() {

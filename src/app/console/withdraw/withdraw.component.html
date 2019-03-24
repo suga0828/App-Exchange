@@ -17,8 +17,8 @@
               <p class="label"><b>Cuenta Origen: </b></p>
               <mat-form-field>
                 <mat-select [disabled]="disabled" [(ngModel)]="originAccount" placeholder="Seleccione una cuenta">
-                  <mat-option *ngFor="let account of accounts" [value]="account.plataform">
-                    {{account.plataform}}: {{account.accountNumber}}
+                  <mat-option *ngFor="let account of accounts" [value]="account.id">
+                    {{account.plataform}}: {{account.numberAccount}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -43,7 +43,7 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field>
-              <input matInput type="number" placeholder="Número de cuenta" [(ngModel)]="account.accountNumber">
+              <input matInput type="number" placeholder="Número de cuenta" [(ngModel)]="account.numberAccount">
             </mat-form-field>
           </mat-list-item>
           <mat-divider></mat-divider>
