@@ -3,18 +3,16 @@
     <mat-card-title class="header">
       <h2 class="title">Transferencia</h2>
     </mat-card-title>
-    <mat-card-content class="columns is-multiline is-centered">
-      <div class="column is-four-fifths" *ngIf="user">
-        <mat-list>
-          <ng-container *ngIf="messages">
-            <mat-list-item>
-              <p>{{messages}}</p>
-            </mat-list-item>
-            <mat-divider></mat-divider>
-          </ng-container>
-          <mat-list-item *ngIf="!register" class="columns is-mobile is-multiline is-centered">
-            <div class="column">
-              <p class="label"><b>Cuenta Origen: </b></p>
+    <mat-card-content *ngIf="user">
+      <div class="columns is-multiline is-centered">
+        <div class="column is-three-fifths" *ngIf="messages">
+          <p>{{messages}}</p>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="column is-four-fifths" *ngIf="!register">
+          <div class="columns is-multiline is-centered">
+            <div class="column is-half is-three-fifths-mobile is-center">
+              <b>Cuenta Origen: </b>
               <mat-form-field>
                 <mat-select [disabled]="disabled" [(ngModel)]="originAccount">
                   <mat-option *ngFor="let account of accounts" [value]="account.id" placeholder="Seleccione una cuenta">
@@ -23,8 +21,8 @@
                 </mat-select>
               </mat-form-field>
             </div>
-            <div class="column">
-              <p class="label"><b>Cuenta Destino: </b></p>
+            <div class="column is-half is-three-fifths-mobile is-center">
+              <b>Cuenta Destino: </b>
               <mat-form-field>
                 <mat-select [disabled]="disabled" [(ngModel)]="destinationAccount">
                   <mat-option *ngFor="let account of accounts" [value]="account.id" placeholder="Seleccione una cuenta">
@@ -33,24 +31,23 @@
                 </mat-select>
               </mat-form-field>
             </div>
-          </mat-list-item>
-          <mat-list-item *ngIf="register">
-            <p class="label"><b>Plataforma: </b></p>
-          </mat-list-item>
-          <mat-list-item *ngIf="register">
-            <mat-form-field>
-              <mat-select placeholder="Plataforma electrónica" [(ngModel)]="account.plataform">
-                <mat-option *ngFor="let plataform of plataforms" [value]="plataform" placeholder="Seleccione una plataforma">
-                  {{plataform}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field>
-              <input matInput type="number" placeholder="Número de cuenta" [(ngModel)]="account.numberAccount">
-            </mat-form-field>
-          </mat-list-item>
-          <mat-divider></mat-divider>
-        </mat-list>
+          </div>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="column is-three-fifths" *ngIf="register">
+          <b>Plataforma: </b>
+          <mat-form-field>
+            <mat-select placeholder="Plataforma electrónica" [(ngModel)]="account.plataform">
+              <mat-option *ngFor="let plataform of plataforms" [value]="plataform" placeholder="Seleccione una plataforma">
+                {{plataform}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput type="number" placeholder="Número de cuenta" [(ngModel)]="account.numberAccount">
+          </mat-form-field>
+        </div>
+        <mat-divider></mat-divider>
       </div>
     </mat-card-content>
     <mat-card-actions class="columns is-mobile is-multiline is-centered">
