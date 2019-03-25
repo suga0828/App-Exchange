@@ -1,62 +1,64 @@
-<section id="historical">
-  <mat-card>
-    <mat-card-title class="header">
-      <h2 class="title">Historial</h2>
-    </mat-card-title>
-    <mat-card-content>
-      <mat-table [dataSource]="dataSource">
-
-        <!-- Date Column -->
-        <ng-container matColumnDef="date">
-          <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.date | date:'dd-MM-yyyy, hh:mm aa'}}</mat-cell>
-        </ng-container>
-
-        <!-- Type Column -->
-        <ng-container matColumnDef="type">
-          <mat-header-cell *matHeaderCellDef>Operación</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.type}}</mat-cell>
-        </ng-container>
-
-        <!-- Origin Account Column -->
-        <ng-container matColumnDef="origin_account">
-          <mat-header-cell *matHeaderCellDef>Cuenta Origen</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.originAccount}}</mat-cell>
-        </ng-container>
-
-        <!-- Amount Column -->
-        <ng-container matColumnDef="amount">
-          <mat-header-cell *matHeaderCellDef>Monto</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.amount}}</mat-cell>
-        </ng-container>
-
-        <!-- Destination Account Column -->
-        <ng-container matColumnDef="destination_account">
-          <mat-header-cell *matHeaderCellDef>Cuenta Destino</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.destinationAccout}}</mat-cell>
-        </ng-container>
-
-        <!-- Options Column -->
-        <ng-container matColumnDef="options">
-          <mat-header-cell *matHeaderCellDef></mat-header-cell>
-          <mat-cell *matCellDef="let element">
-            <button mat-icon-button [matMenuTriggerFor]="appMenu">
-              <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
-            </button>
-            <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-              <button mat-menu-item>Cancelar</button>
-            </mat-menu>
-          </mat-cell>
-        </ng-container>
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-      <div *ngIf="dataSource">
-        <mat-toolbar color="primary" *ngIf="!dataSource.data.length">No existen operaciones
-        </mat-toolbar>
-      </div>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-    </mat-card-content>
-  </mat-card>
-</section>
+<div class="is-scrolled">
+  <section id="historical">
+    <mat-card>
+      <mat-card-title class="header">
+        <h2 class="title">Historial</h2>
+      </mat-card-title>
+      <mat-card-content>
+        <mat-table [dataSource]="dataSource">
+  
+          <!-- Date Column -->
+          <ng-container matColumnDef="date">
+            <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.date | date:'dd-MM-yyyy, hh:mm aa'}}</mat-cell>
+          </ng-container>
+  
+          <!-- Type Column -->
+          <ng-container matColumnDef="type">
+            <mat-header-cell *matHeaderCellDef>Operación</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.type}}</mat-cell>
+          </ng-container>
+  
+          <!-- Origin Account Column -->
+          <ng-container matColumnDef="origin_account">
+            <mat-header-cell *matHeaderCellDef>Cuenta Origen</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.originAccount}}</mat-cell>
+          </ng-container>
+  
+          <!-- Amount Column -->
+          <ng-container matColumnDef="amount">
+            <mat-header-cell *matHeaderCellDef>Monto</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.amount}}</mat-cell>
+          </ng-container>
+  
+          <!-- Destination Account Column -->
+          <ng-container matColumnDef="destination_account">
+            <mat-header-cell *matHeaderCellDef>Cuenta Destino</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.destinationAccout}}</mat-cell>
+          </ng-container>
+  
+          <!-- Options Column -->
+          <ng-container matColumnDef="options">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
+              </button>
+              <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
+                <button mat-menu-item>Cancelar</button>
+              </mat-menu>
+            </mat-cell>
+          </ng-container>
+  
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <div *ngIf="dataSource">
+          <mat-toolbar color="primary" *ngIf="!dataSource.data.length">No existen operaciones
+          </mat-toolbar>
+        </div>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</div>

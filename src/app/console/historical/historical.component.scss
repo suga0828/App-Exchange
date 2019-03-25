@@ -1,3 +1,11 @@
+#historical {
+  min-width: 550px;
+}
+
+.is-scrolled {
+  overflow-x: auto;
+}
+
 mat-card {
   padding: 0px;
   max-width: 768px;
@@ -20,12 +28,6 @@ mat-card-title {
 .title {
   align-self: center;
   display: inline;
-}
-
-.mat-list-item {
-  height: auto;
-  padding: 10px 0px;
-  margin: 0  !important;
 }
 
 .mat-column-date {
