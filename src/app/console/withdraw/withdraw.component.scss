@@ -1,7 +1,3 @@
-.mat-list-base {
-  padding-top: 0px;
-}
-
 mat-card {
   padding: 0px;
   max-width: 768px;
@@ -18,18 +14,19 @@ mat-card-content {
   margin: 0px;
 }
 
-.label {
-  text-align: center;
+.is-center {
   margin: 0 auto;
 }
 
-mat-form-field {
-  width: 100%;
-  margin-right: 10px;
+.is-flex-end {
+  align-self: flex-end;
 }
 
-button {
-  text-transform: uppercase;
+.mat-card .mat-divider-horizontal {
+  position: inherit;
+}
+
+mat-form-field {
   width: 100%;
 }
 
@@ -44,19 +41,6 @@ button {
 .title {
   align-self: center;
   display: inline;
-}
-
-.mat-list-item {
-  height: auto;
-  padding: 10px 0px;
-}
-
-.register {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  cursor: pointer;
 }
 
 @media screen and (min-width: 480px){

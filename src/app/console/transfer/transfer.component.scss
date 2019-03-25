@@ -18,6 +18,10 @@ mat-card-content {
   margin: 0 auto;
 }
 
+.is-flex-end {
+  align-self: flex-end;
+}
+
 .mat-card .mat-divider-horizontal {
   position: inherit;
 }
