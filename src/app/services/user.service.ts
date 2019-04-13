@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from '@angular/fire/database';
 
 import { User, NewUser } from '../interfaces/user';
-import { Account } from '../interfaces/account';
+import { Account  } from '../interfaces/account';
 import { Transference, Withdraw } from '../interfaces/operation';
 
 @Injectable({
@@ -31,6 +31,10 @@ export class UserService {
   }
 
   registerAccount(account: Account, uid: string) {
+    if(account.email) {
+      const cleanEmail = account.email.replace('.', ',') //Firebase don't accept dot in string.
+      account.email = cleanEmail;
+    }
     return this.angularFireDatabase.object('/users/' + uid + '/accounts/' + account.id ).set(account);
   }
 

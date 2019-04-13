@@ -16,7 +16,12 @@
               <mat-form-field>
                 <mat-select [disabled]="disabled" [(ngModel)]="originAccount">
                   <mat-option *ngFor="let account of accounts" [value]="account.id" placeholder="Seleccione una cuenta">
-                    {{account.plataform}}: {{account.numberAccount}}
+                    <ng-container *ngIf="account.type === typeAccounts.plataform">
+                      {{account.plataform}}: {{account.email}}
+                    </ng-container>
+                    <ng-container *ngIf="account.type === typeAccounts.banking">
+                      {{account.entity}}: {{account.numberAccount}}
+                    </ng-container>
                   </mat-option>
                 </mat-select>
               </mat-form-field>
@@ -26,7 +31,12 @@
               <mat-form-field>
                 <mat-select [disabled]="disabled" [(ngModel)]="destinationAccount">
                   <mat-option *ngFor="let account of accounts" [value]="account.id" placeholder="Seleccione una cuenta">
-                    {{account.plataform}}: {{account.numberAccount}}
+                    <ng-container *ngIf="account.type === typeAccounts.plataform">
+                      {{account.plataform}}: {{account.email}}
+                    </ng-container>
+                    <ng-container *ngIf="account.type === typeAccounts.banking">
+                      {{account.entity}}: {{account.numberAccount}}
+                    </ng-container>
                   </mat-option>
                 </mat-select>
               </mat-form-field>

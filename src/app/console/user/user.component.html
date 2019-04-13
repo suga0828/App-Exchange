@@ -135,8 +135,9 @@
           </mat-form-field>
           <mat-form-field *ngIf="typeAccount === typeAccounts.banking">
             <mat-select placeholder="Tipo de Cuenta Bancaria" formControlName="accountType">
-              <mat-option [value]="ahorro">Cuenta de Ahorro</mat-option>
-              <mat-option [value]="corriente">Cuenta Corriente</mat-option>
+              <mat-option *ngFor="let accountType of accountTypes" [value]="accountType">
+                {{accountType}}
+              </mat-option>
             </mat-select>
           </mat-form-field>
           <mat-form-field *ngIf="typeAccount === typeAccounts.banking">

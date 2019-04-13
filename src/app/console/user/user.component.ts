@@ -14,7 +14,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
-import { AccountPlataform, AccountBanking } from 'src/app/interfaces/account';
+import { Account } from 'src/app/interfaces/account';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -26,7 +26,7 @@ export class UserComponent implements OnInit, OnDestroy {
 
   user: User;
   messages: String;
-  account: AccountPlataform | AccountBanking;
+  account: Account;
 
   typeAccount: any;
   register = false;
@@ -45,6 +45,9 @@ export class UserComponent implements OnInit, OnDestroy {
   };
   plataforms = [
     'Paypal', 'Skriller'
+  ];
+  accountTypes = [
+    'Cuenta de Ahorro', 'Cuenta Corriente'
   ];
   userSubscription: Subscription;
   countrySubscription: Subscription;
@@ -271,9 +274,10 @@ export class UserComponent implements OnInit, OnDestroy {
 
   registerAccount() {
     console.log(this.typeAccount);
+    const id = Date.now();
     if (this.typeAccount === this.typeAccounts.plataform) {
       this.account = {
-        id: `${this.plataform.value}:${this.email.value}`,
+        id: id,
         email: this.email.value,
         plataform: this.plataform.value,
         type: this.typeAccount
@@ -282,7 +286,7 @@ export class UserComponent implements OnInit, OnDestroy {
       this.account = {
         accountType: this.accountType.value,
         entity: this.entity.value,
-        id: `${this.plataform.value}:${this.numberAccount.value}`,
+        id: id,
         numberAccount: this.numberAccount.value,
         type: this.typeAccount
       }

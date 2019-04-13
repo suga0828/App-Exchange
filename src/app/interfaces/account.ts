@@ -1,14 +1,9 @@
-export interface AccountPlataform {
-  id: string;
-  email?: any;
-  plataform?: any;
-  type: any;
-}
-
-export interface AccountBanking {
+export interface Account {
   accountType?: any;
+  email?: any;
   entity?: any;
-  id: string;
+  id: number;
+  plataform?: any;
   numberAccount?: any;
   type: any;
 }

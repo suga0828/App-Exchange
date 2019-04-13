@@ -1,4 +1,4 @@
-import { AccountPlataform, AccountBanking } from './account';
+import { Account } from './account';
 
 export interface User {
   uid: string;
@@ -10,7 +10,7 @@ export interface User {
   phoneNumber?: any | null;
   idDocument?: any | null;
   idDocumentImage?: string | null;
-  accounts?: (AccountPlataform | AccountBanking)[];
+  accounts?: Account[];
 }
 
 export interface NewUser {

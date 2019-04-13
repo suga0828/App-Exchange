@@ -4,7 +4,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/user.service';
 
 import { User } from '../../interfaces/user';
-import { AccountPlataform, AccountBanking } from '../../interfaces/account';
+import { Account } from '../../interfaces/account';
 import { Transference } from '../../interfaces/operation';
 
 // ES6 Modules or TypeScript
@@ -19,7 +19,7 @@ import { Location } from '@angular/common';
 export class TransferComponent implements OnInit, OnDestroy {
 
   user: User;
-  accounts: (AccountPlataform | AccountBanking)[];
+  accounts: Account[];
   disabled = false;
   showAlert = false;
   buttonDisable = false;
@@ -30,6 +30,10 @@ export class TransferComponent implements OnInit, OnDestroy {
   messages = '';
   messageNoAccount = 'Para transferir primero debes agregar una cuenta Monedero Electrónico o cuenta Bancaria.';
   messageImportant: string;
+  typeAccounts = {
+    plataform: 'Monedero Electrónico',
+    banking: 'Cuenta Bancaria'
+  };
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -51,7 +55,7 @@ export class TransferComponent implements OnInit, OnDestroy {
 
   getAccounts() {
     this.subscribeAccount = this.userService.getUserAccounts(this.user.uid)
-      .subscribe( (accounts: (AccountPlataform | AccountBanking)[]) => {
+      .subscribe( (accounts: Account[]) => {
         if (!accounts.length) {
           this.disabled = true;
           if (!this.showAlert) {
@@ -90,7 +94,7 @@ export class TransferComponent implements OnInit, OnDestroy {
         swal.fire({
           type: 'success',
           title: 'Solicitud de transferencia realizada',
-          text: `Su solicitud de transferencia de ${this.originAccount} a ${this.destinationAccount} será procesada a la brevedad posible.`,
+          text: `Su solicitud de transferencia será procesada a la brevedad posible.`,
         });
       })
       .catch( error => {

@@ -1,4 +1,4 @@
-import { AccountPlataform, AccountBanking } from './account';
+import { Account } from './account';
 
 export interface Operations {
   transference?: Transference;
@@ -8,14 +8,14 @@ export interface Operations {
 export interface Transference {
   amount: number;
   date: number;
-  destinationAccout: (AccountPlataform | AccountBanking);
-  originAccount: (AccountPlataform | AccountBanking);
+  destinationAccout: Account;
+  originAccount: Account;
   type: string;
 }
 
 export interface Withdraw {
   amount: number;
   date: number;
-  originAccount: (AccountPlataform | AccountBanking);
+  originAccount: Account;
   type: string;
 }
