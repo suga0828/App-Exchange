@@ -42,6 +42,7 @@ export class HistoricalComponent implements OnInit, OnDestroy {
         this.operationsSubscription = this.userService.getUserOperations(currentUser.uid)
           .subscribe( (operations: Operations[]) => {
             this.dataSource = new MatTableDataSource(operations);
+            console.log(operations);
             this.dataSource.paginator = this.paginator;
           }, (err) => {
               this.dataSource = new MatTableDataSource();

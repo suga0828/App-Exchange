@@ -1,5 +1,9 @@
-#transfer {
+.transfer {
   position: relative;
+}
+
+.transfer .container {
+  z-index: 1;
 }
 
 .transfer-title {
@@ -27,88 +31,109 @@
 
 /*background*/
 .common-StripeGrid{
-  --stripe-height:48px;
-  --content-columns:17;
-  position:absolute;
-  width:100%;
-  top:0;
-  bottom:0;
-  z-index:-1;
-  pointer-events:none;
+  --grid-height: 11%;
+  --grid-content: 70%;
+  --grid-viewportL: 15%;
+  --grid-viewportR: 15%;
+
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
 }
+
 .common-StripeGrid .backgroundContainer,
 .common-StripeGrid .stripeContainer{
-  display:-webkit-box;
-  display:-ms-flexbox;
-  display:  flex;
-  -webkit-box-orient:vertical;
-  -webkit-box-direction:normal;
-  -ms-flex-direction:column;
-  flex-direction:column;
-  -webkit-box-align:center;
-  -ms-flex-align:center;
-  align-items:center;
-  position:absolute;
-  width:100%;
-  height:100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* For top horizontal background  */
+.common-StripeGrid .backgroundContainer .background {
+  position: absolute;
+  height: 50%;
+  width: 100%;
+}
+
+/* For bottom skew background  */
+.common-StripeGrid .backgroundContainer .skew {
+  position: absolute;
+  height: calc( 6 * var(--grid-height) );
+  width: 100%;
+  background-color: #e4effa;
   -webkit-transform:skewY(-12deg);
-  transform:skewY(-12deg);
+          transform:skewY(-12deg);
+  z-index: -1;
 }
-.common-StripeGrid .backgroundContainer .grid{
-  grid-template-columns:1fr;
-  min-width:0
-}
-.common-StripeGrid .backgroundContainer .background{
-  grid-row:1/-1;
-  grid-column:1/-1;
-  z-index:-1
+.common-StripeGrid .stripeContainer {
+  -webkit-transform:skewY(-12deg);
+          transform:skewY(-12deg);
 }
 /*Stripes*/
 .common-StripeGrid .stripeContainer{
-  overflow:hidden
+  overflow: hidden
 }
 .StripeBackground {
-  position:absolute;
-  left:0;
-  top:50%;
- right:0;
-     -webkit-transform:skewY(-12deg);
-      transform:skewY(-12deg);
-      pointer-events:none
-     }
-.StripeBackground .stripe{
-      position:absolute;
-      top:auto;
-      left:0;
-      right:0
-    }
+  position: absolute;
+  left: 0;
+  top: 50%;
+  right: 0;
+  -webkit-transform: skewY(-12deg);
+  transform: skewY(-12deg);
+  pointer-events: none;
+}
 
-@media (min-width:670px){
-      .common-StripeGrid{--stripe-height:64px}
-    }
+.StripeBackground .stripeT{
+  position: absolute;
+  top: auto;
+  left: 0;
+  right:0;
+}
 
-.common-StripeGrid .grid{
-  --content-column-width:minmax(0,calc(100vw / var(--content-columns)));
-  --gutter-column-width:1fr;
-  position:absolute;
-  width:100%;
-  height:100%;
-  display:grid;
-  grid-template-rows:repeat(auto-fill,var(--stripe-height));
+.common-StripeGrid .grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows:
+    [start-line]   var(--grid-height)
+    [first-line]   var(--grid-height)
+    [second-line]  var(--grid-height)
+    [third-line]   var(--grid-height)
+    [quarter-line] var(--grid-height)
+    [fifth-line]   var(--grid-height)
+    [sixth-line]   var(--grid-height)
+    [seventh-line] var(--grid-height)
+    [eighth-line]  var(--grid-height)  [last-line];
   grid-template-columns:
-   [viewport-start] 1fr
-   [left-gutter-start] repeat(var(--gutter-columns),var(--gutter-column-width))
-   [left-gutter-end content-start] repeat(var(--content-columns),var(--content-column-width))
-   [content-end right-gutter-start] repeat(var(--gutter-columns),var(--gutter-column-width))
-   [right-gutter-end] 1fr [viewport-end]
+    [viewport-start]            calc( var(--grid-viewportL) / 2 )
+    [viewportS-contentS-middle] calc( var(--grid-viewportL) / 2 )
+    [content-star]              calc( var(--grid-content) / 4 )
+    [contentS-contentM-middle]  calc( var(--grid-content) / 4 )
+    [content-middle]            calc( var(--grid-content) / 4 )
+    [contentM-contentE-middle]  calc( var(--grid-content) / 4 )
+    [content-end]               calc( var(--grid-viewportR) / 2 )
+    [contentE-viewportE-middle] calc( var(--grid-viewportR) / 2 ) [viewport-end];
 }
 
 .transfer .common-StripeGrid .stripeT:first-child{
   -webkit-box-shadow:inset 0 0 0 2px #e6ebf1;
   box-shadow:inset 0 0 0 2px #e6ebf1;
   background-color:#FFFFFF;
-  grid-column: 1 / span 2;
-  grid-row: 1 / span 1;
+  grid-column: viewport-start  / viewportS-contentS-middle;
+  grid-row: start-line / first-line;
 }
 .transfer .common-StripeGrid .stripeT:nth-child(2){
   background-color:#e6ebf1;
