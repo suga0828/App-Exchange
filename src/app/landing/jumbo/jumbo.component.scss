@@ -1,5 +1,5 @@
 .jumbo {
-  background-color: #7795f8;
+  padding-left: 0;
   position: relative;
   z-index: 0;
 }
@@ -10,6 +10,10 @@
 
 .jumbo .hero-body {
   z-index: 3;
+}
+
+.jumbo-presentation {
+  padding-left: 70px;
 }
 
 .jumbo-title {
@@ -148,12 +152,12 @@
 }
 .jumbo .common-StripeGrid .stripe:nth-child(2){
   background-color: #32325d;
-  grid-column: viewport-start / content-star;
+  grid-column: viewport-start / viewportS-contentS-middle;
   grid-row: quarter-line / fifth-line;
 }
 .jumbo .common-StripeGrid .stripe:nth-child(3){
   background-color: #FFF;
-  grid-column: content-star / contentS-contentM-middle;
+  grid-column: viewportS-contentS-middle / contentS-contentM-middle;
   grid-row: quarter-line / fifth-line;
 }
 .jumbo .common-StripeGrid .stripe:nth-child(4){
@@ -220,7 +224,7 @@
     --grid-viewportR: 7.5%;
   }
   .jumbo .common-StripeGrid .stripe:nth-child(5){
-    grid-column: viewport-start / content-start;
+    grid-column: viewport-start / contentS-contentM-middle;
   }
   .jumbo .common-StripeGrid .stripe:nth-child(6){
     grid-column: contentM-contentE-middle / content-end;
