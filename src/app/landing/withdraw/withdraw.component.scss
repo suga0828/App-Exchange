@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.withdraw .container {
+  z-index: 1;
+}
+
 .withdraw-title {
   color: #32325d;
   margin: 0 0 10px;
@@ -38,13 +42,13 @@
 }
 
 .common-StripeGrid{
-  --stripe-height:48px;
+  --stripe-height:15%;
   --content-columns:17;
   position:absolute;
   width:100%;
   top:0;
   bottom:0;
-  z-index:-1;
+  z-index: 0;
   pointer-events:none;
 }
 .common-StripeGrid .backgroundContainer,
@@ -94,11 +98,6 @@
       right:0
     }
 
-@media (min-width:670px){
-      .common-StripeGrid{--stripe-height:64px}
-    }
-
-
 .common-StripeGrid .grid{
   --content-column-width:minmax(0,calc(100vw / var(--content-columns)));
   --gutter-column-width:1fr;
@@ -116,12 +115,10 @@
 }
 
 .withdraw .common-StripeGrid .stripeW:first-child{
-  background-color: #e4effa;
   grid-column: 1 / span 16;
   grid-row: 1 / span 2;
 }
 .withdraw .common-StripeGrid .stripeW:nth-child(2){
-  background-color:#e4effa;
   grid-column: 1 / span 14;
   grid-row: 3 / span 1;
 }
@@ -131,47 +128,42 @@
   grid-row: 3 / span 1;
 }
 .withdraw .common-StripeGrid .stripeW:nth-child(4){
-  background-color:#e4effa;
   grid-column: 1 / span 10;
-  grid-row: 4 / span 1;
+  grid-row: 2 / span 1;
 }
 .withdraw .common-StripeGrid .stripeW:nth-child(5){
   background-color: #87bbfd;
-  grid-column: 11 / span 2;
+  grid-column: 11 / span 3;
   grid-row: 4 / span 1;
 }
 .withdraw .common-StripeGrid .stripeW:nth-child(6){
   background-color:#32325d;
-  grid-column: 13 / span 4;
+  grid-column: 14 / span 3;
   grid-row: 4 / span 1;
 }
 .withdraw .common-StripeGrid .stripeW:nth-child(7){
-  background-color:#e4effa;
   grid-column: 1 / span 11;
-  grid-row: 5 / span 1;
+  grid-row: 7 / span 1;
 }
 .withdraw .common-StripeGrid .stripeW:nth-child(8){
   background-color: #e6ebf1;
-  grid-column: 12 / span 3;
+  grid-column: 14 / span 3;
   grid-row: 5 / span 1;
 }
 .withdraw .common-StripeGrid .stripeW:nth-child(9){
-  background-color: #e4effa;
   grid-column: 15 / span 2;
   grid-row: 5 / span 1;
 }
 .withdraw .common-StripeGrid .stripeW:nth-child(10){
-  background-color: #e4effa;
   grid-column: 1 / span 10;
   grid-row: 6 / span 1;
 }
 .withdraw .common-StripeGrid .stripeW:nth-child(11){
   background-color: #fcd669;
-  grid-column: 11 / span 2;
-  grid-row: 6 / span 1;
+  grid-column: 12 / span 3;
+  grid-row: 5 / span 1;
 }
 .withdraw .common-StripeGrid .stripeW:nth-child(12){
-  background-color: #e4effa;
-  grid-column: 13 / span 4;
+  grid-column: 12 / span 4;
   grid-row: 6 / span 1;
 }
