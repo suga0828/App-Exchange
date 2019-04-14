@@ -1,4 +1,6 @@
 .landing-section {
 	background-color: #f0f4fa;
 	z-index: -1;
+	min-height: calc(100vh - 308px);
+	margin: -16px 0 -24px;
 }
