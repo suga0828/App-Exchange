@@ -17,7 +17,6 @@ mat-card-content {
 }
 
 mat-form-field {
-  margin-top: 5px;
   width: 100%;
 }
 
@@ -44,23 +43,34 @@ mat-form-field {
   margin-left: 10px;
 }
 
+mat-radio-button {
+  display: block;
+  text-align: center;
+}
+
+mat-radio-button:first-of-type {
+  padding: 0 0 12px;
+}
+
 .img-responsive
 {
-  width: auto;
-  height: 100px;
+  width: 100%;
+  height: auto;
   display: block;
 }
 
-@media screen and (max-width: 400px){ 
-  .mat-list-base .mat-list-item .mat-list-item-content {
-    display: block;
-    background: red;
-  }
+.inputFileButton {
+  margin-bottom: 12px;
+  white-space: pre-wrap;
 }
 
 @media screen and (min-width: 480px){
   mat-card{
     width: 90%;
+  }
+
+  mat-radio-button:first-of-type {
+    padding: 0 12px 0 0;
   }
 }
 
@@ -71,5 +81,10 @@ mat-form-field {
 
   .title {
     display: inline;
+  }
+
+  mat-radio-button {
+    display: inline-block;
+    text-align: initial;
   }
 }

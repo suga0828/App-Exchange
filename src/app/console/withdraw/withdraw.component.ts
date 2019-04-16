@@ -4,11 +4,12 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/user.service';
 
 import { User } from '../../interfaces/user';
-import { Account } from '../../interfaces/account';
 import { Withdraw } from '../../interfaces/operation';
+import { AccountPlataform, AccountBanking } from '../../interfaces/account';
 
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-withdraw',
@@ -18,9 +19,7 @@ import swal from 'sweetalert2';
 export class WithdrawComponent implements OnInit, OnDestroy {
 
   user: User;
-  accounts: Account[];
-  account: Account;
-  register = false;
+  accounts: (AccountPlataform | AccountBanking)[];
   disabled = false;
   buttonDisable = false;
   originAccount;
@@ -29,17 +28,14 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   subscribeAccount: any;
   subscribeUser: any;
 
-  plataforms = [
-    'Paypal', 'Skriller'
-  ];
-
   messages = '';
   messageNoAccount = 'Para transferir primero debes agregar una cuenta Monedero Electrónico.';
   messageImportant: string;
 
   constructor(
     private authenticationService: AuthenticationService,
-    private userService: UserService) { }
+    private userService: UserService,
+    public location: Location) { }
 
   ngOnInit() {
     this.getUser();
@@ -56,7 +52,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
 
   getAccounts() {
     this.subscribeAccount = this.userService.getUserAccounts(this.user.uid)
-      .subscribe((accounts: Account[]) => {
+      .subscribe((accounts: (AccountPlataform | AccountBanking)[]) => {
         if (!accounts.length) {
           this.disabled = true;
           if (!this.showAlert) {
@@ -73,46 +69,6 @@ export class WithdrawComponent implements OnInit, OnDestroy {
           this.accounts = accounts;
         }
       }, error => console.log(error));
-  }
-
-  changeToRegister() {
-    if (this.register) {
-      this.register = false;
-      this.getAccounts();
-      this.messages = '';
-    } else {
-      this.register = true;
-      this.messages = this.messageImportant
-      this.account = {
-        id: '',
-        numberAccount: null,
-        plataform: ''
-      };
-    }
-  }
-
-  registerAccount() {
-    const account: Account = {
-      id: `${this.account.plataform}:${this.account.numberAccount}`,
-      numberAccount: this.account.numberAccount,
-      plataform: this.account.plataform
-    }
-    this.userService.registerAccount(account, this.user.uid)
-      .then(r => {
-        swal.fire({
-          type: 'success',
-          title: 'Registro de cuenta realizada',
-          text: `Su cuenta  ${account.id} ha sido registrada exitosamente.`,
-        });
-      })
-      .catch(error => {
-        console.log(error)
-        swal.fire({
-          type: 'error',
-          title: 'Ocurrió un error registrando su cuenta'
-        });
-      });
-    this.changeToRegister();
   }
 
   withdraw() {
@@ -144,6 +100,10 @@ export class WithdrawComponent implements OnInit, OnDestroy {
           title: 'Ocurrió un error registrando su retiro'
         });
       });
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   ngOnDestroy() {

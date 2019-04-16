@@ -17,6 +17,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatIconModule } from '@angular/material/icon';
 
 const spanishRangeLabel = (page: number, pageSize: number, length: number) => {
   if (length === 0 || pageSize === 0) { return `0 de ${length}`; }
@@ -68,6 +70,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatMenuModule,
     MatPaginatorModule,
     MatToolbarModule,
+    MatRadioModule,
+    MatIconModule,
 
     FontAwesomeModule
   ],
@@ -89,6 +93,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatMenuModule,
     MatPaginatorModule,
     MatToolbarModule,
+    MatRadioModule,
+    MatIconModule,
 
     FontAwesomeModule
   ],

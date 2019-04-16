@@ -1,16 +1,16 @@
-import { Account } from './account';
+import { AccountPlataform, AccountBanking } from './account';
 
 export interface User {
   uid: string;
   displayName: string;
-  country?: string;
-  birthdate?: Date;
+  country?: any;
+  birthdate?: any;
   email: string;
   emailVerified: boolean;
-  phoneNumber?: string | null;
-  idDocument?: string | null;
+  phoneNumber?: any | null;
+  idDocument?: any | null;
   idDocumentImage?: string | null;
-  accounts?: Account[];
+  accounts?: (AccountPlataform | AccountBanking)[];
 }
 
 export interface NewUser {

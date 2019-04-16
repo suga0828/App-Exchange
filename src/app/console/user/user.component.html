@@ -7,8 +7,8 @@
         Editar 
       </a>
     </mat-card-title>
-    <mat-card-content *ngIf="user">
-      <div class="columns is-multiline is-centered">
+    <mat-card-content>
+      <div class="columns is-multiline is-centered" *ngIf="user && !edit && !register">
         <div class="column is-three-fifths">
           <b>Nombre: </b>{{user.displayName}}
         </div>
@@ -19,44 +19,18 @@
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
           <b>Fecha de nacimiento:</b>
-          <ng-container *ngIf="!edit">
-            <span *ngIf="!user.birthdate">Ingrese su fecha de nacimiento.</span>
-            <span *ngIf="user.birthdate"> {{ user.birthdate | date: 'shortDate' }}</span>
-          </ng-container>
-          <ng-container *ngIf="edit">
-            <mat-form-field>
-              <input matInput name="birthdate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker"
-                [(ngModel)]="user.birthdate" placeholder="Ingrese su fecha de nacimiento">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker touchUi #picker></mat-datepicker>
-            </mat-form-field>
-          </ng-container>
+          <span *ngIf="!user.birthdate">Ingrese su fecha de nacimiento.</span>
+          <span *ngIf="user.birthdate"> {{ user.birthdate | date: 'shortDate' }}</span>
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
           <b>País de residencia: </b>
-          <ng-container *ngIf="!edit">
-            <span>{{user.country || 'Ingrese su país de residencia.'}}</span>
-          </ng-container>
-          <ng-container *ngIf="edit">
-            <mat-form-field>
-              <mat-select placeholder="País de residencia" [(ngModel)]="user.country">
-                <mat-option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </ng-container>
+          <span>{{user.country || 'Ingrese su país de residencia.'}}</span>
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
           <b>Número de teléfono: </b>
-          <ng-container *ngIf="!edit">
             <span>{{user.phoneNumber || 'Agregue su número de teléfono.'}}</span>
-          </ng-container>
-          <ng-container *ngIf="edit">
-            <mat-form-field>
-              <input matInput type="tel" placeholder="Ingrese su número de teléfono" [(ngModel)]="user.phoneNumber">
-            </mat-form-field>
-          </ng-container>
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
@@ -65,14 +39,7 @@
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
           <b>Documento de identificación (DI): </b>
-          <ng-container *ngIf="!edit">
-            <span>{{user.idDocument || 'Agregue su número de DI.'}}</span>
-          </ng-container>
-          <ng-container *ngIf="edit">
-            <mat-form-field>
-              <input matInput type="number" placeholder="Ingrese su número de DI" [(ngModel)]="user.idDocument">
-            </mat-form-field>
-          </ng-container>
+          <span>{{user.idDocument || 'Agregue su número de DI.'}}</span>
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
@@ -92,15 +59,105 @@
         </div>
         <mat-divider></mat-divider>
       </div>
+      <form [formGroup]="editAccountForm" class="columns is-multiline is-centered" *ngIf="edit && !register">
+        <mat-form-field class="column is-three-fifths">
+          <input matInput name="birthdate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker"
+            formControlName="birthDate" placeholder="Ingrese su fecha de nacimiento">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #picker></mat-datepicker>
+          <mat-error *ngIf="birthDate.hasError('required')">
+            El campo es requerido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="column is-three-fifths">
+          <mat-select placeholder="Ingrese su país de residencia" formControlName="country">
+            <mat-option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="country.hasError('required')">
+            El campo es requerido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="column is-three-fifths">
+          <input matInput type="tel" placeholder="Ingrese su número de teléfono" formControlName="phoneNumber">
+          <mat-error *ngIf="phoneNumber.hasError('required')">
+            El campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="phoneNumber.hasError('pattern')">
+            Sólo números aceptados.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="column is-three-fifths">
+          <input matInput type="number" placeholder="Ingrese su número de DI" formControlName="documentNumber">
+          <mat-error *ngIf="documentNumber.hasError('required')">
+            El campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="documentNumber.hasError('pattern')">
+            Sólo carácteres alfanuméricos aceptados (letras y números).
+          </mat-error>
+        </mat-form-field>
+        <div class="column is-three-fifths">
+          <label for="idDocumentImage">
+            <a mat-raised-button class="inputFileButton" (click)="image.click()">
+              Agregar imagen de documento de indentificación
+              <mat-icon aria-label="Agregar imagen de documento de indentificación">attach_file</mat-icon>
+            </a>
+          </label>
+          <input type="file" #image (change)="changeImage($event)" accept="image/*" style="display:none;"/>
+          <p *ngIf="updateImageName">{{updateImageName}}</p>
+          <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage && !updateImage">
+          <!-- <img [src]="updateImageUrl" class="img-responsive" *ngIf="updateImageUrl"> -->
+        </div>
+      </form>
+      <div class="columns is-multiline is-centered" *ngIf="register">
+        <mat-radio-group class="column is-three-fifths" aria-label="Seleccione una tipo de cuenta" [(ngModel)]="typeAccount">
+          <mat-radio-button value="{{typeAccounts.plataform}}" class="firstRadio">Monedero Electrónico</mat-radio-button>
+          <mat-radio-button value="{{typeAccounts.banking}}">Cuenta Bancaria</mat-radio-button>
+        </mat-radio-group>
+        <form [formGroup]="registerAccountForm" class="column is-three-fifths" (ngSubmit)="onRegisterSubmit()">
+          <mat-form-field *ngIf="typeAccount === typeAccounts.plataform">
+            <mat-select placeholder="Plataforma electrónica" formControlName="plataform">
+              <mat-option *ngFor="let plataform of plataforms" [value]="plataform">
+                {{plataform}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="plataform.hasError('required')">
+              El campo es requerido.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="typeAccount === typeAccounts.plataform">
+            <input matInput type="email" placeholder="Correo electrónico" formControlName="email">
+            <mat-error *ngIf="email.hasError('required')">
+              El campo es requerido.
+            </mat-error>
+            <mat-error *ngIf="email.hasError('email')">
+              Ingrese un email correcto.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="typeAccount === typeAccounts.banking">
+            <mat-select placeholder="Tipo de Cuenta Bancaria" formControlName="accountType">
+              <mat-option [value]="ahorro">Cuenta de Ahorro</mat-option>
+              <mat-option [value]="corriente">Cuenta Corriente</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field *ngIf="typeAccount === typeAccounts.banking">
+            <input matInput type="number" placeholder="Número de cuenta" formControlName="numberAccount">
+          </mat-form-field>
+        </form>
+      </div>
     </mat-card-content>
     <mat-card-actions class="columns is-mobile is-multiline is-centered">
       <div class="column is-narrow">
-        <button mat-raised-button color="primary" *ngIf="!edit" routerLink="/console/transfer">Quiero Transferir</button>
-        <button mat-raised-button color="primary" *ngIf="edit" (click)="changeToEdit()" [disabled]="disabled">Cancelar</button>
+        <button mat-raised-button color="primary" *ngIf="!edit && !register" routerLink="/console/transfer" type="button">Quiero Transferir</button>
+        <button mat-raised-button color="primary" *ngIf="edit && !register" (click)="changeToEdit()" type="button" [disabled]="disabled">Cancelar</button>
+        <button mat-raised-button color="primary" *ngIf="register && !edit" (click)="changeToRegister()" type="button" [disabled]="disabled">Cancelar</button>
       </div>
       <div class="column is-narrow">
-        <button mat-raised-button color="primary" *ngIf="!edit" routerLink="/console/withdraw">Quiero Retirar</button>
-        <button mat-raised-button color="primary" *ngIf="edit" (click)="save()" [disabled]="disabled">Actualizar</button>
+        <button mat-raised-button color="primary" *ngIf="!edit && !register" routerLink="/console/withdraw" type="button">Quiero Retirar</button>
+        <button mat-raised-button color="primary" *ngIf="edit && !register" (click)="onEditSubmit()" [disabled]="disabled">Actualizar</button>
+        <button mat-raised-button color="primary" *ngIf="register && !edit" (click)="registerAccount()" [disabled]="disabled">Registrar</button>
+      </div>
+      <div class="column is-narrow">
+        <button mat-raised-button color="primary" *ngIf="!register && !edit" (click)="changeToRegister()">Agregar Cuenta</button>
       </div>
     </mat-card-actions>
   </mat-card>

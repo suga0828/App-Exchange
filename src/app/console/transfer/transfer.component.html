@@ -9,67 +9,38 @@
           <p>{{messages}}</p>
           <mat-divider></mat-divider>
         </div>
-        <ng-container *ngIf="!register">
-          <div class="column is-four-fifths">
-            <div class="columns is-multiline is-centered">
-              <div class="column is-half is-three-fifths-mobile is-center">
-                <b>Cuenta Origen: </b>
-                <mat-form-field>
-                  <mat-select [disabled]="disabled" [(ngModel)]="originAccount">
-                    <mat-option *ngFor="let account of accounts" [value]="account.id" placeholder="Seleccione una cuenta">
-                      {{account.plataform}}: {{account.numberAccount}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="column is-half is-three-fifths-mobile is-center">
-                <b>Cuenta Destino: </b>
-                <mat-form-field>
-                  <mat-select [disabled]="disabled" [(ngModel)]="destinationAccount">
-                    <mat-option *ngFor="let account of accounts" [value]="account.id" placeholder="Seleccione una cuenta">
-                      {{account.plataform}}: {{account.numberAccount}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+        <div class="column is-four-fifths">
+          <div class="columns is-multiline is-centered">
+            <div class="column is-half is-three-fifths-mobile is-center">
+              <b>Cuenta Origen: </b>
+              <mat-form-field>
+                <mat-select [disabled]="disabled" [(ngModel)]="originAccount">
+                  <mat-option *ngFor="let account of accounts" [value]="account.id" placeholder="Seleccione una cuenta">
+                    {{account.plataform}}: {{account.numberAccount}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="column is-half is-three-fifths-mobile is-center">
+              <b>Cuenta Destino: </b>
+              <mat-form-field>
+                <mat-select [disabled]="disabled" [(ngModel)]="destinationAccount">
+                  <mat-option *ngFor="let account of accounts" [value]="account.id" placeholder="Seleccione una cuenta">
+                    {{account.plataform}}: {{account.numberAccount}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
             </div>
           </div>
-          <mat-divider></mat-divider>
-        </ng-container>
-        <ng-container *ngIf="register">
-          <div class="column is-three-fifths">
-            <div class="columns is-multiline is-centered">
-              <div class="column is-half is-three-fifths-mobile is-center">
-                <b>Plataforma: </b>
-                <mat-form-field>
-                  <mat-select placeholder="Plataforma electrónica" [(ngModel)]="account.plataform">
-                    <mat-option *ngFor="let plataform of plataforms" [value]="plataform" placeholder="Seleccione una plataforma">
-                      {{plataform}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-              <div class="column is-half is-three-fifths-mobile is-center is-flex-end">
-                <mat-form-field>
-                  <input matInput type="number" placeholder="Número de cuenta" [(ngModel)]="account.numberAccount">
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-          <mat-divider></mat-divider>
-        </ng-container>
+        </div>
+        <mat-divider></mat-divider>
       </div>
     </mat-card-content>
     <mat-card-actions class="columns is-mobile is-multiline is-centered">
       <div class="column is-narrow">
-        <button mat-raised-button color="primary" (click)="changeToRegister()">
-          <ng-container *ngIf="!register">Agregar Cuenta</ng-container>
-          <ng-container *ngIf="register">Cancelar</ng-container>
-        </button>
-      </div>
-      <div class="column is-narrow">
-        <button mat-raised-button color="primary" *ngIf="!register" (click)="transfer()" [disabled]="buttonDisable">Transferir</button>
-        <button mat-raised-button color="primary" *ngIf="register"  (click)="registerAccount()">Agregar</button>
+        <button mat-raised-button color="primary" (click)="goBack()">Regregsar</button>
+        <button mat-raised-button color="primary" (click)="transfer()"
+          [disabled]="buttonDisable">Transferir</button>
       </div>
     </mat-card-actions>
   </mat-card>
