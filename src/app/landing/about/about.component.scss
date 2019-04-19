@@ -1,3 +1,11 @@
+.about {
+  position: relative;
+}
+
+.about .container {
+  z-index: 1;
+}
+
 .about-title {
   color: #32325d;
   margin: 0 0 10px;
@@ -22,4 +30,125 @@
   color: #525f7f;
   font-size: 19px;
   line-height: 32px;
+}
+
+
+/*background*/
+.common-StripeGrid{
+  --grid-height: 11%;
+  --grid-content: 70%;
+  --grid-viewportL: 15%;
+  --grid-viewportR: 15%;
+
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.common-StripeGrid .backgroundContainer,
+.common-StripeGrid .stripeContainer{
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+/* For top horizontal background  */
+.common-StripeGrid .backgroundContainer .background {
+  position: absolute;
+  height: 50%;
+  width: 100%;
+}
+
+/* For bottom skew background  */
+.common-StripeGrid .backgroundContainer .skew {
+  position: absolute;
+  height: calc( 6 * var(--grid-height) );
+  width: 100%;
+  -webkit-transform:skewY(-12deg);
+          transform:skewY(-12deg);
+  z-index: -1;
+}
+.common-StripeGrid .stripeContainer {
+  -webkit-transform:skewY(-12deg);
+          transform:skewY(-12deg);
+}
+/*Stripes*/
+.common-StripeGrid .stripeContainer{
+  overflow: hidden
+}
+.StripeBackground {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  right: 0;
+  -webkit-transform: skewY(-12deg);
+  transform: skewY(-12deg);
+  pointer-events: none;
+}
+
+.StripeBackground .stripeA{
+  position: absolute;
+  top: auto;
+  left: 0;
+  right:0;
+}
+
+.common-StripeGrid .grid {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows:
+    [one] 160px
+    [start-line]   70px
+    [first-line]   70px
+    [second-line]  70px
+    [free-line]   1fr
+    [third-line] 70px
+    [fourth-line]  70px [last-line];
+  grid-template-columns:
+    [viewport-start]            calc( var(--grid-viewportL) / 2 )
+    [viewportS-contentS-middle] calc( var(--grid-viewportL) / 2 )
+    [content-star]              calc( var(--grid-content) / 4 )
+    [contentS-contentM-middle]  calc( var(--grid-content) / 4 )
+    [content-middle]            calc( var(--grid-content) / 4 )
+    [contentM-contentE-middle]  calc( var(--grid-content) / 4 )
+    [content-end]               calc( var(--grid-viewportR) / 2 )
+    [contentE-viewportE-middle] calc( var(--grid-viewportR) / 2 ) [viewport-end];
+}
+
+.about .common-StripeGrid .stripeA:first-child{
+  background-color: #fcd669;
+  grid-column: viewport-start / content-star;
+  grid-row: 2 / span 1;
+}
+.about .common-StripeGrid .stripeA:nth-child(2){
+  -webkit-box-shadow:inset 0 0 0 2px #e4effa;
+          box-shadow:inset 0 0 0 2px #e4effa;
+  background-color: white;
+  grid-column: viewport-start / viewportS-contentS-middle;
+  grid-row: 3 / span 1;
+}
+.about .common-StripeGrid .stripeA:nth-child(3){
+  background-color: #6772e5;
+  grid-column: content-end / viewport-end;
+  grid-row: third-line / fourth-line;
+}
+.about .common-StripeGrid .stripeA:last-child{
+  background-color: #87bbfd;
+  grid-column: contentE-viewportE-middle / viewport-end;
+  grid-row: fourth-line / last-line;
 }
