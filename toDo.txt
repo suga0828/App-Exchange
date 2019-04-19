@@ -1,0 +1,6 @@
+2.- Ajustar vista de operaciones historial.
+3.- Reordenar, habilitar
+efectivamente y agregar botón
+para refrescar calculadora.
+4.- Agregar secciones de
+información.

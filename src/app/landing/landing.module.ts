@@ -17,6 +17,7 @@ import { TestimonyComponent } from './testimony/testimony.component';
 import { FooterComponent } from './footer/footer.component';
 
 import { SharedModule } from '../shared/shared.module';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { SharedModule } from '../shared/shared.module';
     TransferComponent,
     TestimonyComponent,
     FooterComponent,
-    LoginComponent
+    LoginComponent,
+    AboutComponent
   ]
 })
 export class LandingModule { }
