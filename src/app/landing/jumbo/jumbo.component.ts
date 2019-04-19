@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef,  Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-jumbo',
@@ -7,76 +7,62 @@ import { Component, OnInit, ViewChild, ElementRef,  Renderer2 } from '@angular/c
 })
 export class JumboComponent implements OnInit {
 
-  constructor(private renderer: Renderer2) { }
+  tax;
+  comissioned;
 
-	@ViewChild('send') send: ElementRef
-	@ViewChild('get') get: ElementRef
+  constructor() { }
 
-  senders = [
-    "Skrill (USD)",
-    "Neteller (USD)",
-    "Paypal (USD)",
-    "Payoneer (USD)"
-  ]
+  plataforms = [
+    { name: "Skrill (USD)", tax: .12} ,
+    { name: "Neteller (USD)", tax: .14 },
+    { name: "Paypal (USD)", tax: .11 },
+    { name: "Payoneer (USD)", tax: .10 }
+  ];
 
-  receivers = [
-    "Skrill (USD)",
-    "Neteller (USD)",
-    "Paypal (USD)",
-    "Payoneer (USD)"
-  ]
-
-  pairs = [];
-
-  ngOnInit() {
-    for(let i = 0; i < this.senders.length; i++) {
-      for(let n = 0; n < this.receivers.length; n++)
-        this.pairs.push({
-            pair:`${this.senders[i]}-${this.receivers[n]}`,
-            tax:n+10
-          })
-    }
+  calculation = {
+    sender: {
+      plataform: {
+        name: '',
+        tax: null
+      },
+      amount: null
+    },
+    receiver: {
+      plataform: {
+        name: ''
+      },
+      amount: null
+    },
+    comission: null,
   }
 
-  sendW: number = null;
-  getW: number = null;
-  pair: {};
-  comissionN: number = null;
+  ngOnInit() {
+  }
 
-  tax: number = null;
-  comission: number = null;
-  receiver: number = null;
-  sender: number = null;
+  calculate() {
+    this.calculation.comission = this.calculation.sender.plataform.tax;
+    this.comissioned = (this.calculation.comission * this.calculation.sender.amount).toFixed(2);
+    this.tax = (this.calculation.comission * 100).toFixed(2);
+    this.calculation.receiver.amount = (this.calculation.sender.amount - this.comissioned);
+  }
 
-	onKey(event: any) {
-		this.sendW = this.renderer.selectRootElement(this.send).nativeElement.value;
-		this.getW = this.renderer.selectRootElement(this.get).nativeElement.value;
-    this.pair = `${this.sendW}-${this.getW}`
-    this.tax = this.pairs
-      .find( elems => elems.pair == this.pair )
-      .tax;
-    console.log(`Operación: envía: ${this.sendW}. recibe: ${this.getW}. Se cobra comisión de: ${this.tax}%`)
-    this.comission = 1 - (1 / this.tax)
-    this.comissionN = this.comission * this.tax
-    setTimeout( () => {
-      if (this.sender !== null) {
-        this.receiver = this.sender * this.comission
-        if (this.receiver !== null) {
-        this.sender = this.receiver * this.comission
-        return
-        }
-      }
-
-    }, 1000)
-    // if (this.sender == null || this.receiver == null ) {
-    //     this.sender === 0
-    //     this.receiver === 0
-    // }
-
-    // this.taxedN = event.target.value * (this.taxN/100) * this.rateN
-    // console.log(`Se cobra una comisión de ${this.taxN}%, se utiliza un tipo de cambio de: ${this.rateN} y se obtiene una ganancia de: ${this.taxedN}`)
-    // this.taxed = this.rateN * (1 - (this.taxN/100) )
-    // this.result = event.target.value * this.taxed;
-	}
+  refresh() {
+    this.calculation = {
+      sender: {
+        plataform: {
+          name: '',
+          tax: null
+        },
+        amount: null
+      },
+      receiver: {
+        plataform: {
+          name: ''
+        },
+        amount: null
+      },
+      comission: null
+    }
+  }
 
 }

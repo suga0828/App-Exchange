@@ -42,7 +42,8 @@
   font-weight: 400;
   font-size: 17px;
   line-height: 28px;
-  color: #525f7f;;
+  color: #525f7f;
+  text-align: center;
 }
 
 /*background*/
@@ -243,4 +244,19 @@
     --grid-viewportL: 15%;
     --grid-viewportR: 15%;
   }
+}
+
+
+/*
+Ocultar flechas de input number
+ */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type=number] {
+    -moz-appearance:textfield; /* Firefox */
 }

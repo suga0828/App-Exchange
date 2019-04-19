@@ -19,36 +19,34 @@
 						<mat-card-content class="columns is-multiline is-centered">
 							<mat-form-field class="column is-half">
 								<mat-label>Envia</mat-label>
-								<input matInput placeholder="Ingresa un monto" type="number">
-								<span matPrefix>$&nbsp;</span>
+								<input matInput placeholder="Ingresa un monto" type="number" min="0" [(ngModel)]="calculation.sender.amount">
 							</mat-form-field>
 							<mat-form-field class="column is-half">
-								<mat-select placeholder="Monedero">
-									<mat-option *ngFor="let sender of senders" [value]="sender">
-										{{sender}}
+								<mat-select placeholder="Monedero" [(ngModel)]="calculation.sender.plataform">
+									<mat-option *ngFor="let sender of plataforms" [value]="sender">
+										{{sender.name}}
 									</mat-option>
 								</mat-select>
 							</mat-form-field>
+              <mat-form-field class="column is-half">
+                <mat-select placeholder="Monedero" [(ngModel)]="calculation.receiver.plataform">
+                  <mat-option *ngFor="let receiver of plataforms" [value]="receiver">
+                    {{receiver.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
 							<mat-form-field class="column is-half">
 								<mat-label>Recibe</mat-label>
-								<input matInput placeholder="Ingresa un monto" type="number">
-								<span matPrefix>$&nbsp;</span>
-							</mat-form-field>
-							<mat-form-field class="column is-half">
-								<mat-select placeholder="Monedero">
-									<mat-option *ngFor="let receiver of receivers" [value]="receiver">
-										{{receiver}}
-									</mat-option>
-								</mat-select>
+								<input matInput placeholder="Ingresa un monto" type="number" min="0" [(ngModel)]="calculation.receiver.amount">
 							</mat-form-field>
 							<div class="column if-full">
-								<p *ngIf="comission">Comisión de {{ tax }}%: USD {{ comissionN }}.</p>
+								<p class="tax-text" *ngIf="calculation.comission">Comisión de {{ tax }}%: USD {{ comissioned }}</p>
 								<p class="tax-text">Transferencia mínima de USD 10.</p>
 							</div>
 						</mat-card-content>
 						<mat-card-actions class="columns is-centered">
-							<button mat-raised-button color="primary" class="btn-lg column is-half">Quiero Transferir</button>
-							<button mat-raised-button color="primary" class="btn-lg column is-half">Quiero Retirar</button>
+							<button mat-raised-button color="primary" class="btn-lg column is-half" (click)="calculate()">Calcular</button>
+							<button mat-raised-button color="primary" class="btn-lg column is-half" (click)="refresh()">Refrescar</button>
 						</mat-card-actions>
 					</mat-card>
 				</div>
