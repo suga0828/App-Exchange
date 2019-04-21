@@ -87,7 +87,8 @@ export class TransferComponent implements OnInit, OnDestroy {
       date: Date.now(),
       destinationAccout: this.destinationAccount,
       originAccount: this.originAccount,
-      type: 'Transference'
+      status: 'Solicitada',
+      type: 'Transferencia'
     }
     this.userService.registerTransfer(transference, this.user.uid)
       .then( r => {

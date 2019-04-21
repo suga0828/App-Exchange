@@ -10,6 +10,7 @@ export interface Transference {
   date: number;
   destinationAccout: Account;
   originAccount: Account;
+  status: string;
   type: string;
 }
 
@@ -17,5 +18,6 @@ export interface Withdraw {
   amount: number;
   date: number;
   originAccount: Account;
+  status: string;
   type: string;
 }

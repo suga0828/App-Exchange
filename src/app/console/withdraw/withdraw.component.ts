@@ -87,7 +87,8 @@ export class WithdrawComponent implements OnInit, OnDestroy {
       amount: this.toWithdraw,
       date: Date.now(),
       originAccount: this.originAccount,
-      type: 'Withdraw'
+      status: 'Solicitada',
+      type: 'Retiro'
     }
     this.userService.registerWithdraw(withdraw, this.user.uid)
       .then(r => {
