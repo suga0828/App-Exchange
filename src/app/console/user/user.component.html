@@ -18,7 +18,7 @@
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
-          <b>Fecha de nacimiento:</b>
+          <b>Fecha de nacimiento: </b>
           <span *ngIf="!user.birthdate">Ingrese su fecha de nacimiento.</span>
           <span *ngIf="user.birthdate"> {{ user.birthdate | date: 'shortDate' }}</span>
         </div>
@@ -139,9 +139,18 @@
                 {{accountType}}
               </mat-option>
             </mat-select>
+            <mat-error *ngIf="accountType.hasError('required')">
+              El campo es requerido.
+            </mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="typeAccount === typeAccounts.banking">
             <input matInput type="number" placeholder="Número de cuenta" formControlName="numberAccount">
+            <mat-error *ngIf="numberAccount.hasError('required')">
+              El campo es requerido.
+            </mat-error>
+            <mat-error *ngIf="numberAccount.hasError('pattern')">
+              Sólo números permitidos.
+            </mat-error>
           </mat-form-field>
         </form>
       </div>

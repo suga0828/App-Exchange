@@ -44,11 +44,12 @@ section {
   min-height: 90vmin;
 }
 
-#user,
+#profile,
 #transfer,
 #withdraw,
-#historical {
-  min-height: 90vh;
+#historical,
+#admin {
+  min-height: 100vh;
 }
 
 @media screen and (min-width: $bp-sm) {
