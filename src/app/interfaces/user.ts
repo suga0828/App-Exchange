@@ -1,6 +1,7 @@
 import { Account } from './account';
 
 export interface User {
+  isAdmin?: boolean;
   uid: string;
   displayName: string;
   country?: any;

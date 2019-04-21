@@ -5,6 +5,7 @@ import { TransferComponent } from './transfer/transfer.component';
 import { WithdrawComponent } from './withdraw/withdraw.component';
 import { UserComponent } from './user/user.component';
 import { HistoricalComponent } from './historical/historical.component';
+import { AdminComponent } from './admin/admin.component';
 
 import { ConsoleRoutingModule } from './console-routing.module';
 import { ConsoleComponent } from './console.component';
@@ -14,7 +15,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MAT_DATE_LOCALE } from '@angular/material';
 
 @NgModule({
-  declarations: [TransferComponent, WithdrawComponent, UserComponent, HistoricalComponent, ConsoleComponent, SidenavListComponent],
+  declarations: [TransferComponent, WithdrawComponent, UserComponent, HistoricalComponent, ConsoleComponent, SidenavListComponent, AdminComponent],
   imports: [
     CommonModule,
     ConsoleRoutingModule,

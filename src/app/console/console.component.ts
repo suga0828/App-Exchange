@@ -12,6 +12,7 @@ export class ConsoleComponent implements OnInit {
   transfer: string;
   withdraw: string;
   historical: string;
+  admin: string;
 
   constructor(private router: Router) { }
 
@@ -25,8 +26,11 @@ export class ConsoleComponent implements OnInit {
     else if (this.router.url === '/console/withdraw') {
       this.withdraw = this.router.url;
     }
-    if (this.router.url === '/console/historical') {
+    else if (this.router.url === '/console/historical') {
       this.historical = this.router.url;
+    }
+    else if (this.router.url === '/console/admin') {
+      this.admin = this.router.url;
     }
   }
 

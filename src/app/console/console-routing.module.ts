@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ConsoleComponent } from './console.component';
 
+import { AdminGuard } from '../services/admin.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -12,7 +14,8 @@ const routes: Routes = [
   { path: 'user', component: ConsoleComponent },
   { path: 'transfer', component: ConsoleComponent },
   { path: 'withdraw', component: ConsoleComponent },
-  { path: 'historical', component: ConsoleComponent }
+  { path: 'historical', component: ConsoleComponent },
+  { path: 'admin', component: ConsoleComponent, canActivate: [AdminGuard] }
 ];
 
 @NgModule({
