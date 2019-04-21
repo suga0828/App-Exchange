@@ -31,27 +31,31 @@ mat-card-title {
 }
 
 .mat-column-date {
-  flex: 0 0 20%;
+  flex: 0 0 17%;
 }
 
 .mat-column-type {
-  flex: 0 0 20%;
-}
-
-.mat-column-origin_account {
-  flex: 0 0 18%;
-}
-
-.mat-column-amount {
   flex: 0 0 15%;
 }
 
+.mat-column-origin_account {
+  flex: 0 0 19%;
+}
+
+.mat-column-amount {
+  flex: 0 0 8%;
+}
+
 .mat-column-destination_account {
-  flex: 0 0 18%;
+  flex: 0 0 19%;
+}
+
+.mat-column-status {
+  flex: 0 0 12%;
 }
 
 .mat-column-options {
-  flex: 0 0 9%;
+  flex: 0 0 10%;
 }
 
 @media screen and (min-width: 480px){

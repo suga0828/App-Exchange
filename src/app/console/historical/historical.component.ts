@@ -24,7 +24,7 @@ export class HistoricalComponent implements OnInit, OnDestroy {
   operations: Operations[];
 
   dataSource: any;
-  displayedColumns: string[] = ['date', 'type', 'origin_account', 'amount', 'destination_account', 'options'];
+  displayedColumns: string[] = ['date', 'type', 'origin_account', 'amount', 'destination_account', 'status', 'options'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(

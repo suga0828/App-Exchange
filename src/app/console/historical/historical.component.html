@@ -37,6 +37,12 @@
             <mat-cell *matCellDef="let element">{{element.destinationAccout}}</mat-cell>
           </ng-container>
   
+          <!-- Status Column -->
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.status}}</mat-cell>
+          </ng-container>
+
           <!-- Options Column -->
           <ng-container matColumnDef="options">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
