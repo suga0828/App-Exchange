@@ -4,4 +4,5 @@
 <a mat-list-item (click)="sidenav.toggle()" routerLink="/console/transfer">Quiero Transferir</a>
 <a mat-list-item (click)="sidenav.toggle()" routerLink="/console/withdraw">Quiero Retirar</a>
 <a mat-list-item (click)="sidenav.toggle()" routerLink="/console/historical">Historial</a>
-<a mat-list-item (click)="sidenav.toggle()" *ngIf="currentUser" (click)="logout(); sidenav.toggle()">Cerrar Sesión</a>
+<a mat-list-item (click)="sidenav.toggle()" routerLink="/console/admin" *ngIf="isAdmin">Administración</a>
+<a mat-list-item *ngIf="currentUser" (click)="logout(); sidenav.toggle()">Cerrar Sesión</a>
