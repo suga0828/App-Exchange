@@ -5,7 +5,7 @@ import { UserService } from '../../services/user.service';
 
 import { User } from '../../interfaces/user';
 import { Account } from '../../interfaces/account';
-import { Transference } from '../../interfaces/operation';
+import { Operation } from '../../interfaces/operation';
 
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
@@ -25,6 +25,7 @@ export class TransferComponent implements OnInit, OnDestroy {
   buttonDisable = false;
   originAccount;
   destinationAccount;
+  comment: string;
   subscribeAccount: any;
   subscribeUser: any;
   messages = '';
@@ -82,15 +83,16 @@ export class TransferComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    const transference: Transference = {
+    const transference: Operation = {
       amount: 1,
+      comment: this.comment,
       date: Date.now(),
       destinationAccout: this.destinationAccount,
       originAccount: this.originAccount,
       status: 'Solicitada',
       type: 'Transferencia'
     }
-    this.userService.registerTransfer(transference, this.user.uid)
+    this.userService.registerOperation(transference, this.user.uid)
       .then( r => {
         swal.fire({
           type: 'success',

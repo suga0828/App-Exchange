@@ -11,7 +11,6 @@ export interface User {
   phoneNumber?: any | null;
   idDocument?: any | null;
   idDocumentImage?: string | null;
-  accounts?: Account[];
 }
 
 export interface NewUser {

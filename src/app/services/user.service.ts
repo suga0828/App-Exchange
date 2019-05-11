@@ -4,7 +4,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 
 import { User, NewUser } from '../interfaces/user';
 import { Account  } from '../interfaces/account';
-import { Transference, Withdraw } from '../interfaces/operation';
+import { Operation } from '../interfaces/operation';
 
 @Injectable({
   providedIn: 'root'
@@ -35,23 +35,23 @@ export class UserService {
       const cleanEmail = account.email.replace('.', ',') //Firebase don't accept dot in string.
       account.email = cleanEmail;
     }
-    return this.angularFireDatabase.object('/users/' + uid + '/accounts/' + account.id ).set(account);
+    return this.angularFireDatabase.object('/accounts/' + uid + account.id ).set(account);
   }
 
   getUserAccounts(uid: string) {
-    return this.angularFireDatabase.list('/users/' + uid + '/accounts/').valueChanges();
+    return this.angularFireDatabase.list('/accounts/' + uid).valueChanges();
   }
 
-  registerTransfer(transfer: Transference, uid: string) {
-    return this.angularFireDatabase.object('/users/' + uid + '/operations/' + transfer.date).set(transfer);
+  registerOperation(op: Operation, uid: string) {
+    return this.angularFireDatabase.object('/operations/' + uid + op.date).set(op);
   }
 
-  registerWithdraw(withdraw: Withdraw, uid: string) {
-    return this.angularFireDatabase.object('/users/' + uid + '/operations/' + withdraw.date).set(withdraw);
+  deleteOperation(op: Operation, uid: string) {
+    return this.angularFireDatabase.object('/operations/' + uid + op.date).remove();
   }
 
   getUserOperations(uid: string) {
-    return this.angularFireDatabase.list('/users/' + uid + '/operations/').valueChanges();
+    return this.angularFireDatabase.list('/operations/' + uid).valueChanges();
   }
-
+  
 }

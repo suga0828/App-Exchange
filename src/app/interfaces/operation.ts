@@ -1,22 +1,10 @@
 import { Account } from './account';
 
-export interface Operations {
-  transference?: Transference;
-  withdraw?: Withdraw;
-}
-
-export interface Transference {
+export interface Operation {
   amount: number;
+  comment?: string;
   date: number;
-  destinationAccout: Account;
-  originAccount: Account;
-  status: string;
-  type: string;
-}
-
-export interface Withdraw {
-  amount: number;
-  date: number;
+  destinationAccout?: Account;
   originAccount: Account;
   status: string;
   type: string;

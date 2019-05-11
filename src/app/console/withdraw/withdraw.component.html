@@ -35,6 +35,13 @@
                 <span matPrefix>$&nbsp;</span>
               </mat-form-field>
             </div>
+            <div class="column is-half is-three-fifths-mobile is-center">
+              <b>Comentario adicional: </b>
+              <mat-form-field>
+                <textarea matInput placeholder="Si tienes algo más que comentar, escribe aquí."
+                [(ngModel)]="comment" [disabled]="disabled"></textarea>
+              </mat-form-field>
+            </div>
           </div>
         </div>
         <mat-divider></mat-divider>

@@ -4,7 +4,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/user.service';
 
 import { User } from '../../interfaces/user';
-import { Withdraw } from '../../interfaces/operation';
+import { Operation } from '../../interfaces/operation';
 import { Account } from '../../interfaces/account';
 
 // ES6 Modules or TypeScript
@@ -24,6 +24,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   buttonDisable = false;
   originAccount;
   toWithdraw: number;
+  comment: string;
   showAlert = false;
   subscribeAccount: any;
   subscribeUser: any;
@@ -83,14 +84,15 @@ export class WithdrawComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    const withdraw: Withdraw = {
+    const withdraw: Operation = {
       amount: this.toWithdraw,
+      comment: this.comment,
       date: Date.now(),
       originAccount: this.originAccount,
       status: 'Solicitada',
       type: 'Retiro'
     }
-    this.userService.registerWithdraw(withdraw, this.user.uid)
+    this.userService.registerOperation(withdraw, this.user.uid)
       .then(r => {
         swal.fire({
           type: 'success',
