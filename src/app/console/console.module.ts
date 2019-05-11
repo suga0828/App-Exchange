@@ -13,9 +13,10 @@ import { SidenavListComponent } from './sidenav-list/sidenav-list.component';
 
 import { SharedModule } from '../shared/shared.module';
 import { MAT_DATE_LOCALE } from '@angular/material';
+import { ModalComponent } from './modal/modal.component';
 
 @NgModule({
-  declarations: [TransferComponent, WithdrawComponent, UserComponent, HistoricalComponent, ConsoleComponent, SidenavListComponent, AdminComponent],
+  declarations: [TransferComponent, WithdrawComponent, UserComponent, HistoricalComponent, ConsoleComponent, SidenavListComponent, AdminComponent, ModalComponent],
   imports: [
     CommonModule,
     ConsoleRoutingModule,
