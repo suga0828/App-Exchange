@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { FirebaseUISignInSuccessWithAuthResult } from 'firebaseui-angular';
 import { UserService } from '../../services/user.service';
 import { NewUser } from '../../interfaces/user';
@@ -14,9 +13,9 @@ import { NewUser } from '../../interfaces/user';
 export class LoginComponent implements OnInit {
 
   constructor(
-    private authenticationService: AuthenticationService,
     private userService: UserService,
-    private router: Router) { }
+    private router: Router,
+    private ngZone: NgZone) { }
 
   ngOnInit() {
   }
@@ -38,7 +37,9 @@ export class LoginComponent implements OnInit {
       currentUser.sendEmailVerification();
     }
     console.log('Sesión iniciada');
-    this.router.navigate(['/console']);
+    this.ngZone.run( () => {
+      this.router.navigate(['/console']);
+    });
   }
 
   errorCallback(errorData) {
