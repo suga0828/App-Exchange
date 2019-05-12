@@ -1,0 +1,73 @@
+#admin {
+  min-width: 550px;
+}
+
+mat-card {
+  padding: 0px;
+  max-width: 768px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+mat-card-title {
+  margin: 0px;
+}
+
+.header {
+  text-align: center;
+  position: relative;
+  width: 100%;
+  padding: 16px;
+  background-color: #e4effa !important;
+}
+
+.title {
+  align-self: center;
+  display: inline;
+}
+
+mat-table {
+  margin: 2rem 0;
+  border: 1px solid #e4effa;
+}
+
+.is-scrolled {
+  overflow-x: auto;
+}
+
+.documentImage {
+  padding-right: 6px;
+  padding-top: 6px;
+}
+
+.mat-column-name {
+  flex: 0 0 45%;
+}
+
+.mat-column-tax {
+  flex: 0 0 45%;
+}
+
+.mat-column-plataformsOptions {
+  flex: 0 0 10%;
+}
+
+.mat-column-displayName {
+  flex: 0 0 40%;
+}
+
+.mat-column-idDocument {
+  flex: 0 0 15%;
+}
+
+.mat-column-idDocumentImage {
+  flex: 0 0 15%;
+}
+
+.mat-column-status {
+  flex: 0 0 20%;
+}
+
+.mat-column-usersOptions {
+  flex: 0 0 10%;
+}

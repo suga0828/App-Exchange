@@ -1,3 +1,110 @@
-<p>
-  admin works!
-</p>
+<div class="is-scrolled">
+  <section id="admin">
+    <mat-card>
+      <mat-card-title class="header">
+        <h2 class="title">Panel de Administración</h2>
+      </mat-card-title>
+      <mat-card-content>
+        <mat-tab-group>
+            <mat-tab label="Plataformas">
+              <mat-table [dataSource]="plataforms">
+
+                <!-- Plataform Name Column -->
+                <ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef>Plataform</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+                </ng-container>
+        
+                <!-- Plataform Tax Column -->
+                <ng-container matColumnDef="tax">
+                  <mat-header-cell *matHeaderCellDef>Comisión</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.tax}}%</mat-cell>
+                </ng-container>
+
+                <!-- Options Column -->
+                <ng-container matColumnDef="plataformsOptions">
+                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                      <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
+                    </button>
+                    <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
+                      <button mat-menu-item>Editar</button>
+                      <button mat-menu-item>Eliminar</button>
+                    </mat-menu>
+                  </mat-cell>
+                </ng-container>
+        
+                <mat-header-row *matHeaderRowDef="plataformsColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: plataformsColumns;"></mat-row>
+              </mat-table>
+              <div *ngIf="plataforms">
+                <mat-toolbar color="primary" *ngIf="!plataforms.data.length">No existen plataformas
+                </mat-toolbar>
+              </div>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </mat-tab>
+            <mat-tab label="Clientes">
+              <mat-table [dataSource]="users">
+  
+                <!-- Name Column -->
+                <ng-container matColumnDef="displayName">
+                  <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.displayName}}</mat-cell>
+                </ng-container>
+        
+                <!-- idDocument Column -->
+                <ng-container matColumnDef="idDocument">
+                  <mat-header-cell *matHeaderCellDef>DI</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.idDocument}}</mat-cell>
+                </ng-container>
+        
+                <!-- idDocumentImage Column -->
+                <ng-container matColumnDef="idDocumentImage">
+                  <mat-header-cell *matHeaderCellDef>Imagen DI</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <a href="{{element.idDocumentImage}}" target="_blank">
+                      <img class="documentImage" src="{{element.idDocumentImage}}" alt="Imagen de DI">
+                    </a>
+                  </mat-cell>
+                </ng-container>
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                  <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <ng-container *ngIf="element.isVerified; else noVerified">Verificado</ng-container>
+                    <ng-template #noVerified>No verificado</ng-template>
+                  </mat-cell>
+                </ng-container>
+      
+                <!-- Options Column -->
+                <ng-container matColumnDef="usersOptions">
+                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                  <mat-cell *matCellDef="let element">
+                    <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                      <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
+                    </button>
+                    <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
+                      <button mat-menu-item>Verificar usuario</button>
+                      <button mat-menu-item>Abonar Saldo</button>
+                    </mat-menu>
+                  </mat-cell>
+                </ng-container>
+        
+                <mat-header-row *matHeaderRowDef="usersColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: usersColumns;"></mat-row>
+              </mat-table>
+              <div *ngIf="users">
+                <mat-toolbar color="primary" *ngIf="!users.data.length">No existen clientes
+                </mat-toolbar>
+              </div>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </mat-tab>
+            <mat-tab label="Compras"> Content 3 </mat-tab>
+            <mat-tab label="Ventas"> Content 3 </mat-tab>
+          </mat-tab-group>
+      </mat-card-content>
+    </mat-card>
+  </section>
+</div>
