@@ -8,53 +8,49 @@
       </a>
     </mat-card-title>
     <mat-card-content>
-      <div class="columns is-multiline is-centered" *ngIf="user && !edit && !register">
+      <div class="columns is-multiline is-centered" *ngIf="currentUser && !edit && !register">
         <div class="column is-three-fifths">
-          <b>Nombre: </b>{{user.displayName}}
+          <b>Nombre: </b>{{currentUser.displayName}}
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
-          <b>Email: </b>{{user.email}}
+          <b>Email: </b>{{currentUser.email}}
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
           <b>Fecha de nacimiento: </b>
-          <span *ngIf="!user.birthdate">Ingrese su fecha de nacimiento.</span>
-          <span *ngIf="user.birthdate"> {{ user.birthdate | date: 'shortDate' }}</span>
+          <span *ngIf="!currentUser.birthdate">Ingrese su fecha de nacimiento.</span>
+          <span *ngIf="currentUser.birthdate"> {{ currentUser.birthdate | date: 'shortDate' }}</span>
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
           <b>País de residencia: </b>
-          <span>{{user.country || 'Ingrese su país de residencia.'}}</span>
+          <span>{{currentUser.country || 'Ingrese su país de residencia.'}}</span>
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
           <b>Número de teléfono: </b>
-            <span>{{user.phoneNumber || 'Agregue su número de teléfono.'}}</span>
+            <span>{{currentUser.phoneNumber || 'Agregue su número de teléfono.'}}</span>
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
-          <b>Saldo en cuenta: </b>{{ user.balance || 'USD 0.'}}
+          <b>Saldo en cuenta: </b>USD {{ currentUser.balance }}.
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
           <b>Documento de identificación (DI): </b>
-          <span>{{user.idDocument || 'Agregue su número de DI.'}}</span>
+          <span>{{currentUser.idDocument || 'Agregue su número de DI.'}}</span>
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
           <b>Imagen de DI: </b>
           <ng-container *ngIf="!edit">
-            <!-- <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage"> -->
-            <span *ngIf="user.idDocumentImage">Ya registró una imagen de su DI.</span>
-            <span *ngIf="!user.idDocumentImage">Agregue una imagen de su DI.</span>
+            <span *ngIf="currentUser.idDocumentImage">Ya registró una imagen de su DI.</span>
+            <span *ngIf="!currentUser.idDocumentImage">Agregue una imagen de su DI.</span>
           </ng-container>
           <ng-container *ngIf="edit">
-            <!-- <label for="image"> agregar
-              <button mat-icon-button type="button"><fa-icon [icon]="['far', 'file-image']" size="lg"></fa-icon>Editar</button>
-            </label> -->
             <input type="file" #image (change)="changeImage($event)" accept="image/*" />
-            <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage && !updateImage">
+            <img [src]="currentUser.idDocumentImage" class="img-responsive" *ngIf="currentUser.idDocumentImage && !updateImage">
           </ng-container>
         </div>
         <mat-divider></mat-divider>
@@ -104,7 +100,7 @@
           </label>
           <input type="file" #image (change)="changeImage($event)" accept="image/*" style="display:none;"/>
           <p *ngIf="updateImageName">{{updateImageName}}</p>
-          <img [src]="user.idDocumentImage" class="img-responsive" *ngIf="user.idDocumentImage && !updateImage">
+          <img [src]="currentUser.idDocumentImage" class="img-responsive" *ngIf="currentUser.idDocumentImage && !updateImage">
           <!-- <img [src]="updateImageUrl" class="img-responsive" *ngIf="updateImageUrl"> -->
         </div>
       </form>
@@ -113,11 +109,11 @@
           <mat-radio-button value="{{typeAccounts.plataform}}" class="firstRadio">Monedero Electrónico</mat-radio-button>
           <mat-radio-button value="{{typeAccounts.banking}}">Cuenta Bancaria</mat-radio-button>
         </mat-radio-group>
-        <form [formGroup]="registerAccountForm" class="column is-three-fifths" (ngSubmit)="onRegisterSubmit()">
+        <form [formGroup]="registerAccountForm" class="column is-three-fifths">
           <mat-form-field *ngIf="typeAccount === typeAccounts.plataform">
             <mat-select placeholder="Plataforma electrónica" formControlName="plataform">
               <mat-option *ngFor="let plataform of plataforms" [value]="plataform">
-                {{plataform}}
+                {{plataform.name}}
               </mat-option>
             </mat-select>
             <mat-error *ngIf="plataform.hasError('required')">
@@ -150,6 +146,12 @@
             </mat-error>
             <mat-error *ngIf="numberAccount.hasError('pattern')">
               Sólo números permitidos.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="typeAccount === typeAccounts.banking">
+            <input matInput type="text" placeholder="Entidad Bancaria" formControlName="entity">
+            <mat-error *ngIf="numberAccount.hasError('required')">
+              El campo es requerido.
             </mat-error>
           </mat-form-field>
         </form>

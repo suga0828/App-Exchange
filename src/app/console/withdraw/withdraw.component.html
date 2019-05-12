@@ -3,7 +3,7 @@
     <mat-card-title class="header">
       <h2 class="title">Retiro</h2>
     </mat-card-title>
-    <mat-card-content *ngIf="user">
+    <mat-card-content *ngIf="currentUser">
       <div class="columns is-multiline is-centered">
         <ng-container *ngIf="messages">
           <div class="column is-four-fifths">
@@ -19,7 +19,7 @@
                 <mat-select [disabled]="disabled" [(ngModel)]="originAccount">
                   <mat-option *ngFor="let account of accounts" [value]="account.id" placeholder="Seleccione una cuenta">
                     <ng-container *ngIf="account.type === typeAccounts.plataform">
-                      {{account.plataform}}: {{account.email}}
+                      {{account.plataform.name}}: {{account.email}}
                     </ng-container>
                     <ng-container *ngIf="account.type === typeAccounts.banking">
                       {{account.entity}}: {{account.numberAccount}}
@@ -35,10 +35,15 @@
                 <span matPrefix>$&nbsp;</span>
               </mat-form-field>
             </div>
-            <div class="column is-half is-three-fifths-mobile is-center">
+            <div class="column is-full is-four-fifths-mobile is-center">
               <b>Comentario adicional: </b>
               <mat-form-field>
-                <textarea matInput placeholder="Si tienes algo más que comentar, escribe aquí."
+                <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="3"
+                cdkAutosizeMaxRows="5"
+                placeholder="Si tienes algo más que comentar, escribe aquí."
                 [(ngModel)]="comment" [disabled]="disabled"></textarea>
               </mat-form-field>
             </div>

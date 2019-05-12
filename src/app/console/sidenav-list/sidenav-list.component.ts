@@ -1,52 +1,33 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
 import { MatSidenav } from '@angular/material';
 
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { UserService } from 'src/app/services/user.service';
 import { User } from '../../interfaces/user';
-
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidenav-list',
   templateUrl: './sidenav-list.component.html',
   styleUrls: ['./sidenav-list.component.scss']
 })
-export class SidenavListComponent implements OnInit, OnDestroy {
+export class SidenavListComponent implements OnInit {
 
   @Input('sidenav') sidenav: MatSidenav;
+  @Input('currentUser') currentUser: User;
 
-  currentUser: User;
-  userSubscription: Subscription;
-  isAdmin = false;
+  @Output() view = new EventEmitter<String>();
 
   constructor(
     private authenticationService: AuthenticationService,
-    private userService: UserService,
     private router: Router
   ) { }
 
-  ngOnInit() {
-    this.getUser();
-  }
+  ngOnInit() { }
 
-  getUser() {
-    this.authenticationService.getStatus()
-      .subscribe( (user: User) => {
-        this.currentUser = user;
-        this.userSubscription = this.userService.getUserById(this.currentUser.uid)
-          .subscribe((user: User) => {
-            this.currentUser = user;
-            if (this.currentUser.isAdmin) {
-              this.isAdmin = true;
-              console.log(this.isAdmin);
-            }
-          }, error => console.log(error)
-          );
-      });
+  changeView(view: String) {
+    this.view.emit(view);
   }
 
   logout() {
@@ -54,8 +35,4 @@ export class SidenavListComponent implements OnInit, OnDestroy {
     console.log('Sesión cerrada.');
     this.router.navigate(['console/login']);
   }
-
-  ngOnDestroy() {
-   this.userSubscription.unsubscribe();
- }
 }

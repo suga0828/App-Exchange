@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, ViewChild } from '@angular/core';
 
-import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/user.service';
 
+import { User } from '../../interfaces/user';
 import { Operation } from '../../interfaces/operation';
 
 import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angular/material';
+
 import { ModalComponent } from '../modal/modal.component';
 
 @Component({
@@ -13,7 +14,9 @@ import { ModalComponent } from '../modal/modal.component';
   templateUrl: './historical.component.html',
   styleUrls: ['./historical.component.scss']
 })
-export class HistoricalComponent implements OnInit, OnDestroy {
+export class HistoricalComponent implements OnInit, OnChanges {
+
+  @Input() public currentUser: User;
 
   userSubscription;
   operationsSubscription;
@@ -31,27 +34,26 @@ export class HistoricalComponent implements OnInit, OnDestroy {
   constructor(
     public dialog: MatDialog,
     public snackBar: MatSnackBar,
-    private authenticationService: AuthenticationService,
     private userService: UserService
     ) { }
 
-  ngOnInit() {
-    this.getOperations();
+  ngOnInit() { }
+
+  ngOnChanges() {
+    if (this.currentUser) {
+      this.getOperations();
+    }
   }
 
   getOperations() {
-    this.userSubscription = this.authenticationService.getStatus()
-      .subscribe( currentUser => {
-        this.operationsSubscription = this.userService.getUserOperations(currentUser.uid)
-          .subscribe( (operations: Operation[]) => {
-            this.dataSource = new MatTableDataSource(operations.reverse());
-            console.log(operations);
-            this.dataSource.paginator = this.paginator;
-          }, (err) => {
-              this.dataSource = new MatTableDataSource();
-              console.log(err);
-          });
-      }); 
+    this.userService.getUserOperations(this.currentUser.uid)
+      .subscribe( (operations: Operation[]) => {
+        this.dataSource = new MatTableDataSource(operations.reverse());
+        this.dataSource.paginator = this.paginator;
+      }, (err) => {
+          this.dataSource = new MatTableDataSource();
+          console.log(err);
+      });
   }
 
   openDialog(op: string, id: string) {
@@ -77,11 +79,6 @@ export class HistoricalComponent implements OnInit, OnDestroy {
     this.snackBar.open(message, action, {
       duration: 2500,
     });
-  }
-
-  ngOnDestroy() {
-    this.operationsSubscription.unsubscribe();
-    this.userSubscription.unsubscribe();
   }
 
 }

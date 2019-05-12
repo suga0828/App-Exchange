@@ -1,4 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, NgZone } from '@angular/core';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/user.service';
@@ -11,23 +12,29 @@ import { Operation } from '../../interfaces/operation';
 import swal from 'sweetalert2';
 import { Location } from '@angular/common';
 
+import { take } from 'rxjs/operators';
+
 @Component({
   selector: 'app-transfer',
   templateUrl: './transfer.component.html',
   styleUrls: ['./transfer.component.scss']
 })
-export class TransferComponent implements OnInit, OnDestroy {
+export class TransferComponent implements OnInit {
 
-  user: User;
+  @Input() public currentUser: User;
   accounts: Account[];
   disabled = false;
   showAlert = false;
   buttonDisable = false;
   originAccount;
   destinationAccount;
+  toTransfer: number;
   comment: string;
   subscribeAccount: any;
   subscribeUser: any;
+
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
+
   messages = '';
   messageNoAccount = 'Para transferir primero debes agregar una cuenta Monedero Electrónico o cuenta Bancaria.';
   messageImportant: string;
@@ -39,23 +46,13 @@ export class TransferComponent implements OnInit, OnDestroy {
   constructor(
     private authenticationService: AuthenticationService,
     private userService: UserService,
-    public location: Location) { }
+    public location: Location,
+    private ngZone: NgZone) { }
 
-  ngOnInit() {
-    this.getUser();
-  }
-
-  getUser() {
-    this.subscribeUser = this.authenticationService.getStatus()
-      .subscribe( (user: User) => {
-        this.user = user;
-        this.messageImportant = `Importante: La cuenta debe estar registrada a nombre de ${this.user.displayName}.`;
-        this.getAccounts();
-      }, error => console.log(error));
-  }
+  ngOnInit() { }
 
   getAccounts() {
-    this.subscribeAccount = this.userService.getUserAccounts(this.user.uid)
+    this.subscribeAccount = this.userService.getUserAccounts(this.currentUser.uid)
       .subscribe( (accounts: Account[]) => {
         if (!accounts.length) {
           this.disabled = true;
@@ -92,7 +89,7 @@ export class TransferComponent implements OnInit, OnDestroy {
       status: 'Solicitada',
       type: 'Transferencia'
     }
-    this.userService.registerOperation(transference, this.user.uid)
+    this.userService.registerOperation(transference, this.currentUser.uid)
       .then( r => {
         swal.fire({
           type: 'success',
@@ -113,9 +110,10 @@ export class TransferComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  ngOnDestroy() {
-    this.subscribeAccount.unsubscribe();
-    this.subscribeUser.unsubscribe();
+  triggerResize() {
+    // Wait for changes to be applied, then trigger textarea resize.
+    this.ngZone.onStable.pipe(take(1))
+        .subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
 }

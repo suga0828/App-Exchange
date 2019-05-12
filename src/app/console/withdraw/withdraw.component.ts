@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, NgZone } from '@angular/core';
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
-import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/user.service';
 
 import { User } from '../../interfaces/user';
@@ -11,14 +11,16 @@ import { Account } from '../../interfaces/account';
 import swal from 'sweetalert2';
 import { Location } from '@angular/common';
 
+import {take} from 'rxjs/operators';
+
 @Component({
   selector: 'app-withdraw',
   templateUrl: './withdraw.component.html',
   styleUrls: ['./withdraw.component.scss']
 })
-export class WithdrawComponent implements OnInit, OnDestroy {
+export class WithdrawComponent implements OnInit {
 
-  user: User;
+  @Input() public currentUser: User;
   accounts: Account[];
   disabled = false;
   buttonDisable = false;
@@ -29,6 +31,8 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   subscribeAccount: any;
   subscribeUser: any;
 
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
+
   messages = '';
   messageNoAccount = 'Para transferir primero debes agregar una cuenta Monedero Electrónico.';
   messageImportant: string;
@@ -38,25 +42,14 @@ export class WithdrawComponent implements OnInit, OnDestroy {
   };
 
   constructor(
-    private authenticationService: AuthenticationService,
     private userService: UserService,
-    public location: Location) { }
+    public location: Location,
+    private ngZone: NgZone) { }
 
-  ngOnInit() {
-    this.getUser();
-  }
-
-  getUser() {
-    this.subscribeUser = this.authenticationService.getStatus()
-      .subscribe( (user: User) => {
-        this.user = user;
-        this.messageImportant = `Importante: La cuenta debe estar registrada a nombre de ${this.user.displayName}.`;
-        this.getAccounts();
-      }, error => console.log(error) );
-  }
+  ngOnInit() { }
 
   getAccounts() {
-    this.subscribeAccount = this.userService.getUserAccounts(this.user.uid)
+    this.userService.getUserAccounts(this.currentUser.uid)
       .subscribe( (accounts: Account[]) => {
         if (!accounts.length) {
           this.disabled = true;
@@ -92,7 +85,7 @@ export class WithdrawComponent implements OnInit, OnDestroy {
       status: 'Solicitada',
       type: 'Retiro'
     }
-    this.userService.registerOperation(withdraw, this.user.uid)
+    this.userService.registerOperation(withdraw, this.currentUser.uid)
       .then(r => {
         swal.fire({
           type: 'success',
@@ -113,9 +106,10 @@ export class WithdrawComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  ngOnDestroy() {
-    this.subscribeAccount.unsubscribe();
-    this.subscribeUser.unsubscribe();
+  triggerResize() {
+    // Wait for changes to be applied, then trigger textarea resize.
+    this.ngZone.onStable.pipe(take(1))
+        .subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
 }

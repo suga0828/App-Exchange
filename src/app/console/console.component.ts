@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+
+import { AuthenticationService } from '../services/authentication.service';
+import { UserService } from '../services/user.service';
+import { User } from '../interfaces/user';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-console',
@@ -8,30 +13,27 @@ import { Router } from '@angular/router';
 })
 export class ConsoleComponent implements OnInit {
 
-  user: string;
-  transfer: string;
-  withdraw: string;
-  historical: string;
-  admin: string;
+  public currentUser: User;
 
-  constructor(private router: Router) { }
+  view = 'userView';
+
+  constructor(
+    private authenticationService: AuthenticationService,
+    private userService: UserService
+  ) { }
 
   ngOnInit() {
-    if (this.router.url === '/console/user') {
-      this.user = this.router.url;
-    }
-    else if (this.router.url === '/console/transfer') {
-      this.transfer = this.router.url;
-    }
-    else if (this.router.url === '/console/withdraw') {
-      this.withdraw = this.router.url;
-    }
-    else if (this.router.url === '/console/historical') {
-      this.historical = this.router.url;
-    }
-    else if (this.router.url === '/console/admin') {
-      this.admin = this.router.url;
-    }
+    this.authenticationService.getStatus()
+      .subscribe( user => {
+        this.userService.getUserById(user.uid)
+          .subscribe( (currentUser: User) => {
+            this.currentUser = currentUser;
+          } )
+      }, error => console.log(error));
+  }
+
+  changeView(view: string) {
+    this.view = view;
   }
 
 }

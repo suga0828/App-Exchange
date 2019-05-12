@@ -1,8 +1,8 @@
 <a mat-list-item (click)="sidenav.toggle()"><span class="closebtn">&times;</span></a>
 <a mat-list-item (click)="sidenav.toggle()" routerLink="/landing">Inicio</a>
-<a mat-list-item (click)="sidenav.toggle()" routerLink="/console/user">Cuenta</a>
-<a mat-list-item (click)="sidenav.toggle()" routerLink="/console/transfer">Quiero Transferir</a>
-<a mat-list-item (click)="sidenav.toggle()" routerLink="/console/withdraw">Quiero Retirar</a>
-<a mat-list-item (click)="sidenav.toggle()" routerLink="/console/historical">Historial</a>
-<a mat-list-item (click)="sidenav.toggle()" routerLink="/console/admin" *ngIf="isAdmin">Administración</a>
-<a mat-list-item *ngIf="currentUser" (click)="logout(); sidenav.toggle()">Cerrar Sesión</a>
+<a mat-list-item (click)="sidenav.toggle(); changeView('userView')">Cuenta</a>
+<a mat-list-item (click)="sidenav.toggle(); changeView('transferView')">Quiero Transferir</a>
+<a mat-list-item (click)="sidenav.toggle(); changeView('withdrawView')">Quiero Retirar</a>
+<a mat-list-item (click)="sidenav.toggle(); changeView('historicalView')">Historial</a>
+<a mat-list-item (click)="sidenav.toggle(); changeView('adminView')" *ngIf="currentUser && currentUser.isAdmin">Administración</a>
+<a mat-list-item (click)="sidenav.toggle(); logout()" *ngIf="currentUser">Cerrar Sesión</a>

@@ -1,28 +1,32 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 
+import { GetCountriesService } from '../../services/get-countries.service';
+import { UserService } from '../../services/user.service';
 import { AuthenticationService } from '../../services/authentication.service';
-import { Router } from '@angular/router';
 
-import { UserService } from 'src/app/services/user.service';
+import { Country } from '../../interfaces/country';
+import { Account } from '../../interfaces/account';
+import { Plataform } from '../../interfaces/plataform';
 import { User } from '../../interfaces/user';
-import { GetCountriesService } from 'src/app/services/get-countries.service';
-import { Country } from 'src/app/interfaces/country';
 
 import { AngularFireStorage } from '@angular/fire/storage';
 
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
+import { Subscription } from 'rxjs';
+
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
-import { Account } from 'src/app/interfaces/account';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit, OnDestroy {
+export class UserComponent implements OnInit, OnChanges {
+
+  @Input() public currentUser: User;
+  plataformSubscription: Subscription;
 
   user: User;
   messages: String;
@@ -43,33 +47,55 @@ export class UserComponent implements OnInit, OnDestroy {
     plataform: 'Monedero Electrónico',
     banking: 'Cuenta Bancaria'
   };
-  plataforms = [
-    'Paypal', 'Skriller'
-  ];
+  plataforms: Plataform[];
   accountTypes = [
     'Cuenta de Ahorro', 'Cuenta Corriente'
   ];
-  userSubscription: Subscription;
-  countrySubscription: Subscription;
 
   constructor(
-    private authenticationService: AuthenticationService,
-    private router: Router,
     private formBuilder: FormBuilder,
     private userService: UserService,
     private firebaseStorage: AngularFireStorage,
-    private countriesService: GetCountriesService) { }
+    private countriesService: GetCountriesService,
+    private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    this.getUser();
+    this.authenticationService.getStatus()
+      .subscribe( response => {
+        const currentUser = response;
+        if (currentUser) {
+          if (currentUser.providerData[0].providerId === 'password' && currentUser.emailVerified !== true) {
+            const newMessage = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
+            swal.fire({
+              type: 'warning',
+              title: 'No tiene cuentas registradas',
+              text: newMessage,
+            });
+          }
+        }
+      }, error => console.log(error) );
   }
 
-  ngOnDestroy() {
-    this.userSubscription.unsubscribe();
-    this.countrySubscription.unsubscribe();
+  ngOnChanges() {
+    if (this.currentUser) {
+      if ( Object.keys(this.currentUser).length < 8 ) {
+        if (!this.showAlert) {
+          swal.fire({
+            type: 'warning',
+            title: 'Por favor complete todos los campos solicitados',
+          });
+        }
+      } else {
+        this.showAlert = true;
+      }
+    }
   }
 
   buildRegisterForm() {
+    this.userService.getPlataforms()
+      .subscribe( (plataforms: Plataform[]) => {
+        this.plataforms = plataforms;
+      }, error => console.log(error) );
     this.registerAccountForm = this.formBuilder.group({
       type: ['', Validators.required],
       plataform: ['', Validators.required],
@@ -84,14 +110,18 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   buildEditForm() {
+    this.countriesService.getCountries()
+      .subscribe( countries => {
+        this.countries = countries;
+      }, error => console.log(error) );
     this.editAccountForm = this.formBuilder.group({
-      birthDate: [this.user.birthdate, Validators.required],
-      country: [this.user.country, Validators.required],
-      phoneNumber: [this.user.phoneNumber, Validators.compose([
+      birthDate: [this.currentUser.birthdate, Validators.required],
+      country: [this.currentUser.country, Validators.required],
+      phoneNumber: [this.currentUser.phoneNumber, Validators.compose([
         Validators.required,
         Validators.pattern('[0-9]+')
       ])],
-      documentNumber: [this.user.idDocument, Validators.compose([
+      documentNumber: [this.currentUser.idDocument, Validators.compose([
         Validators.required,
         Validators.pattern('[a-zA-Z0-9 ]+'),
       ])],
@@ -99,45 +129,11 @@ export class UserComponent implements OnInit, OnDestroy {
     });
   }
 
-  getUser() {
-    this.authenticationService.getStatus()
-      .subscribe( response => {
-        const currentUser = response;
-        if (currentUser) {
-          if (currentUser.providerData[0].providerId === 'password' && currentUser.emailVerified !== true) {
-            const newMessage = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
-            swal.fire({
-              type: 'warning',
-              title: 'No tiene cuentas registradas',
-              text: newMessage,
-            });
-          }
-        }
-        this.userSubscription = this.userService.getUserById(currentUser.uid)
-          .subscribe( (user: User) => {
-            this.user = user;
-            if ( Object.keys(this.user).length < 8 ) {
-              if (!this.showAlert) {
-                swal.fire({
-                  type: 'warning',
-                  title: 'Por favor complete todos los campos solicitados',
-                });
-              }
-            } else {
-              this.showAlert = true;
-            }
-            this.countrySubscription = this.countriesService.getCountries()
-              .subscribe( (countries: Country[]) => {
-                this.countries = countries;
-              });
-          }, error => console.log(error)
-          );
-      });
-  }
-
   changeToEdit() {
     this.edit = !this.edit;
-    this.buildEditForm()
+    if (this.edit) {
+      this.buildEditForm()
+    }
   }
 
   //- Edit form vars
@@ -168,7 +164,7 @@ export class UserComponent implements OnInit, OnDestroy {
   onEditSubmit() {
     this.disabled = true;
     this.user = {
-      ...this.user,
+      ...this.currentUser,
       country: this.country.value,
       birthdate: this.birthDate.value,
       phoneNumber: this.phoneNumber.value,
@@ -190,7 +186,13 @@ export class UserComponent implements OnInit, OnDestroy {
 
   changeToRegister() {
     this.register = !this.register;
-    this.buildRegisterForm();
+    if (this.register) {
+      this.buildRegisterForm();
+      this.plataformSubscription = this.userService.getPlataforms()
+        .subscribe( (plataforms: Plataform[]) => {
+          this.plataforms = plataforms;
+        });
+    }
   }
   
   //- Register form vars
@@ -273,7 +275,6 @@ export class UserComponent implements OnInit, OnDestroy {
   }
 
   registerAccount() {
-    console.log(this.typeAccount);
     const id = Date.now();
     if (this.typeAccount === this.typeAccounts.plataform) {
       this.account = {
@@ -297,7 +298,7 @@ export class UserComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    this.userService.registerAccount(this.account, this.user.uid)
+    this.userService.registerAccount(this.account, this.currentUser.uid)
       .then(r => {
         swal.fire({
           type: 'success',

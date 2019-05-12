@@ -1,16 +1,19 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav>
     <mat-nav-list>
-      <app-sidenav-list [sidenav]="sidenav"></app-sidenav-list>
+      <app-sidenav-list
+      [currentUser]="currentUser"
+      [sidenav]="sidenav"
+      (view)="changeView($event)"></app-sidenav-list>
     </mat-nav-list>
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <button mat-raised-button color="primary" class="btn-lg is-narrow menu" (click)="sidenav.toggle()">&#9776;</button>
-    <app-user *ngIf="user"></app-user>
-    <app-transfer *ngIf="transfer"></app-transfer>
-    <app-withdraw *ngIf="withdraw"></app-withdraw>
-    <app-historical *ngIf="historical"></app-historical>
-    <app-admin *ngIf="admin"></app-admin>
+    <button mat-raised-button color="primary" class="is-narrow menu" (click)="sidenav.toggle()">&#9776;</button>
+    <app-user *ngIf="view === 'userView'" [currentUser]="currentUser"></app-user>
+    <app-transfer *ngIf="view === 'transferView'" [currentUser]="currentUser"></app-transfer>
+    <app-withdraw *ngIf="view === 'withdrawView'" [currentUser]="currentUser"></app-withdraw>
+    <app-historical *ngIf="view === 'historicalView'" [currentUser]="currentUser"></app-historical>
+    <app-admin *ngIf="view === 'adminView'"></app-admin>
   </mat-sidenav-content>
 </mat-sidenav-container>
