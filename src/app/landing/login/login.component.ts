@@ -12,6 +12,8 @@ import { NewUser } from '../../interfaces/user';
 })
 export class LoginComponent implements OnInit {
 
+  loading = false;
+
   constructor(
     private userService: UserService,
     private router: Router,
@@ -21,6 +23,7 @@ export class LoginComponent implements OnInit {
   }
 
   successCallback(response: FirebaseUISignInSuccessWithAuthResult) {
+    this.loading = true;
     const currentUser = response.authResult.user;
     if (response.authResult.additionalUserInfo.isNewUser) {
       const newUser: NewUser = {

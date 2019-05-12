@@ -1,9 +1,13 @@
 #login {
-    background: linear-gradient(#e4effa, #f0f4fa);
-    min-height: calc(100vh - 268px);
-    padding: 1.5rem;
+  background: linear-gradient(#e4effa, #f0f4fa);
+  min-height: calc(100vh - 268px);
+  padding: 1.5rem;
 }
 
 firebase-ui {
-    margin: 20px;
+  margin: 20px;
+}
+
+.spinner {
+  margin: 0 auto;
 }
