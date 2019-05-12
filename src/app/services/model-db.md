@@ -13,6 +13,7 @@ app-exchange/
 |	|---phoneNumber?
 |	|---idDocument?
 |	|---idDocumentImage?
+|
 |---accounts/
 |	|---accountType?
 |	|---email?
@@ -21,6 +22,10 @@ app-exchange/
 |	|---type
 |	|---numberAccount?
 |	|---plataform?
+|
+|---plataforms/
+|	|---name
+|
 |---operations/
 	|---amount
 	|---comment?
