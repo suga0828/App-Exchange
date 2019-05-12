@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../services/authentication.service';
 import { UserService } from '../services/user.service';
@@ -11,21 +12,23 @@ import { Subscription } from 'rxjs';
   templateUrl: './console.component.html',
   styleUrls: ['./console.component.scss']
 })
-export class ConsoleComponent implements OnInit {
+export class ConsoleComponent implements OnInit, OnDestroy {
 
   public currentUser: User;
+  public userSubscription: Subscription;
 
   view = 'userView';
 
   constructor(
     private authenticationService: AuthenticationService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.authenticationService.getStatus()
       .subscribe( user => {
-        this.userService.getUserById(user.uid)
+        this.userSubscription = this.userService.getUserById(user.uid)
           .subscribe( (currentUser: User) => {
             this.currentUser = currentUser;
           } )
@@ -34,6 +37,18 @@ export class ConsoleComponent implements OnInit {
 
   changeView(view: string) {
     this.view = view;
+  }
+
+  emitLogout(e) {
+    if (e) {
+      this.authenticationService.logOut();
+      console.log('Sesión cerrada.');
+      this.router.navigate(['console/login']);
+    }
+  }
+
+  ngOnDestroy() {
+    this.userSubscription.unsubscribe();
   }
 
 }

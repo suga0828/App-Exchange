@@ -4,7 +4,8 @@
       <app-sidenav-list
       [currentUser]="currentUser"
       [sidenav]="sidenav"
-      (view)="changeView($event)"></app-sidenav-list>
+      (view)="changeView($event)"
+      (logout)="emitLogout($event)"></app-sidenav-list>
     </mat-nav-list>
   </mat-sidenav>
 

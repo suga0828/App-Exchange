@@ -2,9 +2,6 @@ import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
 import { MatSidenav } from '@angular/material';
 
-import { Router } from '@angular/router';
-
-import { AuthenticationService } from 'src/app/services/authentication.service';
 import { User } from '../../interfaces/user';
 
 @Component({
@@ -18,11 +15,9 @@ export class SidenavListComponent implements OnInit {
   @Input('currentUser') currentUser: User;
 
   @Output() view = new EventEmitter<String>();
+  @Output() logout = new EventEmitter<boolean>();
 
-  constructor(
-    private authenticationService: AuthenticationService,
-    private router: Router
-  ) { }
+  constructor() { }
 
   ngOnInit() { }
 
@@ -30,9 +25,7 @@ export class SidenavListComponent implements OnInit {
     this.view.emit(view);
   }
 
-  logout() {
-    this.authenticationService.logOut();
-    console.log('Sesión cerrada.');
-    this.router.navigate(['console/login']);
+  emitLogout(e: boolean) {
+    this.logout.emit(e);
   }
 }

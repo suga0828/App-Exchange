@@ -5,4 +5,4 @@
 <a mat-list-item (click)="sidenav.toggle(); changeView('withdrawView')">Quiero Retirar</a>
 <a mat-list-item (click)="sidenav.toggle(); changeView('historicalView')">Historial</a>
 <a mat-list-item (click)="sidenav.toggle(); changeView('adminView')" *ngIf="currentUser && currentUser.isAdmin">Administración</a>
-<a mat-list-item (click)="sidenav.toggle(); logout()" *ngIf="currentUser">Cerrar Sesión</a>
+<a mat-list-item (click)="sidenav.toggle(); emitLogout(true)" *ngIf="currentUser">Cerrar Sesión</a>
