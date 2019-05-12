@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthenticationService } from './services/authentication.service';
-import { User } from './interfaces/user';
 
 @Component({
   selector: 'app-root',
@@ -9,24 +6,12 @@ import { User } from './interfaces/user';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
   title = 'App-Exchange';
-  currentUser: User;
-  constructor(
-    public router: Router,
-    private authenticationService: AuthenticationService) {
+
+  constructor() {
   }
-  ngOnInit() {
-    this.getUser();
-  }
-  getUser() {
-    this.authenticationService.getStatus()
-      .subscribe( (user: User) => {
-        this.currentUser = user;
-      });
-  }
-  logOut() {
-    this.authenticationService.logOut();
-    console.log('Sesión cerrada.');
-    this.router.navigate(['console/login']);
-  }
+  
+  ngOnInit() { }
+
 }

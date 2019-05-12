@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { User } from 'src/app/interfaces/user';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 import { ScrollService } from '../../services/scroll.service';
@@ -14,7 +13,7 @@ export class HeaderComponent implements OnInit {
 
   isActive = false;
 
-  currentUser: User;
+  currentUser;
 
   constructor(
     private scrollService: ScrollService,
@@ -26,7 +25,7 @@ export class HeaderComponent implements OnInit {
 
   getUser() {
     this.authenticationService.getStatus()
-      .subscribe((user: User) => {
+      .subscribe( user => {
         this.currentUser = user;
       });
   }
