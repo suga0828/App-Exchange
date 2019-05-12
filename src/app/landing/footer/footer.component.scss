@@ -29,9 +29,12 @@
 .footer-link,
 .footer-button {
   color: #6772e5;
-  font-weight: bold;
   -webkit-transition: color .1s ease;
           transition: color .1s ease;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .footer-button {
@@ -43,6 +46,18 @@
 .footer-copyright {
   color: #8898aa;
   text-align: center;
+}
+
+.footer-icon {
+  width: 40px;
+}
+
+.icon-black {
+  color: black;
+}
+
+.icon-red {
+  color: #d02121;
 }
 
 @media screen and (min-width: 769px) {
