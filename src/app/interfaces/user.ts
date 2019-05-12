@@ -1,7 +1,7 @@
-import { Account } from './account';
-
 export interface User {
   isAdmin?: boolean;
+  isVerified?: boolean;
+  balance: number;
   uid: string;
   displayName: string;
   country?: any;
@@ -14,6 +14,9 @@ export interface User {
 }
 
 export interface NewUser {
+  isAdmin?: boolean;
+  isVerified?: boolean;
+  balance: number;
   uid: string;
   displayName: string;
   email: string;

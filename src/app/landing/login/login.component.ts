@@ -28,6 +28,9 @@ export class LoginComponent implements OnInit {
         uid: currentUser.uid,
         displayName: currentUser.displayName,
         email: currentUser.email,
+        isVerified: false,
+        isAdmin: false,
+        balance: 0
       };
       this.userService.createUser(newUser);
     }
