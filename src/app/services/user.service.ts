@@ -18,6 +18,10 @@ export class UserService {
     return this.angularFireDatabase.object('/users/' + uid).valueChanges();
   }
 
+  getUsers() {
+    return this.angularFireDatabase.list('/users/').valueChanges();
+  }
+
   createUser(user: NewUser) {
     return this.angularFireDatabase.object('/users/' + user.uid).set(user);
   }
@@ -35,7 +39,7 @@ export class UserService {
       const cleanEmail = account.email.replace('.', ',') //Firebase don't accept dot in string.
       account.email = cleanEmail;
     }
-    return this.angularFireDatabase.object('/accounts/' + uid + account.id ).set(account);
+    return this.angularFireDatabase.object('/accounts/' + uid + '/' + account.id ).set(account);
   }
 
   getUserAccounts(uid: string) {
@@ -52,6 +56,14 @@ export class UserService {
 
   getUserOperations(uid: string) {
     return this.angularFireDatabase.list('/operations/' + uid).valueChanges();
+  }
+
+  getPlataforms() {
+    return this.angularFireDatabase.list('/plataforms/').valueChanges();
+  }
+
+  registerPlataform(plataform: string, id: number) {
+    return this.angularFireDatabase.object('/plataforms/' + id).set(plataform);
   }
   
 }
