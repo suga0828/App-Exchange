@@ -57,7 +57,7 @@
       </div>
       <form [formGroup]="editAccountForm" class="columns is-multiline is-centered" *ngIf="edit && !register">
         <mat-form-field class="column is-three-fifths">
-          <input matInput name="birthdate" [min]="minDate" [max]="maxDate" [matDatepicker]="picker"
+          <input matInput name="birthdate" [min]="aHundredYearsAgo" [max]="now" [matDatepicker]="picker"
             formControlName="birthDate" placeholder="Ingrese su fecha de nacimiento">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker touchUi #picker></mat-datepicker>
@@ -159,12 +159,12 @@
     </mat-card-content>
     <mat-card-actions class="columns is-mobile is-multiline is-centered">
       <div class="column is-narrow">
-        <button mat-raised-button color="primary" *ngIf="!edit && !register" routerLink="/console/transfer" type="button">Quiero Transferir</button>
+        <button mat-raised-button color="primary" *ngIf="!edit && !register" (click)="changeView('transferView')" type="button">Quiero Transferir</button>
         <button mat-raised-button color="primary" *ngIf="edit && !register" (click)="changeToEdit()" type="button" [disabled]="disabled">Cancelar</button>
         <button mat-raised-button color="primary" *ngIf="register && !edit" (click)="changeToRegister()" type="button" [disabled]="disabled">Cancelar</button>
       </div>
       <div class="column is-narrow">
-        <button mat-raised-button color="primary" *ngIf="!edit && !register" routerLink="/console/withdraw" type="button">Quiero Retirar</button>
+        <button mat-raised-button color="primary" *ngIf="!edit && !register" (click)="changeView('withdrawView')" type="button">Quiero Retirar</button>
         <button mat-raised-button color="primary" *ngIf="edit && !register" (click)="onEditSubmit()" [disabled]="disabled">Actualizar</button>
         <button mat-raised-button color="primary" *ngIf="register && !edit" (click)="registerAccount()" [disabled]="disabled">Registrar</button>
       </div>

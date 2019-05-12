@@ -13,8 +13,8 @@
     <div class="navbar-menu" [ngClass]="{'is-active': isActive}">
       <div class="navbar-end">
         <a class="navbar-item" routerLink="/landing">Inicio</a>
-        <a class="navbar-item" routerLink="/console/transfer">Quiero transferir</a>
-        <a class="navbar-item" routerLink="/console/withdraw">Quiero retirar</a>
+        <a class="navbar-item" routerLink="/console">Quiero transferir</a>
+        <a class="navbar-item" routerLink="/console">Quiero retirar</a>
         <a class="navbar-item" *ngIf="!currentUser" routerLink="/landing/login">Iniciar sesión</a>
         <a class="navbar-item" *ngIf="currentUser" routerLink="/console">Cuenta</a>
         <a class="navbar-item" *ngIf="currentUser" (click)="logout()">Cerrar Sesión</a>

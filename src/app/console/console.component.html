@@ -10,9 +10,9 @@
 
   <mat-sidenav-content>
     <button mat-raised-button color="primary" class="is-narrow menu" (click)="sidenav.toggle()">&#9776;</button>
-    <app-user *ngIf="view === 'userView'" [currentUser]="currentUser"></app-user>
-    <app-transfer *ngIf="view === 'transferView'" [currentUser]="currentUser"></app-transfer>
-    <app-withdraw *ngIf="view === 'withdrawView'" [currentUser]="currentUser"></app-withdraw>
+    <app-user *ngIf="view === 'userView'" (view)="changeView($event)" [currentUser]="currentUser"></app-user>
+    <app-transfer *ngIf="view === 'transferView'" (view)="changeView($event)" [currentUser]="currentUser"></app-transfer>
+    <app-withdraw *ngIf="view === 'withdrawView'" (view)="changeView($event)" [currentUser]="currentUser"></app-withdraw>
     <app-historical *ngIf="view === 'historicalView'" [currentUser]="currentUser"></app-historical>
     <app-admin *ngIf="view === 'adminView'"></app-admin>
   </mat-sidenav-content>

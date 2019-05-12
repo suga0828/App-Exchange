@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, EventEmitter, Output } from '@angular/core';
 
 import { GetCountriesService } from '../../services/get-countries.service';
 import { UserService } from '../../services/user.service';
@@ -28,6 +28,8 @@ export class UserComponent implements OnInit, OnChanges {
   @Input() public currentUser: User;
   plataformSubscription: Subscription;
 
+  @Output() view = new EventEmitter<String>();
+
   user: User;
   messages: String;
   account: Account;
@@ -35,6 +37,8 @@ export class UserComponent implements OnInit, OnChanges {
   typeAccount: any;
   register = false;
   edit = false;
+  aHundredYearsAgo: Date;
+  now: Date;
   disabled = false;
   updateImage = false;
   updateImageName: string;
@@ -114,6 +118,9 @@ export class UserComponent implements OnInit, OnChanges {
       .subscribe( countries => {
         this.countries = countries;
       }, error => console.log(error) );
+    this.now = new Date(Date.now());
+    const oneHundredYearsInMiliseconds = Date.now() - 100 * 365 * 24 * 60 * 60 * 1000;
+    this.aHundredYearsAgo = new Date(oneHundredYearsInMiliseconds);
     this.editAccountForm = this.formBuilder.group({
       birthDate: [this.currentUser.birthdate, Validators.required],
       country: [this.currentUser.country, Validators.required],
@@ -162,6 +169,9 @@ export class UserComponent implements OnInit, OnChanges {
   }
 
   onEditSubmit() {
+    if (this.editAccountForm.hasError) {
+      return
+    }
     this.disabled = true;
     this.user = {
       ...this.currentUser,
@@ -275,6 +285,9 @@ export class UserComponent implements OnInit, OnChanges {
   }
 
   registerAccount() {
+    if (this.registerAccountForm.hasError) {
+      return
+    }
     const id = Date.now();
     if (this.typeAccount === this.typeAccounts.plataform) {
       this.account = {
@@ -314,6 +327,10 @@ export class UserComponent implements OnInit, OnChanges {
         });
       });
     this.changeToRegister();
+  }
+
+  changeView(view: String) {
+    this.view.emit(view);
   }
 
 }

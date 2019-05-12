@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, NgZone, EventEmitter, Output } from '@angular/core';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
 import { UserService } from '../../services/user.service';
@@ -32,6 +32,7 @@ export class WithdrawComponent implements OnInit {
   subscribeUser: any;
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
+  @Output() view = new EventEmitter<String>();
 
   messages = '';
   messageNoAccount = 'Para transferir primero debes agregar una cuenta Monedero Electrónico.';
@@ -110,6 +111,10 @@ export class WithdrawComponent implements OnInit {
     // Wait for changes to be applied, then trigger textarea resize.
     this.ngZone.onStable.pipe(take(1))
         .subscribe(() => this.autosize.resizeToFitContent(true));
+  }
+
+  changeView(view: String) {
+    this.view.emit(view);
   }
 
 }
