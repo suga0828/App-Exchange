@@ -132,7 +132,7 @@ export class UserComponent implements OnInit, OnChanges {
         Validators.required,
         Validators.pattern('[a-zA-Z0-9 ]+'),
       ])],
-      documentImage: ['', Validators.required],
+      documentImage: [''],
     });
   }
 
@@ -169,9 +169,6 @@ export class UserComponent implements OnInit, OnChanges {
   }
 
   onEditSubmit() {
-    if (this.editAccountForm.hasError) {
-      return
-    }
     this.disabled = true;
     this.user = {
       ...this.currentUser,
@@ -285,24 +282,46 @@ export class UserComponent implements OnInit, OnChanges {
   }
 
   registerAccount() {
-    if (this.registerAccountForm.hasError) {
-      return
-    }
-    const id = Date.now();
-    if (this.typeAccount === this.typeAccounts.plataform) {
+    const date = Date.now();
+    if (this.type.value === this.typeAccounts.plataform) {
       this.account = {
-        id: id,
+        id: `${this.plataform.value}: ${this.email.value}`,
         email: this.email.value,
+        date: date,
         plataform: this.plataform.value,
-        type: this.typeAccount
+        type: this.type.value
       }
-    } else if (this.typeAccount === this.typeAccounts.banking) {
+      const controls = Object.values(this.account);
+      for ( let i = 0; i < controls.length; i++) {
+        if ( controls[i] === '') {
+          swal.fire({
+            type: 'warning',
+            title: 'Complete los campos solicitados'
+          });
+          return
+        }
+      }
+      if (this.email.hasError('email') ) {
+        return
+      }
+    } else if (this.type.value === this.typeAccounts.banking) {
       this.account = {
         accountType: this.accountType.value,
         entity: this.entity.value,
-        id: id,
+        date: date,
+        id: `${this.entity.value}: ${this.numberAccount.value}`,
         numberAccount: this.numberAccount.value,
-        type: this.typeAccount
+        type: this.type.value
+      }
+      const controls = Object.values(this.account);
+      for ( let i = 0; i < controls.length; i++) {
+        if ( controls[i] === '') {
+          swal.fire({
+            type: 'warning',
+            title: 'Complete los campos solicitados'
+          });
+          return
+        }
       }
     } else {
       swal.fire({

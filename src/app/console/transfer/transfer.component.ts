@@ -22,68 +22,57 @@ import { take } from 'rxjs/operators';
 export class TransferComponent implements OnInit {
 
   @Input() public currentUser: User;
+  @Output() view = new EventEmitter<String>();
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
+
   accounts: Account[];
-  disabled = false;
-  showAlert = false;
-  buttonDisable = false;
+  
   originAccount;
   destinationAccount;
   toTransfer: number;
   comment: string;
-  subscribeAccount: any;
-  subscribeUser: any;
+  
+  disabled = false;
 
-  @ViewChild('autosize') autosize: CdkTextareaAutosize;
-  @Output() view = new EventEmitter<String>();
-
-  messages = '';
-  messageNoAccount = 'Para transferir primero debes agregar una cuenta Monedero Electrónico o cuenta Bancaria.';
-  messageImportant: string;
   typeAccounts = {
     plataform: 'Monedero Electrónico',
     banking: 'Cuenta Bancaria'
-  };
+  }
 
   constructor(
-    private authenticationService: AuthenticationService,
     private userService: UserService,
-    public location: Location,
     private ngZone: NgZone) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.getAccounts();
+  }
 
   getAccounts() {
-    this.subscribeAccount = this.userService.getUserAccounts(this.currentUser.uid)
+    this.userService.getUserAccounts(this.currentUser.uid)
       .subscribe( (accounts: Account[]) => {
+        this.accounts = accounts;
         if (!accounts.length) {
           this.disabled = true;
-          if (!this.showAlert) {
-            swal.fire({
-              type: 'warning',
-              title: 'No tiene cuentas registradas',
-              text: this.messageNoAccount,
-            });
-          this.showAlert = true;
-          }
-        } else {
-          this.disabled = false;
-          this.showAlert = true;
-          this.accounts = accounts;
+          swal.fire({
+            type: 'warning',
+            title: 'No tiene cuentas registradas',
+            text: 'Para transferir primero debes agregar una cuenta.'
+          });
         }
       }, error => console.log(error) );
   }
 
   transfer() {
-    if (!this.originAccount || !this.destinationAccount) {
+    if (!this.originAccount || !this.destinationAccount || !this.toTransfer) {
       swal.fire({
         type: 'warning',
-        title: 'Seleccione una cuenta de origen y una de destino'
+        title: 'Seleccione una cuenta de origen, una de destino y un monto'
       });
       return;
     }
     const transference: Operation = {
-      amount: 1,
-      comment: this.comment,
+      amount: this.toTransfer,
+      comment: this.comment || '',
       date: Date.now(),
       destinationAccout: this.destinationAccount,
       originAccount: this.originAccount,
@@ -107,10 +96,6 @@ export class TransferComponent implements OnInit {
       });
   }
 
-  goBack() {
-    this.location.back();
-  }
-
   triggerResize() {
     // Wait for changes to be applied, then trigger textarea resize.
     this.ngZone.onStable.pipe(take(1))
@@ -120,5 +105,4 @@ export class TransferComponent implements OnInit {
   changeView(view: String) {
     this.view.emit(view);
   }
-
 }

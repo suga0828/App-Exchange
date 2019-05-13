@@ -105,14 +105,20 @@
         </div>
       </form>
       <div class="columns is-multiline is-centered" *ngIf="register">
-        <mat-radio-group class="column is-three-fifths" aria-label="Seleccione una tipo de cuenta" [(ngModel)]="typeAccount">
-          <mat-radio-button value="{{typeAccounts.plataform}}" class="firstRadio">Monedero Electrónico</mat-radio-button>
-          <mat-radio-button value="{{typeAccounts.banking}}">Cuenta Bancaria</mat-radio-button>
-        </mat-radio-group>
         <form [formGroup]="registerAccountForm" class="column is-three-fifths">
-          <mat-form-field *ngIf="typeAccount === typeAccounts.plataform">
+          <mat-form-field>
+            <mat-select placeholder="Seleccione un tipo de cuenta" formControlName="type">
+              <mat-option *ngFor="let type of typeAccounts | keyvalue" [value]="type.value">
+                {{type.value}}
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="type.hasError('required')">
+              El campo es requerido.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="registerAccountForm.value.type === typeAccounts.plataform">
             <mat-select placeholder="Plataforma electrónica" formControlName="plataform">
-              <mat-option *ngFor="let plataform of plataforms" [value]="plataform">
+              <mat-option *ngFor="let plataform of plataforms" [value]="plataform.name">
                 {{plataform.name}}
               </mat-option>
             </mat-select>
@@ -120,7 +126,7 @@
               El campo es requerido.
             </mat-error>
           </mat-form-field>
-          <mat-form-field *ngIf="typeAccount === typeAccounts.plataform">
+          <mat-form-field *ngIf="type.value === typeAccounts.plataform">
             <input matInput type="email" placeholder="Correo electrónico" formControlName="email">
             <mat-error *ngIf="email.hasError('required')">
               El campo es requerido.
@@ -129,7 +135,7 @@
               Ingrese un email correcto.
             </mat-error>
           </mat-form-field>
-          <mat-form-field *ngIf="typeAccount === typeAccounts.banking">
+          <mat-form-field *ngIf="type.value === typeAccounts.banking">
             <mat-select placeholder="Tipo de Cuenta Bancaria" formControlName="accountType">
               <mat-option *ngFor="let accountType of accountTypes" [value]="accountType">
                 {{accountType}}
@@ -139,7 +145,7 @@
               El campo es requerido.
             </mat-error>
           </mat-form-field>
-          <mat-form-field *ngIf="typeAccount === typeAccounts.banking">
+          <mat-form-field *ngIf="type.value === typeAccounts.banking">
             <input matInput type="number" placeholder="Número de cuenta" formControlName="numberAccount">
             <mat-error *ngIf="numberAccount.hasError('required')">
               El campo es requerido.
@@ -148,7 +154,7 @@
               Sólo números permitidos.
             </mat-error>
           </mat-form-field>
-          <mat-form-field *ngIf="typeAccount === typeAccounts.banking">
+          <mat-form-field *ngIf="type.value === typeAccounts.banking">
             <input matInput type="text" placeholder="Entidad Bancaria" formControlName="entity">
             <mat-error *ngIf="numberAccount.hasError('required')">
               El campo es requerido.

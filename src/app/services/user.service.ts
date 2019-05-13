@@ -39,7 +39,7 @@ export class UserService {
       const cleanEmail = account.email.replace('.', ',') //Firebase don't accept dot in string.
       account.email = cleanEmail;
     }
-    return this.angularFireDatabase.object('/accounts/' + uid + '/' + account.id ).set(account);
+    return this.angularFireDatabase.object('/accounts/' + uid + '/' + account.date ).set(account);
   }
 
   getUserAccounts(uid: string) {
@@ -47,7 +47,7 @@ export class UserService {
   }
 
   registerOperation(op: Operation, uid: string) {
-    return this.angularFireDatabase.object('/operations/' + uid + op.date).set(op);
+    return this.angularFireDatabase.object('/operations/' + uid + '/' + op.date).set(op);
   }
 
   deleteOperation(op: Operation, uid: string) {

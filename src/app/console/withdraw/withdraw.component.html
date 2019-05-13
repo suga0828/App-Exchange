@@ -16,10 +16,10 @@
             <div class="column is-half is-three-fifths-mobile is-center">
               <b>Cuenta Origen: </b>
               <mat-form-field>
-                <mat-select [disabled]="disabled" [(ngModel)]="originAccount">
-                  <mat-option *ngFor="let account of accounts" [value]="account.id" placeholder="Seleccione una cuenta">
+                <mat-select [disabled]="disabled" [(ngModel)]="originAccount" placeholder="Seleccione una cuenta">
+                  <mat-option *ngFor="let account of accounts" [value]="account.id">
                     <ng-container *ngIf="account.type === typeAccounts.plataform">
-                      {{account.plataform.name}}: {{account.email}}
+                      {{account.plataform}}: {{account.email}}
                     </ng-container>
                     <ng-container *ngIf="account.type === typeAccounts.banking">
                       {{account.entity}}: {{account.numberAccount}}
@@ -32,7 +32,6 @@
               <b>Monto a retirar: </b>
               <mat-form-field>
                 <input matInput type="number" placeholder="Cantidad a retirar" [(ngModel)]="toWithdraw" [disabled]="disabled">
-                <span matPrefix>$&nbsp;</span>
               </mat-form-field>
             </div>
             <div class="column is-full is-four-fifths-mobile is-center">
