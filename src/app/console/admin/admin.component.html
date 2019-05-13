@@ -63,7 +63,7 @@
                 <ng-container matColumnDef="idDocumentImage">
                   <mat-header-cell *matHeaderCellDef>Imagen DI</mat-header-cell>
                   <mat-cell *matCellDef="let element">
-                    <a href="{{element.idDocumentImage}}" target="_blank">
+                    <a href="{{element.idDocumentImage}}" target="_blank" *ngIf="element.idDocumentImage">
                       <img class="documentImage" src="{{element.idDocumentImage}}" alt="Imagen de DI">
                     </a>
                   </mat-cell>
@@ -86,8 +86,8 @@
                       <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
                     </button>
                     <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-                      <button mat-menu-item>Verificar usuario</button>
-                      <button mat-menu-item>Abonar Saldo</button>
+                      <button mat-menu-item (click)="openDialog('verify', element.uid)">Verificar usuario</button>
+                      <button mat-menu-item>Modificar saldo</button>
                     </mat-menu>
                   </mat-cell>
                 </ng-container>

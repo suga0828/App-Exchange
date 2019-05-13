@@ -24,6 +24,7 @@ import { ModalComponent } from './modal/modal.component';
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-CO' },
-  ]
+  ],
+  entryComponents: [ModalComponent]
 })
 export class ConsoleModule { }

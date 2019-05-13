@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angular/material';
-import { UserService } from '../../services/user.service';
 
+import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user';
-import { Plataform } from 'src/app/interfaces/plataform';
+import { Plataform } from '../../interfaces/plataform';
+
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-admin',
@@ -24,7 +26,11 @@ export class AdminComponent implements OnInit {
   newPlataform: string;
   newComission: number;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar,
+    ) { }
 
   ngOnInit() {
     this.getUsers();
@@ -51,5 +57,35 @@ export class AdminComponent implements OnInit {
     const id = Date.now();
     this.userService.registerPlataform('Plataforma', id);
   }
+
+  openDialog(op: string, uid: string, date?: number) {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: '300px',
+      data: {
+        uid: uid,
+        date: date,
+        operation: op,
+      }
+    });
+    dialogRef.afterClosed()
+    .subscribe( result => {
+      if (result) {
+        //- Poner Condicional
+        this.openSnackBar(result.message);
+        this.getPlataforms();
+        this.getUsers();
+      }
+    }, error => {
+      console.log(error);
+      this.openSnackBar('Ocurrió un error al realizar la operación', error);
+    });
+  }
+
+  openSnackBar(message: string, action: string = '') {
+    this.snackBar.open(message, action, {
+      duration: 2500,
+    });
+  }
+
 
 }
