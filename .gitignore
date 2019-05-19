@@ -38,5 +38,9 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# Archivos de credenciales
 environment.prod.ts
 environment.ts
+
+# Archivos de despliegue
+.firebase
