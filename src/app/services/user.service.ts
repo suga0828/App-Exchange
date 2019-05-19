@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { AngularFireDatabase } from '@angular/fire/database';
 
-import { User, NewUser } from '../interfaces/user';
+import { User } from '../interfaces/user';
 import { Account  } from '../interfaces/account';
 import { Operation } from '../interfaces/operation';
 
@@ -22,7 +22,7 @@ export class UserService {
     return this.angularFireDatabase.list('/users/').valueChanges();
   }
 
-  createUser(user: NewUser) {
+  createUser(user: User) {
     return this.angularFireDatabase.object('/users/' + user.uid).set(user);
   }
 

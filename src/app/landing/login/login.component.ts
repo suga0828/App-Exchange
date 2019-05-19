@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 
 import { FirebaseUISignInSuccessWithAuthResult } from 'firebaseui-angular';
 import { UserService } from '../../services/user.service';
-import { NewUser } from '../../interfaces/user';
+import { User } from '../../interfaces/user';
+
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -19,25 +21,33 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private ngZone: NgZone) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   successCallback(response: FirebaseUISignInSuccessWithAuthResult) {
     this.loading = true;
-    const currentUser = response.authResult.user;
+    const currentUser = response.authResult.user;   
     if (response.authResult.additionalUserInfo.isNewUser) {
-      const newUser: NewUser = {
-        uid: currentUser.uid,
-        displayName: currentUser.displayName,
+      const newUser: User = {
+        balance: 0,
         email: currentUser.email,
+        displayName: currentUser.displayName,
         isVerified: false,
-        isAdmin: false,
-        balance: 0
+        uid: currentUser.uid
       };
+      if (response.authResult.additionalUserInfo.providerId === 'password') {
+        currentUser.sendEmailVerification();
+      }
       this.userService.createUser(newUser);
     }
-    if (response.authResult.additionalUserInfo.isNewUser && response.authResult.additionalUserInfo.providerId === 'password') {
-      currentUser.sendEmailVerification();
+    if (response.authResult.additionalUserInfo.providerId === 'password') {
+      if(currentUser.emailVerified === false) {
+        swal.fire({
+          type: 'warning',
+          title: 'Por favor verifique su correo',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
     }
     console.log('Sesión iniciada');
     this.ngZone.run( () => {

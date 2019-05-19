@@ -17,7 +17,7 @@ export class ModalComponent implements OnInit {
   uid: string;
 
   user: User;
-
+  
   constructor(
     private dialogRef: MatDialogRef<ModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
