@@ -9,7 +9,6 @@ import { Account } from '../../interfaces/account';
 
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
-import { Location } from '@angular/common';
 
 import {take} from 'rxjs/operators';
 
@@ -73,7 +72,7 @@ export class WithdrawComponent implements OnInit {
       comment: this.comment || '',
       date: Date.now(),
       originAccount: this.originAccount,
-      status: 'Solicitada',
+      status: 'En proceso',
       type: 'Retiro'
     }
     this.userService.registerOperation(withdraw, this.currentUser.uid)

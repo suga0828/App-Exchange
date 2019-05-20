@@ -40,10 +40,6 @@ section {
   padding: 3rem 1.5rem;
 }
 
-.carousel {
-  min-height: 90vmin;
-}
-
 #profile,
 #transfer,
 #withdraw,
@@ -55,9 +51,6 @@ section {
 @media screen and (min-width: $bp-sm) {
   section {
     height: auto;
-  }
-  .carousel {
-    min-height: 80vmin;
   }
 }
 

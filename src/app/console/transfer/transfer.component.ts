@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, ViewChild, NgZone, EventEmitter, Output } from '@angular/core';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 
-import { AuthenticationService } from '../../services/authentication.service';
 import { UserService } from '../../services/user.service';
 
 import { User } from '../../interfaces/user';
@@ -10,7 +9,6 @@ import { Operation } from '../../interfaces/operation';
 
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
-import { Location } from '@angular/common';
 
 import { take } from 'rxjs/operators';
 
@@ -76,7 +74,7 @@ export class TransferComponent implements OnInit {
       date: Date.now(),
       destinationAccout: this.destinationAccount,
       originAccount: this.originAccount,
-      status: 'Solicitada',
+      status: 'En proceso',
       type: 'Transferencia'
     }
     this.userService.registerOperation(transference, this.currentUser.uid)

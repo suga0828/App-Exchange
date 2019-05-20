@@ -1,38 +1,30 @@
-<section class="testimony">
-  <div class="container">
-    <div class="row">
-      <div class="col s12 testimony-present">
-        <h3 class="testimony-title center">Nuestros clientes confían en nosotros</h3>
-        <hr class="testimony-line" />
-      </div>
-      <div class="testimony-carousel col s12 m10 offset-m1">
-        <div class="carousel carousel-slider" #carousel>
-          <div class="carousel-item center" href="#one!" #item>
-            <p class="testimony-text">
-              "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam non, ducimus nobis repellat, fugit quisquam!"
-            </p>
-            <img src="assets/images/person1.jpg" class="testimony-img circle">
-            <h4>John Doe</h4>
-            <h6>Lorem ipsum.</h6>
-          </div>
-          <div class="carousel-item center" href="#two!">
-            <p class="testimony-text">
-              "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, ad aliquid possimus, reiciendis sunt voluptatem."
-            </p>
-            <img src="assets/images/person3.jpg" class="testimony-img circle">
-            <h4>John Doe</h4>
-            <h6>Lorem ipsum.</h6>
-          </div>
-          <div class="carousel-item center" href="#two!">
-            <p class="testimony-text">
-              "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae aperiam at, suscipit consectetur rem possimus."
-            </p>
-            <img src="assets/images/person2.jpg" class="testimony-img circle">
-            <h4>John Doe</h4>
-            <h6>Lorem ipsum.</h6>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<section id="testimony">
+  <mat-carousel
+  interval="5000"
+  color="primary"
+  proportion="80"
+  [hideIndicators]="false">
+  <mat-carousel-slide>
+    <p class="testimony-text">
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam non, ducimus nobis repellat, fugit quisquam!"
+    </p>
+    <img src="assets/images/person1.jpg" class="testimony-img">
+    <h4 class="testimony-name">John Doe</h4>
+  </mat-carousel-slide>
+  <mat-carousel-slide>
+    <p class="testimony-text">
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae aperiam at, suscipit consectetur rem possimus."
+    </p>
+    <img src="assets/images/person2.jpg" class="testimony-img circle">
+    <h4 class="testimony-name">John Doe</h4>
+  </mat-carousel-slide>
+  <mat-carousel-slide [hideOverlay]="true">
+    <p class="testimony-text">
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, ad aliquid possimus, reiciendis sunt
+      voluptatem."
+    </p>
+    <img src="assets/images/person3.jpg" class="testimony-img circle">
+    <h4 class="testimony-name">John Doe</h4>
+  </mat-carousel-slide>
+</mat-carousel>
 </section>
