@@ -47,11 +47,11 @@
           <ng-container matColumnDef="options">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <button mat-icon-button [matMenuTriggerFor]="appMenu">
+              <button *ngIf="element.status !== 'Cancelada'" mat-icon-button [matMenuTriggerFor]="appMenu">
                 <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
               </button>
               <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-                <button mat-menu-item>Cancelar</button>
+                <button mat-menu-item (click)="openDialog('cancel', currentUser.uid, element.date)">Cancelar</button>
               </mat-menu>
             </mat-cell>
           </ng-container>

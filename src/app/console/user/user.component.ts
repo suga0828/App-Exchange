@@ -2,7 +2,6 @@ import { Component, OnInit, OnChanges, Input, EventEmitter, Output } from '@angu
 
 import { GetCountriesService } from '../../services/get-countries.service';
 import { UserService } from '../../services/user.service';
-import { AuthenticationService } from '../../services/authentication.service';
 
 import { Country } from '../../interfaces/country';
 import { Account } from '../../interfaces/account';
@@ -60,37 +59,18 @@ export class UserComponent implements OnInit, OnChanges {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private firebaseStorage: AngularFireStorage,
-    private countriesService: GetCountriesService,
-    private authenticationService: AuthenticationService) { }
+    private countriesService: GetCountriesService
+  ) { }
 
-  ngOnInit() {
-    this.authenticationService.getStatus()
-      .subscribe( response => {
-        const currentUser = response;
-        if (currentUser) {
-          if (currentUser.providerData[0].providerId === 'password' && currentUser.emailVerified !== true) {
-            const newMessage = 'Por favor verifique su correo electrónico o inicie sesión nuevamente';
-            swal.fire({
-              type: 'warning',
-              title: 'No tiene cuentas registradas',
-              text: newMessage,
-            });
-          }
-        }
-      }, error => console.log(error) );
-  }
+  ngOnInit() { }
 
   ngOnChanges() {
     if (this.currentUser) {
-      if ( Object.keys(this.currentUser).length < 8 ) {
-        if (!this.showAlert) {
-          swal.fire({
-            type: 'warning',
-            title: 'Por favor complete todos los campos solicitados',
-          });
-        }
-      } else {
-        this.showAlert = true;
+      if (Object.keys(this.currentUser).length < 10) {
+        swal.fire({
+          type: 'warning',
+          title: 'Por favor agregue todos los campos solicitados',
+        });
       }
     }
   }

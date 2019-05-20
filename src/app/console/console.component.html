@@ -15,6 +15,6 @@
     <app-transfer *ngIf="view === 'transferView'" (view)="changeView($event)" [currentUser]="currentUser"></app-transfer>
     <app-withdraw *ngIf="view === 'withdrawView'" (view)="changeView($event)" [currentUser]="currentUser"></app-withdraw>
     <app-historical *ngIf="view === 'historicalView'" [currentUser]="currentUser"></app-historical>
-    <app-admin *ngIf="view === 'adminView'"></app-admin>
+    <app-admin *ngIf="view === 'adminView'" [currentUser]="currentUser"></app-admin>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -1,22 +1,22 @@
-<div *ngIf="operation === 'cancel'">
+<div *ngIf="action === 'cancel'">
   <h2 mat-dialog-title>Cancelar operación</h2>
   <mat-dialog-content>
     <p>¿Seguro que desea cancelar la operación?</p>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button mat-dialog-close>No</button>
-    <button mat-button (click)="cancelOperation()">Sí</button>
+    <button mat-button mat-dialog-close>Volver</button>
+    <button mat-button (click)="cancelOperation()">Cancelar operación</button>
   </mat-dialog-actions>
 </div>
 
-<div *ngIf="operation === 'verify'">
+<div *ngIf="action === 'verify'">
     <h2 mat-dialog-title>Confirmar usuario</h2>
     <mat-dialog-content>
       <p>¿Seguro que desea confirmar el usuario <ng-container *ngIf="user">{{user.displayName}}</ng-container>?</p>
     </mat-dialog-content>
     <mat-dialog-actions>
-      <button mat-button mat-dialog-close>No</button>
-      <button mat-button (click)="verifyUser()">Sí</button>
+      <button mat-button mat-dialog-close>Volver</button>
+      <button mat-button (click)="verifyUser()">Confirmar</button>
     </mat-dialog-actions>
   </div>
   

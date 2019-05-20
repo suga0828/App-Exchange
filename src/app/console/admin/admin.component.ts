@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, ViewChild } from '@angular/core';
 
 import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angular/material';
 
@@ -13,7 +13,9 @@ import { ModalComponent } from '../modal/modal.component';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
-export class AdminComponent implements OnInit {
+export class AdminComponent implements OnInit, OnChanges {
+
+  @Input() public currentUser: User;
 
   plataforms: any;
   plataformsColumns: string[] = ['name', 'tax', 'plataformsOptions'];
@@ -32,9 +34,13 @@ export class AdminComponent implements OnInit {
     public snackBar: MatSnackBar,
     ) { }
 
-  ngOnInit() {
-    this.getUsers();
-    this.getPlataforms();
+  ngOnInit() { }
+
+  ngOnChanges() {
+    if (this.currentUser) {
+      this.getUsers();
+      this.getPlataforms();
+    }
   }
 
   getPlataforms() {
@@ -58,13 +64,13 @@ export class AdminComponent implements OnInit {
     this.userService.registerPlataform('Plataforma', id);
   }
 
-  openDialog(op: string, uid: string, date?: number) {
+  openDialog(action: string, uid?: string, date?: number) {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '300px',
       data: {
+        action: action,
         uid: uid,
         date: date,
-        operation: op,
       }
     });
     dialogRef.afterClosed()
@@ -72,8 +78,6 @@ export class AdminComponent implements OnInit {
       if (result) {
         //- Poner Condicional
         this.openSnackBar(result.message);
-        this.getPlataforms();
-        this.getUsers();
       }
     }, error => {
       console.log(error);

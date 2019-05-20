@@ -30,11 +30,13 @@ export class ConsoleComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.authSubscription = this.authenticationService.getStatus()
       .subscribe( user => {
-        this.userSubscription = this.userService.getUserById(user.uid)
-          .subscribe( (currentUser: User) => {
-            this.currentUser = currentUser;
-          } )
-      }, error => console.log(error));
+        if (user.uid) {
+          this.userSubscription = this.userService.getUserById(user.uid)
+            .subscribe( (currentUser: User) => {
+              this.currentUser = currentUser;
+            }, error => console.log(error) )
+        }
+      }, error => console.log(error) );
   }
 
   changeView(view: string) {

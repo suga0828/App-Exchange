@@ -18,9 +18,6 @@ export class HistoricalComponent implements OnInit, OnChanges {
 
   @Input() public currentUser: User;
 
-  userSubscription;
-  operationsSubscription;
-
   messages = [
     'Aún no tiene operaciones realizadas.',
   ];
@@ -56,19 +53,19 @@ export class HistoricalComponent implements OnInit, OnChanges {
       });
   }
 
-  openDialog(op: string, id: string) {
+  openDialog(action: string, uid?: string, date?: number) {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '300px',
       data: {
-        operation: op,
-        id: id
+        action: action,
+        uid: uid,
+        date: date
       }
     });
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result) {
           this.openSnackBar(result.message);
-          this.getOperations();
         }
       }, error => {
         console.log(error);

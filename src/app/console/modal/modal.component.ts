@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user';
+import { Operation } from '../../interfaces/operation';
 
 @Component({
   selector: 'app-modal',
@@ -12,8 +13,9 @@ import { User } from '../../interfaces/user';
 })
 export class ModalComponent implements OnInit {
 
+  action: string
   date: number;
-  operation: string;
+  operation: Operation;
   uid: string;
 
   user: User;
@@ -24,19 +26,27 @@ export class ModalComponent implements OnInit {
     private userService: UserService) { }
 
   ngOnInit() {
-    if (this.data.uid) {
-      this.uid = this.data.uid;
+    console.log(this.data);
+    this.date = this.data.date;
+    this.action = this.data.action;
+    this.uid = this.data.uid;
+    if (this.uid) {
       this.userService.getUserById(this.uid)
       .subscribe( (user: User) => {
         this.user = user;
       }, error => console.log(error) );
     }
-    this.date = this.data.date;
-    this.operation = this.data.operation;
+    if (this.date) {
+      this.userService.getOperation(this.uid, this.date)
+        .subscribe( (operation: Operation) => {
+          this.operation = operation;
+        }, error => console.log(error));
+    }
+    
   }
 
   verifyUser() {
-    const verifiedUser = {
+    const verifiedUser: User = {
       ...this.user,
       isVerified: true
     }
@@ -52,7 +62,12 @@ export class ModalComponent implements OnInit {
   }
 
   cancelOperation() {
-    this.userService.deleteOperation(this.date, this.uid)
+    const canceledOperation: Operation = {
+      ...this.operation,
+      status: 'Cancelada'
+    }
+    console.log(canceledOperation)
+    this.userService.editOperation(canceledOperation, this.uid)
       .then( data => {
         const message = `La operación se canceló exitosamente`;
         this.close(data, message);

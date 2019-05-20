@@ -50,8 +50,8 @@ export class UserService {
     return this.angularFireDatabase.object('/operations/' + uid + '/' + op.date).set(op);
   }
 
-  deleteOperation(date: number, uid: string) {
-    return this.angularFireDatabase.object('/operations/' + uid + date).remove();
+  editOperation(op: Operation, uid: string) {
+    return this.angularFireDatabase.object('/operations/' + uid + '/' + op.date).update(op);
   }
 
   getUserOperations(uid: string) {
@@ -59,7 +59,7 @@ export class UserService {
   }
 
   getOperation(uid: string, date: number) {
-    return this.angularFireDatabase.list('/operations/' + uid + date).valueChanges();
+    return this.angularFireDatabase.object('/operations/' + uid + '/' + date).valueChanges();
   }
 
   getPlataforms() {
