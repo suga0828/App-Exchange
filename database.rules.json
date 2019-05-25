@@ -1,6 +1,26 @@
 {
   "rules": {
-    ".read": true,
-    ".write": true
+    "accounts": {
+      "$uid": {
+        ".read": "auth.uid === $uid",
+        ".write": "auth.uid === $uid"
+      }
+    },
+    "operations": {
+      "$uid": {
+        ".read": "auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true",
+        ".write": "auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true"
+      }
+    },
+    "plataforms": {
+      ".read": "auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true",
+      ".write": "root.child('users').child(auth.uid).child('isAdmin').val() == true"
+    },
+    "users": {
+      "$uid": {
+        ".read": "auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true",
+        ".write": "auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true"
+      }
+    }
   }
 }
