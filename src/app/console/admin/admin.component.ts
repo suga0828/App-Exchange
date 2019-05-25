@@ -22,7 +22,7 @@ export class AdminComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) platformsPaginator: MatPaginator;
   
   users: any;
-  usersColumns: string[] = ['displayName', 'idDocument', 'idDocumentImage', 'status', 'usersOptions'];
+  usersColumns: string[] = ['displayName', 'country', 'idDocument', 'idDocumentImage', 'status', 'usersOptions'];
   @ViewChild(MatPaginator) usersPaginator: MatPaginator;
 
   newPlataform: string;
@@ -59,18 +59,14 @@ export class AdminComponent implements OnInit, OnChanges {
       });
   }
 
-  registerPlataform() {
-    const id = Date.now();
-    this.userService.registerPlataform('Plataforma', id);
-  }
-
-  openDialog(action: string, uid?: string, date?: number) {
+  openDialog(action: string, uid?: string, date?: number, plataform?: Plataform) {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '300px',
       data: {
         action: action,
         uid: uid,
         date: date,
+        plataform: plataform,
       }
     });
     dialogRef.afterClosed()

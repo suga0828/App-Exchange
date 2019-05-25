@@ -7,6 +7,9 @@
       <mat-card-content>
         <mat-tab-group>
             <mat-tab label="Plataformas">
+              <div class="center-container">
+                <button mat-raised-button color="primary" (click)="openDialog('addPlataform')">Agregar plataforma</button>
+              </div>
               <mat-table [dataSource]="plataforms">
 
                 <!-- Plataform Name Column -->
@@ -29,8 +32,8 @@
                       <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
                     </button>
                     <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-                      <button mat-menu-item>Editar</button>
-                      <button mat-menu-item>Eliminar</button>
+                      <button mat-menu-item (click)="openDialog('editPlataform', '', '', element)">Editar</button>
+                      <button mat-menu-item (click)="openDialog('deletePlataform', '', '', element)">Eliminar</button>
                     </mat-menu>
                   </mat-cell>
                 </ng-container>
@@ -51,6 +54,12 @@
                 <ng-container matColumnDef="displayName">
                   <mat-header-cell *matHeaderCellDef>Nombre</mat-header-cell>
                   <mat-cell *matCellDef="let element">{{element.displayName}}</mat-cell>
+                </ng-container>
+
+                <!-- Country Column -->
+                <ng-container matColumnDef="country">
+                  <mat-header-cell *matHeaderCellDef>País</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.country}}</mat-cell>
                 </ng-container>
         
                 <!-- idDocument Column -->

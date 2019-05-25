@@ -10,13 +10,52 @@
 </div>
 
 <div *ngIf="action === 'verify'">
-    <h2 mat-dialog-title>Confirmar usuario</h2>
-    <mat-dialog-content>
-      <p>¿Seguro que desea confirmar el usuario <ng-container *ngIf="user">{{user.displayName}}</ng-container>?</p>
-    </mat-dialog-content>
-    <mat-dialog-actions>
-      <button mat-button mat-dialog-close>Volver</button>
-      <button mat-button (click)="verifyUser()">Confirmar</button>
-    </mat-dialog-actions>
-  </div>
-  
+  <h2 mat-dialog-title>Confirmar usuario</h2>
+  <mat-dialog-content>
+    <p>¿Seguro que desea confirmar el usuario <ng-container *ngIf="user">{{user.displayName}}</ng-container>?</p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Volver</button>
+    <button mat-button (click)="verifyUser()">Confirmar</button>
+  </mat-dialog-actions>
+</div>
+
+<div *ngIf="action === 'addPlataform' || action === 'editPlataform'">
+  <h2 mat-dialog-title *ngIf="action === 'addPlataform'">Agregar plataforma</h2>
+  <h2 mat-dialog-title *ngIf="action === 'editPlataform'">Editar plataforma</h2>
+  <mat-dialog-content>
+    <form [formGroup]="plataformForm">
+      <mat-form-field>
+        <input matInput type="text" name="name" placeholder="Nombre de la plataforma" formControlName="name" required>
+        <mat-error *ngIf="name.hasError('required')">
+          El campo es requerido.
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="text" placeholder="Comisión de la plataforma (%)" formControlName="tax" maxlength="2" required>
+        <mat-error *ngIf="tax.hasError('required')">
+          El campo es requerido.
+        </mat-error>
+        <mat-error *ngIf="tax.hasError('pattern')">
+          Ingrese una comisión entre 1 y 100.
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button (click)="addPlataform()" *ngIf="action === 'addPlataform'">Agregar</button>
+    <button mat-button (click)="editPlataform()" *ngIf="action === 'editPlataform'">Editar</button>
+  </mat-dialog-actions>
+</div>
+
+<div *ngIf="action === 'deletePlataform'">
+  <h2 mat-dialog-title>Eliminar plataforma</h2>
+  <mat-dialog-content>
+    <p>¿Seguro quiere eliminar la plataforma {{plataform.name}}?</p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button (click)="deletePlataform()">Eliminar</button>
+  </mat-dialog-actions>
+</div>
