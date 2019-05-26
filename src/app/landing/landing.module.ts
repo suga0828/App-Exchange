@@ -14,7 +14,6 @@ import { ExperienceComponent } from './experience/experience.component';
 import { WithdrawComponent } from './withdraw/withdraw.component';
 import { TransferComponent } from './transfer/transfer.component';
 import { TestimonyComponent } from './testimony/testimony.component';
-import { FooterComponent } from './footer/footer.component';
 
 import { SharedModule } from '../shared/shared.module';
 import { AboutComponent } from './about/about.component';
@@ -37,7 +36,6 @@ import { AboutComponent } from './about/about.component';
     WithdrawComponent,
     TransferComponent,
     TestimonyComponent,
-    FooterComponent,
     LoginComponent,
     AboutComponent
   ]

@@ -36,22 +36,7 @@ h6 {
 
 section {
 	width: 100%;
-  height: auto;
   padding: 3rem 1.5rem;
-}
-
-#profile,
-#transfer,
-#withdraw,
-#historical,
-#admin {
-  min-height: 100vh;
-}
-
-@media screen and (min-width: $bp-sm) {
-  section {
-    height: auto;
-  }
 }
 
 /*
