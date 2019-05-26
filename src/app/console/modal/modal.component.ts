@@ -22,6 +22,7 @@ export class ModalComponent implements OnInit {
   uid: string;
 
   user: User;
+  newBalance: number;
   plataform: Plataform = {
     id: null,
     name: '',
@@ -45,6 +46,7 @@ export class ModalComponent implements OnInit {
       this.userService.getUserById(this.uid)
       .subscribe( (user: User) => {
         this.user = user;
+        this.newBalance = user.balance;
       }, error => console.log(error) );
     }
     if (this.date) {
@@ -106,8 +108,25 @@ export class ModalComponent implements OnInit {
     }
     this.userService.editUser(verifiedUser)
       .then( data => {
-        const message = `La usuario se ha verificado exitosamente`;
+        const message = `El usuario se ha verificado exitosamente`;
         this.close(data, message);
+      })
+      .catch( data => {
+        const message = `Ocurrió un error, intente de nuevo`;
+        this.close(data, message);
+      });
+  }
+
+  assignBalanceUser() {
+    const assignUser: User = {
+      ...this.user,
+      balance: this.newBalance
+    }
+    console.log(assignUser)
+;    this.userService.editUser(assignUser)
+      .then( data => {
+        const message = `Se ha asignado ${this.newBalance} USD como saldo al usuario ${this.user.displayName} exitosamente`;
+        this.close(data, message, 10000, 'x');
       })
       .catch( data => {
         const message = `Ocurrió un error, intente de nuevo`;
@@ -192,10 +211,12 @@ export class ModalComponent implements OnInit {
       });
   }
 
-  close(data: any, message: string) {
+  close(data: any, message: string, time?: number, action?: string) {
     this.dialogRef.close({
       message: message,
-      data: data
+      data: data,
+      time: time,
+      action: action
     });
   }
 

@@ -62,7 +62,11 @@ mat-table {
 }
 
 .mat-column-displayName {
-  flex: 0 0 40%;
+  flex: 0 0 25%;
+}
+
+.mat-column-country {
+  flex: 0 0 25%;
 }
 
 .mat-column-idDocument {
@@ -70,11 +74,11 @@ mat-table {
 }
 
 .mat-column-idDocumentImage {
-  flex: 0 0 15%;
+  flex: 0 0 10%;
 }
 
 .mat-column-status {
-  flex: 0 0 20%;
+  flex: 0 0 15%;
 }
 
 .mat-column-usersOptions {

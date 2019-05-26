@@ -61,7 +61,7 @@ export class AdminComponent implements OnInit, OnChanges {
 
   openDialog(action: string, uid?: string, date?: number, plataform?: Plataform) {
     const dialogRef = this.dialog.open(ModalComponent, {
-      width: '300px',
+      width: '360px',
       data: {
         action: action,
         uid: uid,
@@ -73,7 +73,7 @@ export class AdminComponent implements OnInit, OnChanges {
     .subscribe( result => {
       if (result) {
         //- Poner Condicional
-        this.openSnackBar(result.message);
+        this.openSnackBar(result.message, result.action, result.time);
       }
     }, error => {
       console.log(error);
@@ -81,9 +81,9 @@ export class AdminComponent implements OnInit, OnChanges {
     });
   }
 
-  openSnackBar(message: string, action: string = '') {
+  openSnackBar(message: string, action: string = '', time?: number) {
     this.snackBar.open(message, action, {
-      duration: 2500,
+      duration: time || 2500,
     });
   }
 

@@ -95,8 +95,8 @@
                       <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
                     </button>
                     <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-                      <button mat-menu-item (click)="openDialog('verify', element.uid)">Verificar usuario</button>
-                      <button mat-menu-item>Modificar saldo</button>
+                      <button *ngIf="!element.isVerified" mat-menu-item (click)="openDialog('verify', element.uid)">Verificar usuario</button>
+                      <button mat-menu-item (click)="openDialog('editBalance', element.uid)">Asignar saldo</button>
                     </mat-menu>
                   </mat-cell>
                 </ng-container>
