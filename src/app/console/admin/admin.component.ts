@@ -5,6 +5,7 @@ import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angul
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user';
 import { Plataform } from '../../interfaces/plataform';
+import { Operation } from '../../interfaces/operation';
 
 import { ModalComponent } from '../modal/modal.component';
 
@@ -28,6 +29,12 @@ export class AdminComponent implements OnInit, OnChanges {
   newPlataform: string;
   newComission: number;
 
+  purchaseOperations: any;
+  @ViewChild(MatPaginator) purchaseOperationsPaginator: MatPaginator;
+
+  salesOperations: any;
+  @ViewChild(MatPaginator) salesOperationsPaginator: MatPaginator;
+
   constructor(
     private userService: UserService,
     public dialog: MatDialog,
@@ -40,6 +47,7 @@ export class AdminComponent implements OnInit, OnChanges {
     if (this.currentUser) {
       this.getUsers();
       this.getPlataforms();
+      this.getOperations();
     }
   }
 
@@ -48,6 +56,16 @@ export class AdminComponent implements OnInit, OnChanges {
       .subscribe( (plataforms: Plataform[]) => {
         this.plataforms = new MatTableDataSource(plataforms);
         this.plataforms.paginator = this.platformsPaginator;
+      });
+  }
+
+  getOperations() {
+    this.userService.getOperations()
+      .subscribe( (operations: Operation[]) => {
+        this.purchaseOperations = new MatTableDataSource(operations);
+        this.purchaseOperations.paginator = this.purchaseOperationsPaginator;
+        this.salesOperations = new MatTableDataSource(operations);
+        this.salesOperations.paginator = this.salesOperationsPaginator;
       });
   }
 

@@ -59,6 +59,10 @@ export class UserService {
     return this.angularFireDatabase.list('/operations/' + uid).valueChanges();
   }
 
+  getOperations() {
+    return this.angularFireDatabase.list('/operations/').valueChanges();
+  }
+
   getOperation(uid: string, date: number) {
     return this.angularFireDatabase.object('/operations/' + uid + '/' + date).valueChanges();
   }
