@@ -19,34 +19,34 @@
 						<mat-card-content class="columns is-multiline is-centered">
 							<mat-form-field class="column is-half">
 								<mat-label>Envia</mat-label>
-								<input matInput placeholder="Ingresa un monto" type="number" min="0" [(ngModel)]="calculation.sender.amount">
+								<input matInput placeholder="Ingresa un monto" type="number" min="0" [(ngModel)]="sender.amount">
 							</mat-form-field>
 							<mat-form-field class="column is-half">
-								<mat-select placeholder="Monedero" [(ngModel)]="calculation.sender.plataform">
-									<mat-option *ngFor="let sender of plataforms" [value]="sender">
-										{{sender.name}}
+								<mat-select placeholder="Monedero Electrónico" [(ngModel)]="sender.plataform">
+									<mat-option *ngFor="let plataform of plataforms" [value]="plataform">
+										{{plataform.name}}
 									</mat-option>
 								</mat-select>
 							</mat-form-field>
               <mat-form-field class="column is-half">
-                <mat-select placeholder="Monedero" [(ngModel)]="calculation.receiver.plataform">
-                  <mat-option *ngFor="let receiver of plataforms" [value]="receiver">
-                    {{receiver.name}}
-                  </mat-option>
+                <mat-select placeholder="Monedero Electrónico" [(ngModel)]="receiver.plataform">
+									<mat-option *ngFor="let plataform of plataforms" [value]="plataform">
+										{{plataform.name}}
+									</mat-option>
                 </mat-select>
               </mat-form-field>
 							<mat-form-field class="column is-half">
 								<mat-label>Recibe</mat-label>
-								<input matInput placeholder="Ingresa un monto" type="number" min="0" [(ngModel)]="calculation.receiver.amount">
+								<input matInput placeholder="Ingresa un monto" type="number" min="0" [(ngModel)]="receiver.amount" disabled>
 							</mat-form-field>
 							<div class="column if-full">
-								<p class="tax-text" *ngIf="calculation.comission">Comisión de {{ tax }}%: USD {{ comissioned }}</p>
+								<p class="tax-text" *ngIf="tax && comission">Comisión de {{ tax }}%: USD {{ comission }}</p>
 								<p class="tax-text">Transferencia mínima de USD 10.</p>
 							</div>
 						</mat-card-content>
 						<mat-card-actions class="columns is-centered">
-							<button mat-raised-button color="primary" class="btn-lg column is-half" (click)="calculate()">Calcular</button>
 							<button mat-raised-button color="primary" class="btn-lg column is-half" (click)="refresh()">Refrescar</button>
+							<button mat-raised-button color="primary" class="btn-lg column is-half" (click)="calculateShipping()">Calcular</button>
 						</mat-card-actions>
 					</mat-card>
 				</div>

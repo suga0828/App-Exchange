@@ -4,6 +4,7 @@ export interface Account {
   email?: any;
   entity?: any;
   id: string;
+  name: any;
   plataform?: any;
   numberAccount?: any;
   type: any;

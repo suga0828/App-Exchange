@@ -53,8 +53,10 @@ export function getSpanishPaginatorIntl() {
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import { FooterComponent } from '../landing/footer/footer.component';
+
 @NgModule({
-  declarations: [],
+  declarations: [FooterComponent],
   imports: [
     CommonModule,
 
@@ -109,7 +111,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatProgressSpinnerModule,
 
     FontAwesomeModule,
-    MatCarouselModule
+    MatCarouselModule,
+
+    FooterComponent
   ],
   providers: [
     { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() }

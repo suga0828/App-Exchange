@@ -83,6 +83,7 @@ export class UserComponent implements OnInit, OnChanges {
     this.registerAccountForm = this.formBuilder.group({
       type: ['', Validators.required],
       plataform: ['', Validators.required],
+      name: ['', Validators.required],
       entity: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       numberAccount: ['', Validators.compose([
@@ -187,6 +188,10 @@ export class UserComponent implements OnInit, OnChanges {
     return this.registerAccountForm.get('type');
   }
 
+  get name() {
+    return this.registerAccountForm.get('name');
+  }
+
   get plataform() {
     return this.registerAccountForm.get('plataform');
   }
@@ -266,6 +271,7 @@ export class UserComponent implements OnInit, OnChanges {
     if (this.type.value === this.typeAccounts.plataform) {
       this.account = {
         id: `${this.plataform.value}: ${this.email.value}`,
+        name: this.name.value,
         email: this.email.value,
         date: date,
         plataform: this.plataform.value,
@@ -286,6 +292,7 @@ export class UserComponent implements OnInit, OnChanges {
       }
     } else if (this.type.value === this.typeAccounts.banking) {
       this.account = {
+        name: this.name.value,
         accountType: this.accountType.value,
         entity: this.entity.value,
         date: date,

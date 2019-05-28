@@ -2,7 +2,7 @@
   <mat-card>
     <mat-card-title class="header">
       <h2 class="title">Información Personal</h2>
-      <a class="edit" (click)="changeToEdit()" *ngIf="!edit">
+      <a class="edit" (click)="changeToEdit()" *ngIf="!edit && !register">
         <fa-icon [icon]="['fas', 'edit']" size="lg"></fa-icon>
         Editar 
       </a>
@@ -113,6 +113,12 @@
               </mat-option>
             </mat-select>
             <mat-error *ngIf="type.hasError('required')">
+              El campo es requerido.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field *ngIf="registerAccountForm.value.type">
+            <input matInput type="text" placeholder="Nombre del titular de la cuenta" formControlName="name">
+            <mat-error *ngIf="name.hasError('required')">
               El campo es requerido.
             </mat-error>
           </mat-form-field>

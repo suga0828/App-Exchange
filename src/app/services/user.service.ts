@@ -5,6 +5,7 @@ import { AngularFireDatabase } from '@angular/fire/database';
 import { User } from '../interfaces/user';
 import { Account  } from '../interfaces/account';
 import { Operation } from '../interfaces/operation';
+import { Plataform } from '../interfaces/plataform';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,10 @@ export class UserService {
     return this.angularFireDatabase.list('/operations/' + uid).valueChanges();
   }
 
+  getOperations() {
+    return this.angularFireDatabase.list('/operations/').valueChanges();
+  }
+
   getOperation(uid: string, date: number) {
     return this.angularFireDatabase.object('/operations/' + uid + '/' + date).valueChanges();
   }
@@ -66,8 +71,20 @@ export class UserService {
     return this.angularFireDatabase.list('/plataforms/').valueChanges();
   }
 
-  registerPlataform(plataform: string, id: number) {
-    return this.angularFireDatabase.object('/plataforms/' + id).set(plataform);
+  getPlataform(id: number) {
+    return this.angularFireDatabase.object('/plataforms/' + id).valueChanges();
+  }
+
+  registerPlataform(plataform: Plataform) {
+    return this.angularFireDatabase.object('/plataforms/' + plataform.id).set(plataform);
+  }
+
+  editPlataform(plataform: Plataform) {
+    return this.angularFireDatabase.object('/plataforms/' + plataform.id).update(plataform);
+  }
+
+  deletePlataform(id: number) {
+    return this.angularFireDatabase.object('/plataforms/' + id).remove();
   }
   
 }

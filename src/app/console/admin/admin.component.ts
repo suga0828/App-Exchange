@@ -5,6 +5,7 @@ import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angul
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user';
 import { Plataform } from '../../interfaces/plataform';
+import { Operation } from '../../interfaces/operation';
 
 import { ModalComponent } from '../modal/modal.component';
 
@@ -22,11 +23,17 @@ export class AdminComponent implements OnInit, OnChanges {
   @ViewChild(MatPaginator) platformsPaginator: MatPaginator;
   
   users: any;
-  usersColumns: string[] = ['displayName', 'idDocument', 'idDocumentImage', 'status', 'usersOptions'];
+  usersColumns: string[] = ['displayName', 'country', 'idDocument', 'idDocumentImage', 'status', 'usersOptions'];
   @ViewChild(MatPaginator) usersPaginator: MatPaginator;
 
   newPlataform: string;
   newComission: number;
+
+  purchaseOperations: any;
+  @ViewChild(MatPaginator) purchaseOperationsPaginator: MatPaginator;
+
+  salesOperations: any;
+  @ViewChild(MatPaginator) salesOperationsPaginator: MatPaginator;
 
   constructor(
     private userService: UserService,
@@ -40,6 +47,7 @@ export class AdminComponent implements OnInit, OnChanges {
     if (this.currentUser) {
       this.getUsers();
       this.getPlataforms();
+      this.getOperations();
     }
   }
 
@@ -51,6 +59,16 @@ export class AdminComponent implements OnInit, OnChanges {
       });
   }
 
+  getOperations() {
+    this.userService.getOperations()
+      .subscribe( (operations: Operation[]) => {
+        this.purchaseOperations = new MatTableDataSource(operations);
+        this.purchaseOperations.paginator = this.purchaseOperationsPaginator;
+        this.salesOperations = new MatTableDataSource(operations);
+        this.salesOperations.paginator = this.salesOperationsPaginator;
+      });
+  }
+
   getUsers() {
     this.userService.getUsers()
       .subscribe( (users: User[]) => {
@@ -59,25 +77,21 @@ export class AdminComponent implements OnInit, OnChanges {
       });
   }
 
-  registerPlataform() {
-    const id = Date.now();
-    this.userService.registerPlataform('Plataforma', id);
-  }
-
-  openDialog(action: string, uid?: string, date?: number) {
+  openDialog(action: string, uid?: string, date?: number, plataform?: Plataform) {
     const dialogRef = this.dialog.open(ModalComponent, {
-      width: '300px',
+      width: '360px',
       data: {
         action: action,
         uid: uid,
         date: date,
+        plataform: plataform,
       }
     });
     dialogRef.afterClosed()
     .subscribe( result => {
       if (result) {
         //- Poner Condicional
-        this.openSnackBar(result.message);
+        this.openSnackBar(result.message, result.action, result.time);
       }
     }, error => {
       console.log(error);
@@ -85,9 +99,9 @@ export class AdminComponent implements OnInit, OnChanges {
     });
   }
 
-  openSnackBar(message: string, action: string = '') {
+  openSnackBar(message: string, action: string = '', time?: number) {
     this.snackBar.open(message, action, {
-      duration: 2500,
+      duration: time || 2500,
     });
   }
 
