@@ -2,24 +2,26 @@
   "rules": {
     "accounts": {
       "$uid": {
-        ".read": "auth.uid === $uid",
-        ".write": "auth.uid === $uid"
+        ".read": "auth != null && auth.uid == $uid",
+        ".write": "auth != null && auth.uid == $uid"
       }
     },
     "operations": {
+      ".read": "root.child('users').child(auth.uid).child('isAdmin').val() == true",
       "$uid": {
-        ".read": "auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true",
-        ".write": "auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true"
+        ".read": "auth != null && auth.uid == $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true",
+        ".write": "auth != null && auth.uid == $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true"
       }
     },
     "plataforms": {
-      ".read": "auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true",
+      ".read": "true",
       ".write": "root.child('users').child(auth.uid).child('isAdmin').val() == true"
     },
     "users": {
+      ".read": "root.child('users').child(auth.uid).child('isAdmin').val() == true",
       "$uid": {
-        ".read": "auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true",
-        ".write": "auth.uid === $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true"
+        ".read": "auth != null && auth.uid == $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true",
+        ".write": "auth != null && auth.uid == $uid || root.child('users').child(auth.uid).child('isAdmin').val() == true"
       }
     }
   }
