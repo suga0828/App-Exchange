@@ -11,9 +11,7 @@ export const firebaseUiAuthConfig: firebaseui.auth.Config = {
     {
       scopes: [
         'public_profile',
-        'email',
-        'user_likes',
-        'user_friends'
+        'email'
       ],
       // customParameters: {
       //   'auth_type': 'reauthenticate'
