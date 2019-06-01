@@ -13,9 +13,6 @@ export const firebaseUiAuthConfig: firebaseui.auth.Config = {
         'public_profile',
         'email'
       ],
-      // customParameters: {
-      //   'auth_type': 'reauthenticate'
-      // },
       provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
     },
     firebase.auth.TwitterAuthProvider.PROVIDER_ID,

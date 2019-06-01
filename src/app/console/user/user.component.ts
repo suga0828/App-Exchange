@@ -29,7 +29,7 @@ export class UserComponent implements OnInit, OnChanges {
 
   @Output() view = new EventEmitter<String>();
 
-  user: User;
+  private user: User;
   messages: String;
   account: Account;
 
@@ -103,6 +103,10 @@ export class UserComponent implements OnInit, OnChanges {
     const oneHundredYearsInMiliseconds = Date.now() - 100 * 365 * 24 * 60 * 60 * 1000;
     this.aHundredYearsAgo = new Date(oneHundredYearsInMiliseconds);
     this.editAccountForm = this.formBuilder.group({
+      userEmail: [this.currentUser.email, Validators.compose([
+        Validators.required,
+        Validators.email
+      ])],
       birthDate: [this.currentUser.birthdate, Validators.required],
       country: [this.currentUser.country, Validators.required],
       phoneNumber: [this.currentUser.phoneNumber, Validators.compose([
@@ -125,6 +129,10 @@ export class UserComponent implements OnInit, OnChanges {
   }
 
   //- Edit form vars
+  get userEmail() {
+    return this.editAccountForm.get('userEmail');
+  }
+
   get birthDate() {
     return this.editAccountForm.get('birthDate');
   }
@@ -153,6 +161,7 @@ export class UserComponent implements OnInit, OnChanges {
     this.disabled = true;
     this.user = {
       ...this.currentUser,
+      email: this.userEmail.value,
       country: this.country.value,
       birthdate: this.birthDate.value,
       phoneNumber: this.phoneNumber.value,

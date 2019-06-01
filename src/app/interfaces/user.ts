@@ -6,7 +6,7 @@ export interface User {
   displayName: string;
   country?: any;
   birthdate?: any;
-  email: string;
+  email?: string;
   phoneNumber?: any | null;
   idDocument?: any | null;
   idDocumentImage?: string | null;

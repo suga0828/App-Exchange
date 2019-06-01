@@ -14,7 +14,9 @@
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
-          <b>Email: </b>{{currentUser.email}}
+          <b>Email: </b>
+          <span *ngIf="!currentUser.email">Ingrese su correo electrónico</span>
+          <span *ngIf="currentUser.email">{{ currentUser.email }}</span>
         </div>
         <mat-divider></mat-divider>
         <div class="column is-three-fifths">
@@ -56,6 +58,15 @@
         <mat-divider></mat-divider>
       </div>
       <form [formGroup]="editAccountForm" class="columns is-multiline is-centered" *ngIf="edit && !register">
+        <mat-form-field class="column is-three-fifths" *ngIf="!currentUser.email">
+          <input matInput type="email" placeholder="Ingrese su correo electrónico" formControlName="userEmail">
+          <mat-error *ngIf="userEmail.hasError('required')">
+            El campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="userEmail.hasError('email')">
+            Ingrese un correo electrónico válido
+          </mat-error>
+        </mat-form-field>
         <mat-form-field class="column is-three-fifths">
           <input matInput name="birthdate" [min]="aHundredYearsAgo" [max]="now" [matDatepicker]="picker"
             formControlName="birthDate" placeholder="Ingrese su fecha de nacimiento">
