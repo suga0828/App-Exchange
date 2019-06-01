@@ -84,6 +84,11 @@ export class TransferComponent implements OnInit {
           title: 'Solicitud de transferencia realizada',
           text: `Su solicitud de transferencia será procesada a la brevedad posible.`,
         });
+        this.originAccount = '';
+        this.destinationAccount = '';
+        this.toTransfer = null;
+        this.comment = '';
+        this.changeView('historicalView');
       })
       .catch( error => {
         console.log(error)

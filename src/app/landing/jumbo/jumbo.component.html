@@ -37,7 +37,7 @@
               </mat-form-field>
 							<mat-form-field class="column is-half">
 								<mat-label>Recibe</mat-label>
-								<input matInput placeholder="Ingresa un monto" type="number" min="0" [(ngModel)]="receiver.amount" disabled>
+								<input matInput placeholder="Ingresa un monto" type="number" [ngModel]="receiver.amount" readonly>
 							</mat-form-field>
 							<div class="column if-full">
 								<p class="tax-text" *ngIf="tax && comission">Comisión de {{ tax }}%: USD {{ comission }}</p>

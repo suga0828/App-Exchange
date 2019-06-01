@@ -82,6 +82,10 @@ export class WithdrawComponent implements OnInit {
           title: 'Solicitud de retiro realizada',
           text: `Su solicitud de retiro será procesada a la brevedad posible.`,
         });
+        this.toWithdraw = null;
+        this.originAccount = '';
+        this.comment = '';
+        this.changeView('historicalView');
       })
       .catch(error => {
         console.log(error)

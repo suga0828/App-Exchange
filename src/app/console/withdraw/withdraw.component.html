@@ -42,7 +42,8 @@
                 #autosize="cdkTextareaAutosize"
                 cdkAutosizeMaxRows="5"
                 placeholder="Si tienes algo más que comentar, escribe aquí."
-                [(ngModel)]="comment" [disabled]="disabled"></textarea>
+                [(ngModel)]="comment" maxlength="200" [disabled]="disabled"></textarea>
+                <mat-hint align="end" *ngIf="comment">{{comment.length}} / 200</mat-hint>
               </mat-form-field>
             </div>
           </div>
