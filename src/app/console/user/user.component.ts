@@ -70,6 +70,7 @@ export class UserComponent implements OnInit, OnChanges {
         swal.fire({
           type: 'warning',
           title: 'Por favor agregue todos los campos solicitados',
+          timer: 1500
         });
       }
     }
@@ -174,7 +175,8 @@ export class UserComponent implements OnInit, OnChanges {
       this.saveUser(this.user);
       swal.fire({
         type: 'success',
-        title: 'Datos guardados correctamente'
+        title: 'Datos guardados correctamente',
+        timer: 1500
       });
       this.changeToEdit();
       this.disabled = false;
