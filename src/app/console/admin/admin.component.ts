@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, ViewChildren, QueryList } from '@angular/core';
 
 import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angular/material';
 
@@ -20,22 +20,19 @@ export class AdminComponent implements OnInit, OnChanges {
 
   plataforms: any;
   plataformsColumns: string[] = ['name', 'tax', 'plataformsOptions'];
-  @ViewChild(MatPaginator) platformsPaginator: MatPaginator;
+  @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   
   users: any;
   usersColumns: string[] = ['displayName', 'country', 'idDocument', 'idDocumentImage', 'status', 'usersOptions'];
-  @ViewChild(MatPaginator) usersPaginator: MatPaginator;
 
   newPlataform: string;
   newComission: number;
 
   purchasesOperations: any;
   purchasesColumns: string[] = ['date', 'originAccount', 'amount', 'destinationAccount', 'purchasesOptions'];
-  @ViewChild(MatPaginator) purchasesOperationsPaginator: MatPaginator;
 
   salesOperations: any;
   salesColumns: string[] = ['date', 'originAccount', 'amount', 'salesOptions'];  
-  @ViewChild(MatPaginator) salesOperationsPaginator: MatPaginator;
 
   purchases: Operation[] = [];
   sales: Operation[] = [];
@@ -60,7 +57,15 @@ export class AdminComponent implements OnInit, OnChanges {
     this.userService.getPlataforms()
       .subscribe( (plataforms: Plataform[]) => {
         this.plataforms = new MatTableDataSource(plataforms);
-        this.plataforms.paginator = this.platformsPaginator;
+        this.plataforms.paginator = this.paginator.toArray()[0];
+      });
+  }
+
+  getUsers() {
+    this.userService.getUsers()
+      .subscribe((users: User[]) => {
+        this.users = new MatTableDataSource(users);
+        this.users.paginator = this.paginator.toArray()[1];
       });
   }
 
@@ -78,17 +83,9 @@ export class AdminComponent implements OnInit, OnChanges {
           }
         };
         this.purchasesOperations = new MatTableDataSource(this.purchases);
-        this.purchasesOperations.paginator = this.purchasesOperationsPaginator;
+        this.purchasesOperations.paginator = this.paginator.toArray()[2];
         this.salesOperations = new MatTableDataSource(this.sales);
-        this.salesOperations.paginator = this.salesOperationsPaginator;
-      });
-  }
-
-  getUsers() {
-    this.userService.getUsers()
-      .subscribe( (users: User[]) => {
-        this.users = new MatTableDataSource(users);
-        this.users.paginator = this.usersPaginator;
+        this.salesOperations.paginator = this.paginator.toArray()[3];
       });
   }
 
