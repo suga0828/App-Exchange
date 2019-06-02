@@ -49,6 +49,7 @@ mat-table {
   padding-top: 6px;
 }
 
+//- Plataformas
 .mat-column-name {
   flex: 0 0 45%;
 }
@@ -61,6 +62,7 @@ mat-table {
   flex: 0 0 10%;
 }
 
+//- Usuarios
 .mat-column-displayName {
   flex: 0 0 25%;
 }
@@ -82,5 +84,43 @@ mat-table {
 }
 
 .mat-column-usersOptions {
+  flex: 0 0 10%;
+}
+
+//- Transferencias
+.mat-column-date {
+  flex: 0 0 15%;
+}
+
+.mat-column-originAccount {
+  flex: 0 0 30%;
+}
+
+.mat-column-amount {
+  flex: 0 0 15%;
+}
+
+.mat-column-destinationAccount {
+  flex: 0 0 30%;
+}
+
+.mat-column-purchasesOptions {
+  flex: 0 0 10%;
+}
+
+//- Retiros
+.mat-column-dateSales {
+  flex: 0 0 25%;
+}
+
+.mat-column-originAccountSales {
+  flex: 0 0 50%;
+}
+
+.mat-column-amountSales {
+  flex: 0 0 15%;
+}
+
+.mat-column-salesOptions {
   flex: 0 0 10%;
 }

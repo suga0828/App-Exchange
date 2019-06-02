@@ -32,7 +32,7 @@ export class AdminComponent implements OnInit, OnChanges {
   purchasesColumns: string[] = ['date', 'originAccount', 'amount', 'destinationAccount', 'purchasesOptions'];
 
   salesOperations: any;
-  salesColumns: string[] = ['date', 'originAccount', 'amount', 'salesOptions'];  
+  salesColumns: string[] = ['dateSales', 'originAccountSales', 'amountSales', 'salesOptions'];  
 
   purchases: Operation[] = [];
   sales: Operation[] = [];

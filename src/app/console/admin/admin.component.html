@@ -164,19 +164,19 @@
             <mat-table [dataSource]="salesOperations">
 
               <!-- Plataform Date Column -->
-              <ng-container matColumnDef="date">
+              <ng-container matColumnDef="dateSales">
                 <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.date | date:'dd-MM-yyyy, hh:mm aa'}}</mat-cell>
               </ng-container>
         
               <!-- Plataform Origin Account Column -->
-              <ng-container matColumnDef="originAccount">
+              <ng-container matColumnDef="originAccountSales">
                 <mat-header-cell *matHeaderCellDef>Cuenta de Origen</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.originAccount}}</mat-cell>
               </ng-container>
   
               <!-- Plataform Amount Column -->
-              <ng-container matColumnDef="amount">
+              <ng-container matColumnDef="amountSales">
                 <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.amount}}</mat-cell>
               </ng-container>
@@ -194,7 +194,7 @@
                   </mat-menu>
                 </mat-cell>
               </ng-container>
-      
+
               <mat-header-row *matHeaderRowDef="salesColumns"></mat-header-row>
               <mat-row *matRowDef="let row; columns: salesColumns;"></mat-row>
             </mat-table>
