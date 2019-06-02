@@ -112,10 +112,11 @@
           </mat-tab>
           <mat-tab label="Compras">
             <mat-table [dataSource]="purchasesOperations">
+
               <!-- Plataform Date Column -->
               <ng-container matColumnDef="date">
                 <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.date}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.date | date:'dd-MM-yyyy, hh:mm aa'}}</mat-cell>
               </ng-container>
 
               <!-- Plataform Origin Account Column -->
@@ -127,7 +128,7 @@
               <!-- Plataform Amount Column -->
               <ng-container matColumnDef="amount">
                 <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.amount}}%</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.amount}}</mat-cell>
               </ng-container>
 
               <!-- Plataform Destination Account Column -->
@@ -150,11 +151,11 @@
                 </mat-cell>
               </ng-container>
       
-              <mat-header-row *matHeaderRowDef="purchaseColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: purchaseColumns;"></mat-row>
+              <mat-header-row *matHeaderRowDef="purchasesColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: purchasesColumns;"></mat-row>
             </mat-table>
-            <div *ngIf="purchaseOperations">
-              <mat-toolbar color="primary" *ngIf="!plataforms.data.length">No existen operaciones de compra
+            <div *ngIf="purchasesOperations">
+              <mat-toolbar color="primary" *ngIf="!purchasesOperations.data.length">No existen operaciones de compra
               </mat-toolbar>
             </div>
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
@@ -162,43 +163,43 @@
           <mat-tab label="Ventas">
             <mat-table [dataSource]="salesOperations">
 
-                <!-- Plataform Date Column -->
-                <ng-container matColumnDef="date">
-                  <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
-                  <mat-cell *matCellDef="let element">{{element.date}}</mat-cell>
-                </ng-container>
+              <!-- Plataform Date Column -->
+              <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.date | date:'dd-MM-yyyy, hh:mm aa'}}</mat-cell>
+              </ng-container>
         
-                <!-- Plataform Origin Account Column -->
+              <!-- Plataform Origin Account Column -->
               <ng-container matColumnDef="originAccount">
-                  <mat-header-cell *matHeaderCellDef>Cuenta de Origen</mat-header-cell>
-                  <mat-cell *matCellDef="let element">{{element.originAccount}}</mat-cell>
-                </ng-container>
+                <mat-header-cell *matHeaderCellDef>Cuenta de Origen</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.originAccount}}</mat-cell>
+              </ng-container>
   
-                <!-- Plataform Amount Column -->
-                <ng-container matColumnDef="amount">
-                  <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
-                  <mat-cell *matCellDef="let element">{{element.amount}}</mat-cell>
-                </ng-container>
+              <!-- Plataform Amount Column -->
+              <ng-container matColumnDef="amount">
+                <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.amount}}</mat-cell>
+              </ng-container>
 
-                <!-- Options Column -->
-                <ng-container matColumnDef="salesOptions">
-                  <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                  <mat-cell *matCellDef="let element">
-                    <button mat-icon-button [matMenuTriggerFor]="appMenu">
-                      <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
-                    </button>
-                    <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-                      <button mat-menu-item (click)="openDialog('detailedSales', '', '', element)">Editar</button>
-                      <button mat-menu-item (click)="openDialog('editSales', '', '', element)">Eliminar</button>
-                    </mat-menu>
-                  </mat-cell>
-                </ng-container>
-        
-                <mat-header-row *matHeaderRowDef="salesColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: salesColumns;"></mat-row>
+              <!-- Options Column -->
+              <ng-container matColumnDef="salesOptions">
+                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-cell *matCellDef="let element">
+                  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                    <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
+                  </button>
+                  <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
+                    <button mat-menu-item (click)="openDialog('detailedSales', '', '', element)">Editar</button>
+                    <button mat-menu-item (click)="openDialog('editSales', '', '', element)">Eliminar</button>
+                  </mat-menu>
+                </mat-cell>
+              </ng-container>
+      
+              <mat-header-row *matHeaderRowDef="salesColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: salesColumns;"></mat-row>
             </mat-table>
             <div *ngIf="salesOperations">
-              <mat-toolbar color="primary" *ngIf="!plataforms.data.length">No existen operaciones de venta
+              <mat-toolbar color="primary" *ngIf="!salesOperations.data.length">No existen operaciones de venta
               </mat-toolbar>
             </div>
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

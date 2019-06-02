@@ -1,36 +1,48 @@
 Estructura de la base de datos.
-Aplicación: App-Exchange
+Aplicación: Intercambios Sin Fronteras
 
+```
 app-exchange/
-|---users/
-|	|---isAdmin?
-|	|---uid
-|	|---displayName
-|	|---country?
-|	|---birthdate?
-|	|---email
-|	|---emailVerified
-|	|---phoneNumber?
-|	|---idDocument?
-|	|---idDocumentImage?
+└───accounts/
+|		└───$uid
+|				└───accountId
+|						└───accountType?
+|						└───date
+|						└───email?
+|						└───entity?
+|						└───id
+|						└───plataform?
+|						└───numberAccount?
+|						└───type
 |
-|---accounts/
-|	|---accountType?
-|	|---email?
-|	|---entity?
-|	|---id
-|	|---type
-|	|---numberAccount?
-|	|---plataform?
+└───plataforms/
+|		└───$plataformId
+|				└───id
+|				└───name
+|				└───tax
 |
-|---plataforms/
-|	|---name
+└───operations/
+|		└───$uid
+|			└───$operationId
+|					└───amount
+|					└───comment?
+|					└───date
+|					└───destinationAccount?
+|					└───originAccount
+|					└───status
+|					└───type
 |
-|---operations/
-	|---amount
-	|---comment?
-	|---date
-	|---destinationAccout?
-	|---originAccount
-	|---status
-	|---type
+└───users/
+		└───$uid
+		└───balance
+		└───birthdate?
+		└───country?
+		└───displayName
+		└───email
+		└───idDocument?
+		└───idDocumentImage?
+		└───isAdmin?
+		└───isVerified
+		└───phoneNumber?
+		└───uid
+```

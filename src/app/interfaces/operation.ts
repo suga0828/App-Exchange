@@ -4,7 +4,7 @@ export interface Operation {
   amount: number;
   comment?: string;
   date: number;
-  destinationAccout?: Account;
+  destinationAccount?: Account;
   originAccount: Account;
   status: string;
   type: string;

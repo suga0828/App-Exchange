@@ -37,8 +37,8 @@ export class AdminComponent implements OnInit, OnChanges {
   salesColumns: string[] = ['date', 'originAccount', 'amount', 'salesOptions'];  
   @ViewChild(MatPaginator) salesOperationsPaginator: MatPaginator;
 
-  purchases: Operation[];
-  sales: Operation[];
+  purchases: Operation[] = [];
+  sales: Operation[] = [];
 
   constructor(
     private userService: UserService,
@@ -66,12 +66,17 @@ export class AdminComponent implements OnInit, OnChanges {
 
   getOperations() {
     this.userService.getOperations()
-      .subscribe( (operations: Operation[][]) => {
-        for(let i = 0; i < operations.length; i++) {
-          console.log(operations[i]);
+      .subscribe( (allOperations: Operation[][]) => {
+        for(let i = 0; i < allOperations.length; i++) {
+          const opsByUser: Operation[] = Object.values(allOperations[i]);
+          for (let e = 0; e < opsByUser.length; e++) {
+            if (opsByUser[e].destinationAccount) {
+              this.purchases.push(opsByUser[e]);
+            } else {
+              this.sales.push(opsByUser[e]);
+            }
+          }
         };
-        console.log(this.purchases);
-        console.log(this.sales);
         this.purchasesOperations = new MatTableDataSource(this.purchases);
         this.purchasesOperations.paginator = this.purchasesOperationsPaginator;
         this.salesOperations = new MatTableDataSource(this.sales);

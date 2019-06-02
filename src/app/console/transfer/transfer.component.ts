@@ -72,7 +72,7 @@ export class TransferComponent implements OnInit {
       amount: this.toTransfer,
       comment: this.comment || '',
       date: Date.now(),
-      destinationAccout: this.destinationAccount,
+      destinationAccount: this.destinationAccount,
       originAccount: this.originAccount,
       status: 'En proceso',
       type: 'Transferencia'

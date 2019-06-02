@@ -18,12 +18,7 @@
               <mat-form-field>
                 <mat-select [disabled]="disabled" [(ngModel)]="originAccount" placeholder="Seleccione una cuenta">
                   <mat-option *ngFor="let account of accounts" [value]="account.id">
-                    <ng-container *ngIf="account.type === typeAccounts.plataform">
-                      {{account.plataform}}: {{account.email}}
-                    </ng-container>
-                    <ng-container *ngIf="account.type === typeAccounts.banking">
-                      {{account.entity}}: {{account.numberAccount}}
-                    </ng-container>
+                    {{account.id}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
