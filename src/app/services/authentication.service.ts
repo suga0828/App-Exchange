@@ -26,8 +26,8 @@ export const firebaseUiAuthConfig: firebaseui.auth.Config = {
       clientId: '1014578548907-ata4ckg0ch59tto26g0ik8lpaaljss4d.apps.googleusercontent.com'
     },
   ],
-  tosUrl: 'https://suga0828.github.io/App-Exchange/assets/files/termsOfService.pdf',
-  privacyPolicyUrl: 'https://suga0828.github.io/App-Exchange/assets/files/privacyPolicy.pdf',
+  tosUrl: 'https://intercambios-sin-fronteras.web.app/assets/files/termsOfService.pdf',
+  privacyPolicyUrl: 'https://intercambios-sin-fronteras.web.app/assets/files/privacyPolicy.pdf',
   credentialHelper: firebaseui.auth.CredentialHelper.NONE
 };
 
