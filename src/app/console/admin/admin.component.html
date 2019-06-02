@@ -14,7 +14,7 @@
 
               <!-- Plataform Name Column -->
               <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef>Plataform</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Plataforma</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
               </ng-container>
       
@@ -111,35 +111,47 @@
             <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
           </mat-tab>
           <mat-tab label="Compras">
-            <mat-table [dataSource]="purchaseOperations">
-              <!-- Plataform Name Column -->
-              <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef>Plataform</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+            <mat-table [dataSource]="purchasesOperations">
+              <!-- Plataform Date Column -->
+              <ng-container matColumnDef="date">
+                <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.date}}</mat-cell>
               </ng-container>
-      
-              <!-- Plataform Tax Column -->
-              <ng-container matColumnDef="tax">
-                <mat-header-cell *matHeaderCellDef>Comisión</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.tax}}%</mat-cell>
+
+              <!-- Plataform Origin Account Column -->
+              <ng-container matColumnDef="originAccount">
+                <mat-header-cell *matHeaderCellDef>Cuenta de Origen</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.originAccount}}</mat-cell>
+              </ng-container>
+
+              <!-- Plataform Amount Column -->
+              <ng-container matColumnDef="amount">
+                <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.amount}}%</mat-cell>
+              </ng-container>
+
+              <!-- Plataform Destination Account Column -->
+              <ng-container matColumnDef="destinationAccount">
+                <mat-header-cell *matHeaderCellDef>Destination Origen</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.destinationAccount}}</mat-cell>
               </ng-container>
 
               <!-- Options Column -->
-              <ng-container matColumnDef="plataformsOptions">
+              <ng-container matColumnDef="purchasesOptions">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let element">
                   <button mat-icon-button [matMenuTriggerFor]="appMenu">
                     <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
                   </button>
                   <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-                    <button mat-menu-item (click)="openDialog('editPlataform', '', '', element)">Editar</button>
-                    <button mat-menu-item (click)="openDialog('deletePlataform', '', '', element)">Eliminar</button>
+                    <button mat-menu-item (click)="openDialog('detailedPurchase', '', '', element)">Editar</button>
+                    <button mat-menu-item (click)="openDialog('editPurchase', '', '', element)">Eliminar</button>
                   </mat-menu>
                 </mat-cell>
               </ng-container>
       
-              <mat-header-row *matHeaderRowDef="plataformsColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: plataformsColumns;"></mat-row>
+              <mat-header-row *matHeaderRowDef="purchaseColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: purchaseColumns;"></mat-row>
             </mat-table>
             <div *ngIf="purchaseOperations">
               <mat-toolbar color="primary" *ngIf="!plataforms.data.length">No existen operaciones de compra
@@ -150,34 +162,40 @@
           <mat-tab label="Ventas">
             <mat-table [dataSource]="salesOperations">
 
-                <!-- Plataform Name Column -->
-                <ng-container matColumnDef="name">
-                  <mat-header-cell *matHeaderCellDef>Plataform</mat-header-cell>
-                  <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+                <!-- Plataform Date Column -->
+                <ng-container matColumnDef="date">
+                  <mat-header-cell *matHeaderCellDef>Fecha</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.date}}</mat-cell>
                 </ng-container>
         
-                <!-- Plataform Tax Column -->
-                <ng-container matColumnDef="tax">
-                  <mat-header-cell *matHeaderCellDef>Comisión</mat-header-cell>
-                  <mat-cell *matCellDef="let element">{{element.tax}}%</mat-cell>
+                <!-- Plataform Origin Account Column -->
+              <ng-container matColumnDef="originAccount">
+                  <mat-header-cell *matHeaderCellDef>Cuenta de Origen</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.originAccount}}</mat-cell>
+                </ng-container>
+  
+                <!-- Plataform Amount Column -->
+                <ng-container matColumnDef="amount">
+                  <mat-header-cell *matHeaderCellDef>Cantidad</mat-header-cell>
+                  <mat-cell *matCellDef="let element">{{element.amount}}</mat-cell>
                 </ng-container>
 
                 <!-- Options Column -->
-                <ng-container matColumnDef="plataformsOptions">
+                <ng-container matColumnDef="salesOptions">
                   <mat-header-cell *matHeaderCellDef></mat-header-cell>
                   <mat-cell *matCellDef="let element">
                     <button mat-icon-button [matMenuTriggerFor]="appMenu">
                       <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
                     </button>
                     <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-                      <button mat-menu-item (click)="openDialog('editPlataform', '', '', element)">Editar</button>
-                      <button mat-menu-item (click)="openDialog('deletePlataform', '', '', element)">Eliminar</button>
+                      <button mat-menu-item (click)="openDialog('detailedSales', '', '', element)">Editar</button>
+                      <button mat-menu-item (click)="openDialog('editSales', '', '', element)">Eliminar</button>
                     </mat-menu>
                   </mat-cell>
                 </ng-container>
         
-                <mat-header-row *matHeaderRowDef="plataformsColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: plataformsColumns;"></mat-row>
+                <mat-header-row *matHeaderRowDef="salesColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: salesColumns;"></mat-row>
             </mat-table>
             <div *ngIf="salesOperations">
               <mat-toolbar color="primary" *ngIf="!plataforms.data.length">No existen operaciones de venta

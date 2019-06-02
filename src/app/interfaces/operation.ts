@@ -8,4 +8,6 @@ export interface Operation {
   originAccount: Account;
   status: string;
   type: string;
+
+  filter?(): any;
 }
