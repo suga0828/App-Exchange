@@ -35,6 +35,14 @@ export class UserService {
     return this.angularFireDatabase.object('/users/' + uid + '/idDocumentImage').set(path);
   }
 
+  saveVoucherOperation(path: string, uid: string, date: number) {
+    return this.angularFireDatabase.object('/operations/' + uid + '/' + date + '/voucherImage').set(path);
+  }
+
+  saveVoucherAdminOperation(path: string, uid: string, date: number) {
+    return this.angularFireDatabase.object('/operations/' + uid + '/' + date + '/voucherAdminImage').set(path);
+  }
+
   registerAccount(account: Account, uid: string) {
     if(account.email) {
       const cleanEmail = account.email.replace('.', ',') //Firebase don't accept dot in string.
@@ -47,12 +55,12 @@ export class UserService {
     return this.angularFireDatabase.list('/accounts/' + uid).valueChanges();
   }
 
-  registerOperation(op: Operation, uid: string) {
-    return this.angularFireDatabase.object('/operations/' + uid + '/' + op.date).set(op);
+  registerOperation(op: Operation) {
+    return this.angularFireDatabase.object('/operations/' + op.uid + '/' + op.date).set(op);
   }
 
-  editOperation(op: Operation, uid: string) {
-    return this.angularFireDatabase.object('/operations/' + uid + '/' + op.date).update(op);
+  editOperation(op: Operation) {
+    return this.angularFireDatabase.object('/operations/' + op.uid + '/' + op.date).update(op);
   }
 
   getUserOperations(uid: string) {

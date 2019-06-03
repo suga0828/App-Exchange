@@ -95,8 +95,8 @@
                     <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
                   </button>
                   <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-                    <button *ngIf="!element.isVerified" mat-menu-item (click)="openDialog('verify', element.uid)">Verificar usuario</button>
-                    <button mat-menu-item (click)="openDialog('editBalance', element.uid)">Asignar saldo</button>
+                    <button *ngIf="!element.isVerified" mat-menu-item (click)="openDialog('verify', element)">Verificar usuario</button>
+                    <button mat-menu-item (click)="openDialog('editBalance', element)">Asignar saldo</button>
                   </mat-menu>
                 </mat-cell>
               </ng-container>
@@ -137,16 +137,27 @@
                 <mat-cell *matCellDef="let element">{{element.destinationAccount}}</mat-cell>
               </ng-container>
 
+              <!-- Status Column -->
+              <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.status}}</mat-cell>
+              </ng-container>
+
               <!-- Options Column -->
               <ng-container matColumnDef="purchasesOptions">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                  <button mat-icon-button [matMenuTriggerFor]="appMenu"*ngIf="element.status !== 'Cancelada'" >
                     <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
                   </button>
                   <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-                    <button mat-menu-item (click)="openDialog('detailedPurchase', '', '', element)">Editar</button>
-                    <button mat-menu-item (click)="openDialog('editPurchase', '', '', element)">Eliminar</button>
+                    <button mat-menu-item (click)="openDialog('detailedOperation', '', element)">Ver Detalles</button>
+                    <button mat-menu-item (click)="openDialog('acceptOperation', '', element)"
+                      *ngIf="element.status === 'Solicitada'">Aprobar Operación</button>
+                    <button mat-menu-item (click)="openDialog('rejectOperation', '', element)"
+                      *ngIf="element.status === 'Solicitada'">Declinar Operación</button>                    
+                    <button mat-menu-item (click)="openDialog('closeOperation', '', element)"
+                      *ngIf="element.status === 'Procesada'">Cerrar Operación</button>
                   </mat-menu>
                 </mat-cell>
               </ng-container>
@@ -181,16 +192,27 @@
                 <mat-cell *matCellDef="let element">{{element.amount}}</mat-cell>
               </ng-container>
 
+              <!-- Status Column -->
+              <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef>Estado</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.status}}</mat-cell>
+              </ng-container>
+
               <!-- Options Column -->
               <ng-container matColumnDef="salesOptions">
                 <mat-header-cell *matHeaderCellDef></mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                  <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                  <button mat-icon-button [matMenuTriggerFor]="appMenu" *ngIf="element.status !== 'Cancelada'">
                     <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
                   </button>
                   <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-                    <button mat-menu-item (click)="openDialog('detailedSales', '', '', element)">Editar</button>
-                    <button mat-menu-item (click)="openDialog('editSales', '', '', element)">Eliminar</button>
+                    <button mat-menu-item (click)="openDialog('detailedOperation', '', element)">Ver Detalles</button>
+                    <button mat-menu-item (click)="openDialog('acceptOperation', '', element)"
+                      *ngIf="element.status === 'Solicitada'">Aprobar Operación</button>
+                    <button mat-menu-item (click)="openDialog('rejectOperation', '', element)"
+                      *ngIf="element.status === 'Solicitada'">Declinar Operación</button>
+                    <button mat-menu-item (click)="openDialog('closeOperation', '', element)"
+                      *ngIf="element.status === 'Procesada'">Cerrar Operación</button>
                   </mat-menu>
                 </mat-cell>
               </ng-container>

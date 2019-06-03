@@ -53,13 +53,13 @@ export class HistoricalComponent implements OnInit, OnChanges {
       });
   }
 
-  openDialog(action: string, uid?: string, date?: number) {
+  openDialog(action: string, user?: User, operation?: Operation) {
     const dialogRef = this.dialog.open(ModalComponent, {
-      width: '300px',
+      width: '360px',
       data: {
         action: action,
-        uid: uid,
-        date: date
+        user: user,
+        operation: operation
       }
     });
     dialogRef.afterClosed()

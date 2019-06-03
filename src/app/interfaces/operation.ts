@@ -8,6 +8,9 @@ export interface Operation {
   originAccount: Account;
   status: string;
   type: string;
+  uid: string;
+  voucherImage?: string;
+  voucherAdminImage?: string;
 
   filter?(): any;
 }

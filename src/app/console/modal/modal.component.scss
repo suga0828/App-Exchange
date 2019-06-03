@@ -10,6 +10,32 @@ mat-form-field {
 	width: 100%;
 }
 
+.inputFileButton {
+  margin-bottom: 12px;
+  white-space: pre-wrap;
+}
+
+.space-container {
+	margin-top: 30px;
+}
+
+.img-responsive
+{
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.error {
+	color: red;
+	font-weight: bold;
+}
+
+.warning {
+	color: orangered;
+	font-weight: 500;
+}
+
 mat-dialog-actions {
 	justify-content: center;
 }

@@ -29,10 +29,10 @@ export class AdminComponent implements OnInit, OnChanges {
   newComission: number;
 
   purchasesOperations: any;
-  purchasesColumns: string[] = ['date', 'originAccount', 'amount', 'destinationAccount', 'purchasesOptions'];
+  purchasesColumns: string[] = ['date', 'originAccount', 'amount', 'destinationAccount', 'status', 'purchasesOptions'];
 
   salesOperations: any;
-  salesColumns: string[] = ['dateSales', 'originAccountSales', 'amountSales', 'salesOptions'];  
+  salesColumns: string[] = ['dateSales', 'originAccountSales', 'amountSales', 'status', 'salesOptions'];  
 
   purchases: Operation[] = [];
   sales: Operation[] = [];
@@ -72,6 +72,8 @@ export class AdminComponent implements OnInit, OnChanges {
   getOperations() {
     this.userService.getOperations()
       .subscribe( (allOperations: Operation[][]) => {
+        this.purchases = [];
+        this.sales = [];
         for(let i = 0; i < allOperations.length; i++) {
           const opsByUser: Operation[] = Object.values(allOperations[i]);
           for (let e = 0; e < opsByUser.length; e++) {
@@ -89,13 +91,13 @@ export class AdminComponent implements OnInit, OnChanges {
       });
   }
 
-  openDialog(action: string, uid?: string, date?: number, plataform?: Plataform) {
+  openDialog(action: string, user?: User, operation?: Operation, plataform?: Plataform) {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '360px',
       data: {
         action: action,
-        uid: uid,
-        date: date,
+        user: user,
+        operation: operation,
         plataform: plataform,
       }
     });

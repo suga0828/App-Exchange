@@ -93,7 +93,7 @@ mat-table {
 }
 
 .mat-column-originAccount {
-  flex: 0 0 30%;
+  flex: 0 0 25%;
 }
 
 .mat-column-amount {
@@ -101,7 +101,11 @@ mat-table {
 }
 
 .mat-column-destinationAccount {
-  flex: 0 0 30%;
+  flex: 0 0 25%;
+}
+
+.mat-column-status {
+  flex: 0 0 10%;
 }
 
 .mat-column-purchasesOptions {
@@ -114,7 +118,7 @@ mat-table {
 }
 
 .mat-column-originAccountSales {
-  flex: 0 0 50%;
+  flex: 0 0 40%;
 }
 
 .mat-column-amountSales {

@@ -74,10 +74,11 @@ export class TransferComponent implements OnInit {
       date: Date.now(),
       destinationAccount: this.destinationAccount,
       originAccount: this.originAccount,
-      status: 'En proceso',
-      type: 'Transferencia'
+      status: 'Solicitada',
+      type: 'Transferencia',
+      uid: this.currentUser.uid
     }
-    this.userService.registerOperation(transference, this.currentUser.uid)
+    this.userService.registerOperation(transference)
       .then( r => {
         swal.fire({
           type: 'success',

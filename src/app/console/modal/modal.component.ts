@@ -9,6 +9,10 @@ import { Plataform } from '../../interfaces/plataform';
 
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
+import { AngularFireStorage } from '@angular/fire/storage';
+
+import swal from 'sweetalert2';
+
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
@@ -17,57 +21,46 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 export class ModalComponent implements OnInit {
 
   action: string
-  date: number;
   operation: Operation;
-  uid: string;
-
   user: User;
-  newBalance: number;
   plataform: Plataform = {
     id: null,
     name: '',
     tax: null,
   };
 
+  newBalance: number;
+
   plataformForm: FormGroup;
+
+  voucherImage: any;
+  voucherImageName: string;
+  voucherAdminImage: any;
+  voucherAdminImageName: string
+  disabled = false;
   
   constructor(
     private dialogRef: MatDialogRef<ModalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private userService: UserService,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private firebaseStorage: AngularFireStorage,
+  ) { }
 
   ngOnInit() {
     console.log(this.data);
-    this.date = this.data.date;
     this.action = this.data.action;
-    this.uid = this.data.uid;
-    if (this.uid) {
-      this.userService.getUserById(this.uid)
-      .subscribe( (user: User) => {
-        this.user = user;
-        this.newBalance = user.balance;
-      }, error => console.log(error) );
-    }
-    if (this.date) {
-      this.userService.getOperation(this.uid, this.date)
-        .subscribe( (operation: Operation) => {
-          this.operation = operation;
-        }, error => console.log(error));
+    this.user = this.data.user;
+    this.operation = this.data.operation;
+    this.plataform = this.data.plataform;
+    if (this.user) {
+      this.newBalance = this.user.balance;
     }
     if (this.action === 'addPlataform' || this.action === 'editPlataform') {
       this.buildPlataformForm();
     }
     if (this.action === 'editPlataform') {
-      const plataformId = this.data.plataform.id;
-      this.userService.getPlataform(plataformId)
-        .subscribe( (plataform: Plataform) => {
-          this.plataform = plataform;
-          this.buildEditPlataformForm();
-        }, error => console.log(error));
-    }
-    if (this.action === 'deletePlataform') {
-      this.plataform = this.data.plataform;
+        this.buildEditPlataformForm();
     }
   }
 
@@ -122,8 +115,7 @@ export class ModalComponent implements OnInit {
       ...this.user,
       balance: this.newBalance
     }
-    console.log(assignUser)
-;    this.userService.editUser(assignUser)
+    this.userService.editUser(assignUser)
       .then( data => {
         const message = `Se ha asignado ${this.newBalance} USD como saldo al usuario ${this.user.displayName} exitosamente`;
         this.close(data, message, 10000, 'x');
@@ -139,8 +131,7 @@ export class ModalComponent implements OnInit {
       ...this.operation,
       status: 'Cancelada'
     }
-    console.log(canceledOperation)
-    this.userService.editOperation(canceledOperation, this.uid)
+    this.userService.editOperation(canceledOperation)
       .then( data => {
         const message = `La operación se canceló exitosamente`;
         this.close(data, message);
@@ -148,13 +139,6 @@ export class ModalComponent implements OnInit {
       .catch( data => {
         const message = `Ocurrió un error, intente de nuevo`;
         this.close(data, message);
-      });
-  }
-
-  detailedOperation(id: string, date: number) {
-    this.userService.getOperation(id, date)
-      .subscribe( () => {
-
       });
   }
 
@@ -206,6 +190,146 @@ export class ModalComponent implements OnInit {
         this.close(data, message);
       })
       .catch(data => {
+        const message = `Ocurrió un error, intente de nuevo`;
+        this.close(data, message);
+      });
+  }
+
+  saveVoucher() {
+    this.disabled = true;
+    const currentPictureId = Date.now();
+    const pictures = this.firebaseStorage.ref('pictures/' + currentPictureId + '.jpg').putString(this.voucherImage, 'data_url');
+    pictures.then(() => {
+      this.voucherImage = this.firebaseStorage.ref('pictures/' + currentPictureId + '.jpg').getDownloadURL();
+      this.voucherImage.subscribe((path: string) => {
+        this.userService.saveVoucherOperation(path, this.operation.uid, this.operation.date)
+          .then(() => {
+            const operationWithVoucher: Operation = {
+              ...this.operation,
+              status: 'En revisión'
+            }
+            this.userService.editOperation(operationWithVoucher)
+              .then( data => {
+                const message = `El comprobante de la operación se guardó exitosamente`;
+                this.close(data, message);
+              })
+              .catch(error => {
+                swal.fire({
+                  type: 'error',
+                  title: 'Ocurrió un error, intente de nuevo'
+                });
+                console.log(error)
+              })
+          }, error => console.log(error));
+      });
+    }, error => console.log(error));
+  }
+
+  saveVoucherAdmin() {
+    this.disabled = true;
+    const currentPictureId = Date.now();
+    const pictures = this.firebaseStorage.ref('pictures/' + currentPictureId + '.jpg').putString(this.voucherAdminImage, 'data_url');
+    pictures.then(() => {
+      this.voucherAdminImage = this.firebaseStorage.ref('pictures/' + currentPictureId + '.jpg').getDownloadURL();
+      this.voucherAdminImage.subscribe((path: string) => {
+        this.userService.saveVoucherAdminOperation(path, this.operation.uid, this.operation.date)
+          .then(() => {
+            const operationWithVoucher: Operation = {
+              ...this.operation,
+              status: 'Procesada'
+            }
+            this.userService.editOperation(operationWithVoucher)
+              .then(data => {
+                const message = `Operación completada exitosamente`;
+                this.close(data, message);
+              })
+              .catch(error => {
+                swal.fire({
+                  type: 'error',
+                  title: 'Ocurrió un error, intente de nuevo'
+                });
+                console.log(error)
+              })
+          }, error => console.log(error));
+      });
+    }, error => console.log(error));
+  }
+
+  changeImage(event: any) {
+    console.log(event)
+    const file = event.target.files[0];
+    if (this.operation.voucherImage) {
+      this.voucherAdminImageName = file.name;
+    } else {
+      this.voucherImageName = file.name;
+    }
+    if (file) {
+      if (file.size < 2096000) {
+        const reader = new FileReader();
+        reader.onload = this.handleReaderLoaded.bind(this);
+        reader.readAsBinaryString(file);
+      } else {
+        swal.fire({
+          type: 'error',
+          title: 'Hay un error con el archivo',
+          text: 'El tamaño del archivo es muy grande, debe ser menor a 2MB.'
+        });
+      }
+    }
+  }
+
+  handleReaderLoaded(readerEvt) {
+    const binaryString = readerEvt.target.result;
+    if (this.operation.voucherImage) {
+      this.voucherAdminImage = 'data:image/png;base64,' + btoa(binaryString);
+    } else {
+      this.voucherImage = 'data:image/png;base64,' + btoa(binaryString);
+    }
+  }
+
+  acceptOperation() {
+    const acceptedOperation: Operation = {
+      ...this.operation,
+      status: 'En proceso'
+    }
+    this.userService.editOperation(acceptedOperation)
+      .then( data => {
+        const message = `La operación se aprobó exitosamente`;
+        this.close(data, message);
+      })
+      .catch( data => {
+        const message = `Ocurrió un error, intente de nuevo`;
+        this.close(data, message);
+      });
+  }
+
+  rejectOperation() {
+    const rejectedOperation: Operation = {
+      ...this.operation,
+      status: 'Rechazada'
+    }
+    this.userService.editOperation(rejectedOperation)
+      .then( data => {
+        const message = `La operación se rechazó exitosamente`;
+        this.close(data, message);
+      })
+      .catch( data => {
+        const message = `Ocurrió un error, intente de nuevo`;
+        this.close(data, message);
+      });
+  }
+
+  closeOperation() {
+    const closedOperation: Operation = {
+      ...this.operation,
+      status: 'Exitosa'
+    }
+    this.userService.editOperation(closedOperation)
+      .then( data => {
+        const message = `La operación se cerró exitosamente`;
+        this.close(data, message);
+      })
+      .catch( data => {
         const message = `Ocurrió un error, intente de nuevo`;
         this.close(data, message);
       });

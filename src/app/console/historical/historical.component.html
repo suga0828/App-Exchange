@@ -51,7 +51,8 @@
                 <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
               </button>
               <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">
-                <button mat-menu-item (click)="openDialog('cancel', currentUser.uid, element.date)">Cancelar</button>
+                <button mat-menu-item (click)="openDialog('seeDetail', currentUser, element)">Ver detalles</button>
+                <button mat-menu-item (click)="openDialog('cancel', currentUser, element)" *ngIf="element.status === 'Solicitada' || element.status === 'En proceso'">Cancelar</button>
               </mat-menu>
             </mat-cell>
           </ng-container>

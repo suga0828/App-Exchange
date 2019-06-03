@@ -72,10 +72,11 @@ export class WithdrawComponent implements OnInit {
       comment: this.comment || '',
       date: Date.now(),
       originAccount: this.originAccount,
-      status: 'En proceso',
-      type: 'Retiro'
+      status: 'Solicitada',
+      type: 'Retiro',
+      uid: this.currentUser.uid
     }
-    this.userService.registerOperation(withdraw, this.currentUser.uid)
+    this.userService.registerOperation(withdraw)
       .then(r => {
         swal.fire({
           type: 'success',

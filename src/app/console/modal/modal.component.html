@@ -2,7 +2,10 @@
   <div *ngIf="action === 'cancel'">
     <h2 mat-dialog-title>Cancelar operación</h2>
     <mat-dialog-content>
-      <p>¿Seguro que desea cancelar la operación?</p>
+      <p>¿Seguro que desea cancelar la operación de <b>{{operation.type}}</b>, por la cantidad de <b>{{operation.amount}}</b>,
+      de la cuenta <b>{{operation.originAccount}}</b>
+      <ng-container *ngIf="operation.destinationAccount">
+        a la cuenta <b>{{operation.destinationAccount}}</b></ng-container>?</p>
     </mat-dialog-content>
     <mat-dialog-actions>
       <button mat-raised-button mat-dialog-close>Volver</button>
@@ -64,15 +67,158 @@
   <div *ngIf="action === 'editBalance'">
     <h2 mat-dialog-title>Asignar Saldo</h2>
     <mat-dialog-content>
-      <p *ngIf="user">Saldo actual del cliente {{user.displayName}}: {{user.balance}} USD.</p>
+      <p *ngIf="user">Saldo actual del cliente <b>{{user.displayName}}</b>: {{user.balance}} USD.</p>
       <mat-form-field *ngIf="user">
         <input matInput type="number" placeholder="Saldo a asignar (USD)" [(ngModel)]="newBalance" maxlength="2">
       </mat-form-field>
-      <p *ngIf="newBalance && user">¿Seguro quiere asignar {{newBalance}} USD como saldo al cliente {{user.displayName}}?</p>
+      <p *ngIf="newBalance && user" class="warning">¿Seguro quiere asignar {{newBalance}} USD como saldo al cliente {{user.displayName}}?</p>
     </mat-dialog-content>
     <mat-dialog-actions>
       <button mat-raised-button mat-dialog-close>Cancelar</button>
       <button mat-raised-button color="primary" (click)="assignBalanceUser()">Asignar</button>
+    </mat-dialog-actions>
+  </div>
+
+  <div *ngIf="action === 'seeDetail'">
+    <h2 mat-dialog-title>Detalle de la operación</h2>
+    <mat-dialog-content *ngIf="operation">
+      <p><b>Estado: </b>{{operation.status}}</p>
+      <p><b>Tipo: </b>{{operation.type}}</p>
+      <p><b>Fecha: </b>{{operation.date | date:'dd-MM-yyyy, hh:mm aa'}}</p>
+      <p><b>Cantidad: </b>{{operation.amount}}</p>
+      <p><b>Cuenta de Origen: </b>{{operation.originAccount}}</p>
+      <p *ngIf="operation.destinationAccount"><b>Cuenta Destino: </b>{{operation.destinationAccount}}</p>
+      <p *ngIf="operation.comment"><b>Comentario adicional: </b>{{operation.comment}}</p>
+
+      <div class="space-container">
+        <p *ngIf="operation.adminComment"><b>Comentario de administración: </b>
+          {{operation.adminComment}}
+        </p>
+      </div>
+
+      <div *ngIf="operation.status === 'En proceso' && !operation.voucherImage" class="space-container">
+        <label for="voucherImage">
+          <a mat-raised-button class="inputFileButton" (click)="image.click()">
+            Adjuntar comprobante de operación
+            <mat-icon aria-label="Adjuntar comprobante de operación">attach_file</mat-icon>
+          </a>
+        </label>
+        <input type="file" #image (change)="changeImage($event)" accept="image/*" style="display:none;" />
+        <p *ngIf="voucherImageName">{{voucherImageName}}</p>
+        <p *ngIf="voucherImageName" class="error">Asegúrese de que el comprobante que va a guardar sea el correcto, esta operación es irreversible.</p>
+      </div>
+
+      <div class="space-container">
+        <p *ngIf="operation.voucherImage"><b>Comprobante de operación: </b>
+          <a href="{{operation.voucherImage}}" target="_blank">
+            <img [src]="operation.voucherImage" class="img-responsive">
+          </a>
+        </p>
+      </div>
+
+      <div class="space-container">
+        <p *ngIf="operation.voucherAdminImage"><b>Comprobante de operación (administración): </b>
+          <a href="{{operation.voucherAdminImage}}" target="_blank">
+            <img [src]="operation.voucherAdminImage" class="img-responsive">
+          </a>
+        </p>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button mat-dialog-close [disabled]="disabled">Volver</button>
+      <button mat-raised-button *ngIf="operation.status !== 'Rechazada' && operation.status === 'En proceso' && !operation.voucherImage" color="primary" (click)="saveVoucher()" [disabled]="disabled || !voucherImage">Guardar Comprobante</button>
+    </mat-dialog-actions>
+  </div>
+
+  <div *ngIf="action === 'detailedOperation'">
+    <h2 mat-dialog-title>Detalle de la operación</h2>
+    <mat-dialog-content *ngIf="operation">
+      <p><b>Estado: </b>{{operation.status}}</p>
+      <p><b>Tipo: </b>{{operation.type}}</p>
+      <p><b>Fecha: </b>{{operation.date | date:'dd-MM-yyyy, hh:mm aa'}}</p>
+      <p><b>Cantidad: </b>{{operation.amount}}</p>
+      <p><b>Cuenta de Origen: </b>{{operation.originAccount}}</p>
+      <p *ngIf="operation.destinationAccount"><b>Cuenta Destino: </b>{{operation.destinationAccount}}</p>
+      <p *ngIf="operation.comment"><b>Comentario adicional: </b>{{operation.comment}}</p>
+
+      <div class="space-container">
+        <p *ngIf="operation.adminComment"><b>Comentario de administración: </b>
+          {{operation.adminComment}}
+        </p>
+      </div>
+      
+      <div class="space-container">
+        <p *ngIf="operation.voucherImage"><b>Comprobante de operación: </b>
+          <a href="{{operation.voucherImage}}" target="_blank" *ngIf="operation.voucherImage">
+            <img [src]="operation.voucherImage" class="img-responsive">
+          </a>
+        </p>
+      </div>
+
+      <div *ngIf="operation.status === 'En revisión'  && operation.voucherImage && !operation.voucherAdminImage" class="space-container">
+        <label for="voucherAdminImage">
+          <a mat-raised-button class="inputFileButton" (click)="imageAdmin.click()">
+            Adjuntar comprobante de operación (administración)
+            <mat-icon aria-label="Adjuntar comprobante de operación">attach_file</mat-icon>
+          </a>
+        </label>
+        <input type="file" #imageAdmin (change)="changeImage($event)" accept="image/*" style="display:none;" />
+        <p *ngIf="voucherAdminImageName">{{voucherAdminImageName}}</p>
+        <p *ngIf="voucherAdminImageName" class="error">Asegúrese de que el comprobante que va a guardar sea el correcto, esta
+          operación es irreversible.</p>
+      </div>
+      
+      <div class="space-container">
+        <p *ngIf="operation.voucherAdminImage"><b>Comprobante de operación (administración): </b>
+          <a href="{{operation.voucherAdminImage}}" target="_blank">
+            <img [src]="operation.voucherAdminImage" class="img-responsive">
+          </a>
+        </p>
+      </div>
+
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button mat-dialog-close [disabled]="disabled">Volver</button>
+      <button mat-raised-button *ngIf="operation.status === 'En revisión' && operation.voucherImage && !operation.voucherAdminImage" color="primary" (click)="saveVoucherAdmin()"
+        [disabled]="disabled || !voucherAdminImage">Guardar Comprobante</button>
+    </mat-dialog-actions>
+  </div>
+
+  <div *ngIf="action === 'acceptOperation' || action === 'rejectOperation'">
+    <h2 mat-dialog-title *ngIf="action === 'acceptOperation'">Aprobar operación</h2>
+    <h2 mat-dialog-title *ngIf="action === 'rejectOperation'">Declinar operación</h2>
+    <mat-dialog-content *ngIf="operation">
+      <p>¿Seguro que desea <ng-container *ngIf="action === 'acceptOperation'; else rejectOperation">aprobar</ng-container>
+      <ng-template #rejectOperation>rechazar</ng-template> la operación de <b>{{operation.type}}</b>, por la cantidad de <b>{{operation.amount}}</b>,
+        de la cuenta <b>{{operation.originAccount}}</b> <ng-container *ngIf="operation.destinationAccount">
+        a la cuenta <b>{{operation.destinationAccount}}</b></ng-container>?
+      </p>
+      <div class="space-container">
+        <mat-form-field>
+          <textarea matInput cdkTextareaAutosize #autosize="cdkTextareaAutosize" cdkAutosizeMaxRows="5"
+            placeholder="Comentario para explicar la acción" [(ngModel)]="operation.adminComment" maxlength="300"></textarea>
+          <mat-hint align="end" *ngIf="comment">{{operation.adminComment.length}} / 300</mat-hint>
+        </mat-form-field>
+      </div>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button mat-dialog-close>Cancelar</button>
+      <button mat-raised-button color="primary" (click)="acceptOperation()" *ngIf="action === 'acceptOperation'">Aprobar</button>
+      <button mat-raised-button color="primary" (click)="rejectOperation()" *ngIf="action === 'rejectOperation'">Rechazar</button>
+    </mat-dialog-actions>
+  </div>
+
+  <div *ngIf="action === 'closeOperation'">
+    <h2 mat-dialog-title>Cerrar operación</h2>
+    <mat-dialog-content>
+      <p>¿Seguro que desea concluir la operación de <b>{{operation.type}}</b>, por la cantidad de <b>{{operation.amount}}</b>,
+      de la cuenta <b>{{operation.originAccount}}</b>
+      <ng-container *ngIf="operation.destinationAccount">
+        a la cuenta <b>{{operation.destinationAccount}}</b></ng-container>?</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button mat-dialog-close>Cancelar</button>
+      <button mat-raised-button color="primary" (click)="closeOperation()">Cerrar</button>
     </mat-dialog-actions>
   </div>
 </div>
