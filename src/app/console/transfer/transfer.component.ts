@@ -57,7 +57,7 @@ export class TransferComponent implements OnInit {
             text: 'Para transferir primero debes agregar una cuenta.'
           });
         }
-      }, error => console.log(error) );
+      }, error => console.error(error) );
   }
 
   transfer() {
@@ -92,7 +92,7 @@ export class TransferComponent implements OnInit {
         this.changeView('historicalView');
       })
       .catch( error => {
-        console.log(error)
+        console.error(error)
         swal.fire({
           type: 'error',
           title: 'Ocurrió un error registrando su transferencia'

@@ -3,8 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ConsoleComponent } from './console.component';
 
-import { AdminGuard } from '../services/admin.guard';
-
 const routes: Routes = [
   { path: '', component: ConsoleComponent }
 ];

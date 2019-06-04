@@ -10,7 +10,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatListModule } from '@angular/material/list';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSidenavModule } from '@angular/material';
 import { MatTableModule } from '@angular/material/table';
@@ -69,7 +68,6 @@ import { FooterComponent } from '../landing/footer/footer.component';
     MatFormFieldModule,
     MatSelectModule,
     MatListModule,
-    MatTooltipModule,
     MatSnackBarModule,
     MatSidenavModule,
     MatCardModule,
@@ -96,7 +94,6 @@ import { FooterComponent } from '../landing/footer/footer.component';
     MatFormFieldModule,
     MatSelectModule,
     MatListModule,
-    MatTooltipModule,
     MatSnackBarModule,
     MatSidenavModule,
     MatCardModule,

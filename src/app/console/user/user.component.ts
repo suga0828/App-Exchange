@@ -80,7 +80,7 @@ export class UserComponent implements OnInit, OnChanges {
     this.userService.getPlataforms()
       .subscribe( (plataforms: Plataform[]) => {
         this.plataforms = plataforms;
-      }, error => console.log(error) );
+      }, error => console.error(error) );
     this.registerAccountForm = this.formBuilder.group({
       type: ['', Validators.required],
       plataform: ['', Validators.required],
@@ -99,7 +99,7 @@ export class UserComponent implements OnInit, OnChanges {
     this.countriesService.getCountries()
       .subscribe( countries => {
         this.countries = countries;
-      }, error => console.log(error) );
+      }, error => console.error(error) );
     this.now = new Date(Date.now());
     const oneHundredYearsInMiliseconds = Date.now() - 100 * 365 * 24 * 60 * 60 * 1000;
     this.aHundredYearsAgo = new Date(oneHundredYearsInMiliseconds);
@@ -237,9 +237,9 @@ export class UserComponent implements OnInit, OnChanges {
             });
             this.changeToEdit();
             this.disabled = false;
-          }, error => console.log(error) );
+          }, error => console.error(error) );
       });
-    }, error => console.log(error) );
+    }, error => console.error(error) );
   }
 
   changeImage(event: any) {
@@ -274,7 +274,7 @@ export class UserComponent implements OnInit, OnChanges {
     this.userService.editUser(user)
       .then(() => {
         console.log('datos guardados correctamente')
-      }, error => console.log(error));
+      }, error => console.error(error));
   }
 
   registerAccount() {
@@ -337,7 +337,7 @@ export class UserComponent implements OnInit, OnChanges {
         });
       })
       .catch(error => {
-        console.log(error)
+        console.error(error)
         swal.fire({
           type: 'error',
           title: 'Ocurrió un error registrando su cuenta'

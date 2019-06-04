@@ -108,7 +108,7 @@ export class AdminComponent implements OnInit, OnChanges {
         this.openSnackBar(result.message, result.action, result.time);
       }
     }, error => {
-      console.log(error);
+      console.error(error);
       this.openSnackBar('Ocurrió un error al realizar la operación', error);
     });
   }

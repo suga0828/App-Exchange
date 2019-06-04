@@ -34,9 +34,9 @@ export class ConsoleComponent implements OnInit, OnDestroy {
           this.userSubscription = this.userService.getUserById(user.uid)
             .subscribe( (currentUser: User) => {
               this.currentUser = currentUser;
-            }, error => console.log(error) )
+            }, error => console.error(error) )
         }
-      }, error => console.log(error) );
+      }, error => console.error(error) );
   }
 
   changeView(view: string) {

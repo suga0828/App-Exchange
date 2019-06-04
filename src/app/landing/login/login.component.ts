@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
   }
 
   errorCallback(errorData) {
-    console.log(errorData);
+    console.error(errorData);
   }
 
 }

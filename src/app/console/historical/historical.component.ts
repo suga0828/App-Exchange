@@ -49,7 +49,7 @@ export class HistoricalComponent implements OnInit, OnChanges {
         this.dataSource.paginator = this.paginator;
       }, (err) => {
           this.dataSource = new MatTableDataSource();
-          console.log(err);
+          console.error(err);
       });
   }
 
@@ -68,7 +68,7 @@ export class HistoricalComponent implements OnInit, OnChanges {
           this.openSnackBar(result.message);
         }
       }, error => {
-        console.log(error);
+        console.error(error);
       });
   }
 

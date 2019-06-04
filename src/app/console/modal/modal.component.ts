@@ -48,7 +48,6 @@ export class ModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.data);
     this.action = this.data.action;
     this.user = this.data.user;
     this.operation = this.data.operation;
@@ -171,7 +170,6 @@ export class ModalComponent implements OnInit {
       ...this.plataformForm.value,
       id: this.plataform.id
     };
-    console.log(plataform);
     this.userService.editPlataform(plataform)
       .then(data => {
         const message = `La plataforma se editó exitosamente`;
@@ -218,11 +216,11 @@ export class ModalComponent implements OnInit {
                   type: 'error',
                   title: 'Ocurrió un error, intente de nuevo'
                 });
-                console.log(error)
+                console.error(error)
               })
-          }, error => console.log(error));
+          }, error => console.error(error));
       });
-    }, error => console.log(error));
+    }, error => console.error(error));
   }
 
   saveVoucherAdmin() {
@@ -248,15 +246,14 @@ export class ModalComponent implements OnInit {
                   type: 'error',
                   title: 'Ocurrió un error, intente de nuevo'
                 });
-                console.log(error)
+                console.error(error)
               })
-          }, error => console.log(error));
+          }, error => console.error(error));
       });
-    }, error => console.log(error));
+    }, error => console.error(error));
   }
 
   changeImage(event: any) {
-    console.log(event)
     const file = event.target.files[0];
     if (this.operation.voucherImage) {
       this.voucherAdminImageName = file.name;

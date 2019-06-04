@@ -56,7 +56,7 @@ export class WithdrawComponent implements OnInit {
             text: 'Para retirar primero debes agregar una cuenta'
           });
         }
-      }, error => console.log(error) );
+      }, error => console.error(error) );
   }
                
   withdraw() {
@@ -89,7 +89,7 @@ export class WithdrawComponent implements OnInit {
         this.changeView('historicalView');
       })
       .catch(error => {
-        console.log(error)
+        console.error(error)
         swal.fire({
           type: 'error',
           title: 'Ocurrió un error registrando su retiro'
