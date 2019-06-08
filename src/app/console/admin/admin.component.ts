@@ -18,6 +18,7 @@ export class AdminComponent implements OnInit, OnChanges {
 
   @Input() public currentUser: User;
 
+  exchangeRate: any;
   plataforms: any;
   plataformsColumns: string[] = ['name', 'tax', 'plataformsOptions'];
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -43,12 +44,14 @@ export class AdminComponent implements OnInit, OnChanges {
     public snackBar: MatSnackBar,
     ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.getExchangeRate();
+    this.getPlataforms();
+  }
 
   ngOnChanges() {
     if (this.currentUser) {
       this.getUsers();
-      this.getPlataforms();
       this.getOperations();
     }
   }
@@ -84,6 +87,8 @@ export class AdminComponent implements OnInit, OnChanges {
             }
           }
         };
+        this.purchases = this.purchases.reverse();
+        this.sales = this.sales.reverse();
         this.purchasesOperations = new MatTableDataSource(this.purchases);
         this.purchasesOperations.paginator = this.paginator.toArray()[2];
         this.salesOperations = new MatTableDataSource(this.sales);
@@ -91,7 +96,14 @@ export class AdminComponent implements OnInit, OnChanges {
       });
   }
 
-  openDialog(action: string, user?: User, operation?: Operation, plataform?: Plataform) {
+  getExchangeRate() {
+    this.userService.getExchangeRate()
+      .subscribe(rate => {
+        this.exchangeRate = rate;
+      }, error => console.error(error));
+  }
+
+  openDialog(action: string, user?: User, operation?: Operation, plataform?: Plataform, exchangeRate?) {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '360px',
       data: {
@@ -99,6 +111,7 @@ export class AdminComponent implements OnInit, OnChanges {
         user: user,
         operation: operation,
         plataform: plataform,
+        exchangeRate: exchangeRate
       }
     });
     dialogRef.afterClosed()

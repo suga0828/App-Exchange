@@ -4,7 +4,11 @@
 
 .center-container {
 	padding-top: 20px;
-	text-align: center;
+  text-align: center;
+  
+  & > *:not(:last-child) {
+    margin-right: 10px;
+  }
 }
 
 mat-table {

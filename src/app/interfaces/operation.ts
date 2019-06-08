@@ -7,6 +7,7 @@ export interface Operation {
   destinationAccount?: Account;
   originAccount: Account;
   status: string;
+  toReceive: number;
   type: string;
   uid: string;
   voucherImage?: string;

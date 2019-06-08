@@ -94,5 +94,16 @@ export class UserService {
   deletePlataform(id: number) {
     return this.angularFireDatabase.object('/plataforms/' + id).remove();
   }
+
+  getExchangeRate() {
+    return this.angularFireDatabase.object('/exchangeRate/value').valueChanges();
+  }
+
+  editExchangeRate(rate: number) {
+    const newExchangeRate = {
+      value: rate
+    }
+    return this.angularFireDatabase.object('/exchangeRate/').update(newExchangeRate);
+  }
   
 }

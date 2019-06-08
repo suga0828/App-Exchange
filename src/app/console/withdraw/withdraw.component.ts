@@ -1,66 +1,128 @@
-import { Component, Input, OnInit, ViewChild, NgZone, EventEmitter, Output } from '@angular/core';
-import { CdkTextareaAutosize } from '@angular/cdk/text-field';
+import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
+
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { UserService } from '../../services/user.service';
 
-import { User } from '../../interfaces/user';
-import { Operation } from '../../interfaces/operation';
 import { Account } from '../../interfaces/account';
+import { Operation } from '../../interfaces/operation';
+import { Plataform } from '../../interfaces/plataform';
+import { User } from '../../interfaces/user';
 
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
-
-import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-withdraw',
   templateUrl: './withdraw.component.html',
   styleUrls: ['./withdraw.component.scss']
 })
-export class WithdrawComponent implements OnInit {
+export class WithdrawComponent implements OnInit, OnChanges {
 
   @Input() public currentUser: User;
   @Output() view = new EventEmitter<String>();
-  @ViewChild('autosize') autosize: CdkTextareaAutosize;
   
   accounts: Account[];
-  
-  originAccount;
-  toWithdraw: number;
-  comment: string;
-  
-  disabled = false;
+  plataforms: Plataform[];
 
-  typeAccounts = {
-    plataform: 'Monedero Electrónico',
-    banking: 'Cuenta Bancaria'
-  };
+  withdrawForm: FormGroup;
+  
+  toReceive = {
+    amount: null,
+    tax: null,
+  }
+
+  messages = [
+    'Retira dinero desde tu cuenta bancaria nacional a otra cuenta de otro país (moneda local a monera extranjera).',
+    'Retira dinero desde un monedero electrónico a tu cuenta bancaria nacional (dólar a moneda local).',
+  ]
 
   constructor(
     private userService: UserService,
-    private ngZone: NgZone) { }
+    private formBuilder: FormBuilder 
+  ) { }
 
   ngOnInit() {
+    this.buildWithdrawForm();
+    this.getPlataforms();
+  }
+
+  ngOnChanges() {
     this.getAccounts();
   }
 
+  buildWithdrawForm() {
+    this.withdrawForm = this.formBuilder.group({
+      originAccount: ['', Validators.required],
+      amount: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]+')
+      ])],
+      comment: ['', Validators.maxLength(200)]
+    });
+    this.onChanges();
+  }
+
+  get originAccount() {
+    return this.withdrawForm.get('originAccount');
+  }
+
+  get amount() {
+    return this.withdrawForm.get('amount');
+  }
+
+  get comment() {
+    return this.withdrawForm.get('comment');
+  }
+
   getAccounts() {
-    this.userService.getUserAccounts(this.currentUser.uid)
-      .subscribe( (accounts: Account[]) => {
-        this.accounts = accounts;
-        if (!accounts.length) {
-          this.disabled = true;
-          swal.fire({
-            type: 'warning',
-            title: 'No tiene cuentas registradas',
-            text: 'Para retirar primero debes agregar una cuenta'
-          });
-        }
-      }, error => console.error(error) );
+    if (this.currentUser) {
+      this.userService.getUserAccounts(this.currentUser.uid)
+        .subscribe( (accounts: Account[]) => {
+          this.accounts = accounts;
+          if (!accounts.length) {
+            swal.fire({
+              type: 'warning',
+              title: 'No tiene cuentas registradas',
+              text: 'Para retirar primero debes agregar una cuenta'
+            });
+          }
+        }, error => console.error(error) );
+    }
+  }
+
+  getPlataforms() {
+    this.userService.getPlataforms()
+      .subscribe((plataforms: Plataform[]) => {
+        this.plataforms = plataforms;
+      }, error => console.error(error));
+  }
+
+  onChanges(): void {
+    this.originAccount.valueChanges
+      .subscribe((originAccount: Account) => {
+        this.setToReceive();
+      });
+    this.amount.valueChanges
+      .subscribe((amount: number) => {
+        this.setToReceive();
+      });
+  }
+
+  setToReceive() {
+    if (!this.originAccount.value || !this.amount.value) {
+      return;
+    }
+    for (let i = 0; i < this.plataforms.length; i++) {
+      if (this.plataforms[i].name === this.originAccount.value.plataform) {
+        this.toReceive.tax = this.plataforms[i].tax;
+        this.toReceive.amount = this.amount.value * ((100 - this.toReceive.tax) / 100);
+      }
+    }
   }
                
-  withdraw() {
-    if (!this.originAccount || !this.toWithdraw) {
+  onSubmit() {
+    if (!this.originAccount.value || !this.amount.value) {
       swal.fire({
         type: 'warning',
         title: 'Seleccione una cuenta de origen y un monto a retirar'
@@ -68,11 +130,12 @@ export class WithdrawComponent implements OnInit {
       return;
     }
     const withdraw: Operation = {
-      amount: this.toWithdraw,
-      comment: this.comment || '',
+      amount: this.amount.value,
+      comment: this.comment.value,
       date: Date.now(),
-      originAccount: this.originAccount,
+      originAccount: this.originAccount.value,
       status: 'Solicitada',
+      toReceive: this.toReceive.amount,
       type: 'Retiro',
       uid: this.currentUser.uid
     }
@@ -83,9 +146,6 @@ export class WithdrawComponent implements OnInit {
           title: 'Solicitud de retiro realizada',
           text: `Su solicitud de retiro será procesada a la brevedad posible.`,
         });
-        this.toWithdraw = null;
-        this.originAccount = '';
-        this.comment = '';
         this.changeView('historicalView');
       })
       .catch(error => {
@@ -95,12 +155,6 @@ export class WithdrawComponent implements OnInit {
           title: 'Ocurrió un error registrando su retiro'
         });
       });
-  }
-
-  triggerResize() {
-    // Wait for changes to be applied, then trigger textarea resize.
-    this.ngZone.onStable.pipe(take(1))
-        .subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
   changeView(view: String) {

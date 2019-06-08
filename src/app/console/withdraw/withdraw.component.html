@@ -4,52 +4,62 @@
       <h2 class="title">Retiro</h2>
     </mat-card-title>
     <mat-card-content *ngIf="currentUser">
-      <div class="columns is-multiline is-centered">
-        <ng-container *ngIf="messages">
-          <div class="column is-four-fifths">
-            <p>{{messages}}</p>
-          </div>
+      <mat-list *ngIf="messages">
+        <ng-container *ngFor="let message of messages">
+          <mat-list-item>{{message}}</mat-list-item>
           <mat-divider></mat-divider>
         </ng-container>
+        <br>
+      </mat-list>
+      <form class="columns is-multiline is-centered" [formGroup]="withdrawForm" (ngSubmit)="onSubmit()">
         <div class="column is-four-fifths">
           <div class="columns is-multiline is-centered">
             <div class="column is-half is-three-fifths-mobile is-center">
-              <b>Cuenta Origen: </b>
               <mat-form-field>
-                <mat-select [disabled]="disabled" [(ngModel)]="originAccount" placeholder="Seleccione una cuenta">
-                  <mat-option *ngFor="let account of accounts" [value]="account.id">
+                <mat-select formControlName="originAccount" placeholder="Cuenta de Origen" required>
+                  <mat-option *ngFor="let account of accounts" [value]="account">
                     {{account.id}}
                   </mat-option>
                 </mat-select>
+                <mat-error *ngIf="originAccount.hasError('required')">
+                  El campo es requerido.
+                </mat-error>
               </mat-form-field>
             </div>
             <div class="column is-half is-three-fifths-mobile is-center">
-              <b>Monto a retirar: </b>
               <mat-form-field>
-                <input matInput type="number" placeholder="Cantidad a retirar" [(ngModel)]="toWithdraw" [disabled]="disabled">
+                <input matInput type="number" placeholder="Cantidad a retirar" formControlName="amount" required>
+                <mat-error *ngIf="amount.hasError('required')">
+                  El campo es requerido.
+                </mat-error>
+                <mat-error *ngIf="amount.hasError('pattern')">
+                  Sólo carácteres numéricos aceptados.
+                </mat-error>
               </mat-form-field>
             </div>
-            <div class="column is-full is-four-fifths-mobile is-center">
-              <b>Comentario adicional: </b>
+            <div class="column is-half is-three-fifths-mobile">
+              <b>Monto a recibir: </b>
+              <span class="success" *ngIf="toReceive.amount && toReceive.tax">Recibirás una cantidad de USD {{toReceive.amount}}
+                (comisión de {{toReceive.tax}}%).</span>
+            </div>
+            <div class="column is-full is-four-fifths-mobile">
               <mat-form-field>
                 <textarea matInput
-                cdkTextareaAutosize
-                #autosize="cdkTextareaAutosize"
-                cdkAutosizeMaxRows="5"
+                rows="4"
                 placeholder="Si tienes algo más que comentar, escribe aquí."
-                [(ngModel)]="comment" maxlength="200" [disabled]="disabled"></textarea>
-                <mat-hint align="end" *ngIf="comment">{{comment.length}} / 200</mat-hint>
+                formControlName="comment" maxlength="200"></textarea>
+                <mat-hint align="end" *ngIf="comment.value">{{comment.length}} / 200</mat-hint>
               </mat-form-field>
             </div>
           </div>
         </div>
         <mat-divider></mat-divider>
-      </div>
+      </form>
     </mat-card-content>
     <mat-card-actions class="columns is-mobile is-multiline is-centered">
       <div class="column is-narrow">
         <button mat-raised-button color="primary" (click)="changeView('userView')">Regresar</button>
-        <button mat-raised-button color="primary" (click)="withdraw()">Retirar</button>
+        <button mat-raised-button color="primary" (click)="onSubmit()">Retirar</button>
       </div>
     </mat-card-actions>
   </mat-card>

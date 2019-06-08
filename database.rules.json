@@ -6,6 +6,10 @@
         ".write": "auth != null && auth.uid == $uid"
       }
     },
+    "exchangeRate":{
+      ".read": true,
+      ".write": "root.child('users').child(auth.uid).child('isAdmin').val() == true"
+    },
     "operations": {
       ".read": "root.child('users').child(auth.uid).child('isAdmin').val() == true",
       "$uid": {

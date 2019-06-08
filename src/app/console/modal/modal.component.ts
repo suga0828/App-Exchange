@@ -38,6 +38,9 @@ export class ModalComponent implements OnInit {
   voucherAdminImage: any;
   voucherAdminImageName: string
   disabled = false;
+
+  exchangeRate: number;
+  newExchangeRate: number;
   
   constructor(
     private dialogRef: MatDialogRef<ModalComponent>,
@@ -52,14 +55,14 @@ export class ModalComponent implements OnInit {
     this.user = this.data.user;
     this.operation = this.data.operation;
     this.plataform = this.data.plataform;
-    if (this.user) {
-      this.newBalance = this.user.balance;
-    }
     if (this.action === 'addPlataform' || this.action === 'editPlataform') {
       this.buildPlataformForm();
     }
     if (this.action === 'editPlataform') {
         this.buildEditPlataformForm();
+    }
+    if (this.action === 'exchangeRate') {
+      this.exchangeRate = this.data.exchangeRate;
     }
   }
 
@@ -186,6 +189,18 @@ export class ModalComponent implements OnInit {
       .then(data => {
         const message = `La plataforma se eliminó exitosamente`;
         this.close(data, message);
+      })
+      .catch(data => {
+        const message = `Ocurrió un error, intente de nuevo`;
+        this.close(data, message);
+      });
+  }
+
+  updateExchangeRate() {
+    this.userService.editExchangeRate(this.newExchangeRate)
+      .then(data => {
+        const message = `Se ha asignado ${this.newExchangeRate} COP/USD como nuevo tipo de cambio exitosamente`;
+        this.close(data, message, 10000, 'x');
       })
       .catch(data => {
         const message = `Ocurrió un error, intente de nuevo`;

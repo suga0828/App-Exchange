@@ -22,7 +22,7 @@
           <!-- Origin Account Column -->
           <ng-container matColumnDef="origin_account">
             <mat-header-cell *matHeaderCellDef>Cuenta Origen</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.originAccount}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.originAccount.id}}</mat-cell>
           </ng-container>
   
           <!-- Amount Column -->
@@ -34,7 +34,7 @@
           <!-- Destination Account Column -->
           <ng-container matColumnDef="destination_account">
             <mat-header-cell *matHeaderCellDef>Cuenta Destino</mat-header-cell>
-            <mat-cell *matCellDef="let element">{{element.destinationAccount}}</mat-cell>
+            <mat-cell *matCellDef="let element">{{element.destinationAccount.id}}</mat-cell>
           </ng-container>
   
           <!-- Status Column -->

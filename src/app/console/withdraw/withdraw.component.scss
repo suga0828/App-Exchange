@@ -14,10 +14,6 @@ mat-card-content {
   margin: 0px;
 }
 
-.is-center {
-  margin: 0 auto;
-}
-
 .is-flex-end {
   align-self: flex-end;
 }
@@ -28,6 +24,20 @@ mat-card-content {
 
 mat-form-field {
   width: 100%;
+}
+
+.mat-list-item {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.mat-list-item-content {
+  padding: 16px;
+}
+
+.success {
+  color: green;
+  font-weight: 500;
 }
 
 .header {

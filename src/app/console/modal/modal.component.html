@@ -2,10 +2,10 @@
   <div *ngIf="action === 'cancel'">
     <h2 mat-dialog-title>Cancelar operación</h2>
     <mat-dialog-content>
-      <p>¿Seguro que desea cancelar la operación de <b>{{operation.type}}</b>, por la cantidad de <b>{{operation.amount}}</b>,
-      de la cuenta <b>{{operation.originAccount}}</b>
+      <p>¿Seguro que desea cancelar la operación de <b>{{operation.type}}</b>, por el monto de <b>{{operation.amount}}</b>,
+      de la cuenta <b>{{operation.originAccount.id}}</b>
       <ng-container *ngIf="operation.destinationAccount">
-        a la cuenta <b>{{operation.destinationAccount}}</b></ng-container>?</p>
+        a la cuenta <b>{{operation.destinationAccount.id}}</b></ng-container>?</p>
     </mat-dialog-content>
     <mat-dialog-actions>
       <button mat-raised-button mat-dialog-close>Volver</button>
@@ -85,9 +85,10 @@
       <p><b>Estado: </b>{{operation.status}}</p>
       <p><b>Tipo: </b>{{operation.type}}</p>
       <p><b>Fecha: </b>{{operation.date | date:'dd-MM-yyyy, hh:mm aa'}}</p>
-      <p><b>Cantidad: </b>{{operation.amount}}</p>
-      <p><b>Cuenta de Origen: </b>{{operation.originAccount}}</p>
-      <p *ngIf="operation.destinationAccount"><b>Cuenta Destino: </b>{{operation.destinationAccount}}</p>
+      <p><b>Monto: </b>{{operation.amount}}</p>
+      <p><b>Cantidad a recibir: </b>{{operation.toReceive}}</p>
+      <p><b>Cuenta de Origen: </b>{{operation.originAccount.id}}</p>
+      <p *ngIf="operation.destinationAccount"><b>Cuenta Destino: </b>{{operation.destinationAccount.id}}</p>
       <p *ngIf="operation.comment"><b>Comentario adicional: </b>{{operation.comment}}</p>
 
       <div class="space-container">
@@ -136,9 +137,9 @@
       <p><b>Estado: </b>{{operation.status}}</p>
       <p><b>Tipo: </b>{{operation.type}}</p>
       <p><b>Fecha: </b>{{operation.date | date:'dd-MM-yyyy, hh:mm aa'}}</p>
-      <p><b>Cantidad: </b>{{operation.amount}}</p>
-      <p><b>Cuenta de Origen: </b>{{operation.originAccount}}</p>
-      <p *ngIf="operation.destinationAccount"><b>Cuenta Destino: </b>{{operation.destinationAccount}}</p>
+      <p><b>Monto: </b>{{operation.amount}}</p>
+      <p><b>Cuenta de Origen: </b>{{operation.originAccount.id}}</p>
+      <p *ngIf="operation.destinationAccount"><b>Cuenta Destino: </b>{{operation.destinationAccount.id}}</p>
       <p *ngIf="operation.comment"><b>Comentario adicional: </b>{{operation.comment}}</p>
 
       <div class="space-container">
@@ -189,9 +190,9 @@
     <h2 mat-dialog-title *ngIf="action === 'rejectOperation'">Declinar operación</h2>
     <mat-dialog-content *ngIf="operation">
       <p>¿Seguro que desea <ng-container *ngIf="action === 'acceptOperation'; else rejectOperation">aprobar</ng-container>
-      <ng-template #rejectOperation>rechazar</ng-template> la operación de <b>{{operation.type}}</b>, por la cantidad de <b>{{operation.amount}}</b>,
-        de la cuenta <b>{{operation.originAccount}}</b> <ng-container *ngIf="operation.destinationAccount">
-        a la cuenta <b>{{operation.destinationAccount}}</b></ng-container>?
+      <ng-template #rejectOperation>rechazar</ng-template> la operación de <b>{{operation.type}}</b>, por el monto de <b>{{operation.amount}}</b>,
+        de la cuenta <b>{{operation.originAccount.id}}</b> <ng-container *ngIf="operation.destinationAccount">
+        a la cuenta <b>{{operation.destinationAccount.id}}</b></ng-container>?
       </p>
       <div class="space-container">
         <mat-form-field>
@@ -211,14 +212,29 @@
   <div *ngIf="action === 'closeOperation'">
     <h2 mat-dialog-title>Cerrar operación</h2>
     <mat-dialog-content>
-      <p>¿Seguro que desea concluir la operación de <b>{{operation.type}}</b>, por la cantidad de <b>{{operation.amount}}</b>,
-      de la cuenta <b>{{operation.originAccount}}</b>
+      <p>¿Seguro que desea concluir la operación de <b>{{operation.type}}</b>, por el monto de <b>{{operation.amount}}</b>,
+      de la cuenta <b>{{operation.originAccount.id}}</b>
       <ng-container *ngIf="operation.destinationAccount">
-        a la cuenta <b>{{operation.destinationAccount}}</b></ng-container>?</p>
+        a la cuenta <b>{{operation.destinationAccount.id}}</b></ng-container>?</p>
     </mat-dialog-content>
     <mat-dialog-actions>
       <button mat-raised-button mat-dialog-close>Cancelar</button>
       <button mat-raised-button color="primary" (click)="closeOperation()">Cerrar</button>
+    </mat-dialog-actions>
+  </div>
+
+  <div *ngIf="action === 'exchangeRate'">
+    <h2 mat-dialog-title>Tipo de cambio</h2>
+    <mat-dialog-content>
+      <p *ngIf="exchangeRate">Tipo de cambio actual: {{exchangeRate}} COP/USD.</p>
+      <mat-form-field *ngIf="exchangeRate">
+        <input matInput type="number" placeholder="Cambiar tipo de cambio (COP/USD)" [(ngModel)]="newExchangeRate" required>
+      </mat-form-field>
+      <p *ngIf="newExchangeRate" class="warning">¿Seguro quiere asignar {{newExchangeRate}} COP/USD como tipo de cambio?</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button mat-dialog-close>Cerrar</button>
+      <button mat-raised-button color="primary" (click)="updateExchangeRate()">Actualizar Cambio</button>
     </mat-dialog-actions>
   </div>
 </div>

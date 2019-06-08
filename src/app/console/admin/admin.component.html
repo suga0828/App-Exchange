@@ -8,7 +8,11 @@
         <mat-tab-group>
           <mat-tab label="Plataformas">
             <div class="center-container">
-              <button mat-raised-button color="primary" (click)="openDialog('addPlataform')">Agregar plataforma</button>
+              <span *ngIf="exchangeRate">Tipo de cambio actual: <b>{{exchangeRate}} COP/USD. </b></span>
+            </div>
+            <div class="center-container">
+              <button class="" mat-raised-button color="primary" (click)="openDialog('exchangeRate', '', '', '', exchangeRate)">Ajustar tipo de Cambio</button>
+              <button class="" mat-raised-button color="primary" (click)="openDialog('addPlataform')">Agregar plataforma</button>
             </div>
             <mat-table [dataSource]="plataforms">
 
@@ -122,7 +126,7 @@
               <!-- Plataform Origin Account Column -->
               <ng-container matColumnDef="originAccount">
                 <mat-header-cell *matHeaderCellDef>Cuenta de Origen</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.originAccount}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.originAccount.id}}</mat-cell>
               </ng-container>
 
               <!-- Plataform Amount Column -->
@@ -134,7 +138,7 @@
               <!-- Plataform Destination Account Column -->
               <ng-container matColumnDef="destinationAccount">
                 <mat-header-cell *matHeaderCellDef>Destination Origen</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.destinationAccount}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.destinationAccount.id}}</mat-cell>
               </ng-container>
 
               <!-- Status Column -->
@@ -183,7 +187,7 @@
               <!-- Plataform Origin Account Column -->
               <ng-container matColumnDef="originAccountSales">
                 <mat-header-cell *matHeaderCellDef>Cuenta de Origen</mat-header-cell>
-                <mat-cell *matCellDef="let element">{{element.originAccount}}</mat-cell>
+                <mat-cell *matCellDef="let element">{{element.originAccount.id}}</mat-cell>
               </ng-container>
   
               <!-- Plataform Amount Column -->
