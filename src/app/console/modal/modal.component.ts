@@ -6,6 +6,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user';
 import { Operation } from '../../interfaces/operation';
 import { Plataform } from '../../interfaces/plataform';
+import { Rate } from '../../interfaces/rate';
 
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
@@ -44,7 +45,7 @@ export class ModalComponent implements OnInit {
   voucherAdminImageName: string
   disabled = false;
 
-  exchangeRate: number;
+  exchangeRate: Rate;
   newExchangeRate: number;
   
   constructor(
@@ -207,10 +208,14 @@ export class ModalComponent implements OnInit {
       });
   }
 
-  updateExchangeRate() {
-    this.userService.editExchangeRate(this.newExchangeRate)
+  updateExchangeRates() {
+    const newExchangeRate = {
+      ...this.exchangeRate,
+      value: this.newExchangeRate
+    }
+    this.userService.editExchangeRate(newExchangeRate)
       .then(data => {
-        const message = `Se ha asignado ${this.newExchangeRate} COP/USD como nuevo tipo de cambio exitosamente`;
+        const message = `Se ha asignado ${this.newExchangeRate} ${this.exchangeRate.id} como nuevo tipo de cambio exitosamente`;
         this.close(data, message, 10000, 'x');
       })
       .catch(data => {

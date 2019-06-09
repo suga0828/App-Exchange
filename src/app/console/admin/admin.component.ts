@@ -6,6 +6,7 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user';
 import { Plataform } from '../../interfaces/plataform';
 import { Operation } from '../../interfaces/operation';
+import { Rate } from '../../interfaces/rate';
 
 import { ModalComponent } from '../modal/modal.component';
 
@@ -18,7 +19,7 @@ export class AdminComponent implements OnInit, OnChanges {
 
   @Input() public currentUser: User;
 
-  exchangeRate: any;
+  exchangeRates: Rate[];
   plataforms: any;
   plataformsColumns: string[] = ['name', 'tax', 'plataformsOptions'];
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
@@ -45,7 +46,7 @@ export class AdminComponent implements OnInit, OnChanges {
     ) { }
 
   ngOnInit() {
-    this.getExchangeRate();
+    this.getExchangeRates();
     this.getPlataforms();
   }
 
@@ -96,14 +97,14 @@ export class AdminComponent implements OnInit, OnChanges {
       });
   }
 
-  getExchangeRate() {
-    this.userService.getExchangeRate()
-      .subscribe(rate => {
-        this.exchangeRate = rate;
+  getExchangeRates() {
+    this.userService.getExchangeRates()
+      .subscribe( (rates: Rate[]) => {
+        this.exchangeRates = rates;
       }, error => console.error(error));
   }
 
-  openDialog(action: string, user?: User, operation?: Operation, plataform?: Plataform, exchangeRate?) {
+  openDialog(action: string, user?: User, operation?: Operation, plataform?: Plataform, exchangeRate?: Rate) {
     const dialogRef = this.dialog.open(ModalComponent, {
       width: '360px',
       data: {

@@ -8,6 +8,7 @@ import { Account } from '../../interfaces/account';
 import { Operation } from '../../interfaces/operation';
 import { Plataform } from '../../interfaces/plataform';
 import { User } from '../../interfaces/user';
+import { Rate } from '../../interfaces/rate';
 
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
@@ -23,7 +24,9 @@ export class WithdrawComponent implements OnInit, OnChanges {
   @Output() view = new EventEmitter<String>();
   
   accounts: Account[];
-  exchangeRate: any;
+  exchangeRates: Rate[];
+  usdCop: number;
+  vefCop: number;
   operation: string;
   plataforms: Plataform[];
 
@@ -47,7 +50,7 @@ export class WithdrawComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.buildWithdrawForm();
     this.getPlataforms();
-    this.getExchangeRate();
+    this.getExchangeRates();
   }
 
   ngOnChanges() {
@@ -101,10 +104,18 @@ export class WithdrawComponent implements OnInit, OnChanges {
       }, error => console.error(error));
   }
 
-  getExchangeRate() {
-    this.userService.getExchangeRate()
-      .subscribe(rate => {
-        this.exchangeRate = rate;
+  getExchangeRates() {
+    this.userService.getExchangeRates()
+      .subscribe( (rates: Rate[]) => {
+        this.exchangeRates = rates;
+        for (let e = 0; e < this.exchangeRates.length; e++) {
+          if (this.exchangeRates[e].id === 'USDCOP') {
+            this.usdCop = this.exchangeRates[e].value;
+          }
+          if (this.exchangeRates[e].id === 'VEFCOP') {
+            this.vefCop = this.exchangeRates[e].value;
+          }
+        }
       }, error => console.error(error));
   }
 
@@ -124,18 +135,18 @@ export class WithdrawComponent implements OnInit, OnChanges {
       return;
     }
     this.operation = `${this.originAccount.value.type}`;
-    if (this.operation === 'Monedero Electrónico') {
+      if (this.operation === 'Monedero Electrónico') {
       for (let i = 0; i < this.plataforms.length; i++) {
         if (this.plataforms[i].name === this.originAccount.value.plataform) {
           this.toReceive.tax = this.plataforms[i].tax;
-          this.toReceive.amount = ( this.amount.value * this.exchangeRate * ((100 - this.toReceive.tax) / 100) ).toFixed(2);
+          this.toReceive.amount = ( this.amount.value * this.usdCop * ((100 - this.toReceive.tax) / 100) ).toFixed(2);
         }
-      }
-    }
-    if (this.operation === 'Cuenta Bancaria') {
-      this.toReceive.amount = ( this.amount.value / this.exchangeRate ).toFixed(2);
-    }
-  }
+       }
+     }
+     if (this.operation === 'Cuenta Bancaria') {
+       this.toReceive.amount = ( this.amount.value / this.vefCop ).toFixed(2);
+     }
+   }
                
   onSubmit() {
     if (!this.originAccount.value || !this.amount.value) {

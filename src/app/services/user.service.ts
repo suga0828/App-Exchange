@@ -6,6 +6,7 @@ import { User } from '../interfaces/user';
 import { Account  } from '../interfaces/account';
 import { Operation } from '../interfaces/operation';
 import { Plataform } from '../interfaces/plataform';
+import { Rate } from '../interfaces/rate';
 
 @Injectable({
   providedIn: 'root'
@@ -95,15 +96,16 @@ export class UserService {
     return this.angularFireDatabase.object('/plataforms/' + id).remove();
   }
 
-  getExchangeRate() {
-    return this.angularFireDatabase.object('/exchangeRate/value').valueChanges();
+  setExchangeRate(newRate: Rate) {
+    return this.angularFireDatabase.object('/exchangeRates/' + newRate.id).set(newRate);
   }
 
-  editExchangeRate(rate: number) {
-    const newExchangeRate = {
-      value: rate
-    }
-    return this.angularFireDatabase.object('/exchangeRate/').update(newExchangeRate);
+  getExchangeRates() {
+    return this.angularFireDatabase.list('/exchangeRates/').valueChanges();
+  }
+
+  editExchangeRate(rate: Rate) {
+    return this.angularFireDatabase.object('/exchangeRates/' + rate.date).update(rate);
   }
   
 }

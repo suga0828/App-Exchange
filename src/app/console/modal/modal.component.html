@@ -236,15 +236,18 @@
   <div *ngIf="action === 'exchangeRate'">
     <h2 mat-dialog-title>Tipo de cambio</h2>
     <mat-dialog-content>
-      <p *ngIf="exchangeRate">Tipo de cambio actual: {{exchangeRate}} COP/USD.</p>
-      <mat-form-field *ngIf="exchangeRate">
-        <input matInput type="number" placeholder="Cambiar tipo de cambio (COP/USD)" [(ngModel)]="newExchangeRate" required>
+      <div class="center-container" *ngIf="exchangeRate">
+        <h3>Tipos de cambio actual:</h3>
+        <p><b>{{exchangeRate.value}} {{exchangeRate.id}}</b></p>
+      </div>
+      <mat-form-field>
+        <input matInput type="number" placeholder="Cambiar tipo de cambio USDCOP" [(ngModel)]="newExchangeRate">
       </mat-form-field>
-      <p *ngIf="newExchangeRate" class="warning">¿Seguro quiere asignar {{newExchangeRate}} COP/USD como tipo de cambio?</p>
+      <p *ngIf="newExchangeRate" class="warning">¿Seguro quiere asignar {{newExchangeRate}} {{exchangeRate.id}} como tipo de cambio?</p>
     </mat-dialog-content>
     <mat-dialog-actions>
       <button mat-raised-button mat-dialog-close>Cerrar</button>
-      <button mat-raised-button color="primary" (click)="updateExchangeRate()">Actualizar Cambio</button>
+      <button mat-raised-button color="primary" (click)="updateExchangeRates()">Actualizar Cambios</button>
     </mat-dialog-actions>
   </div>
 </div>

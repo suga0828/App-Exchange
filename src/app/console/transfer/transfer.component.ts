@@ -8,6 +8,7 @@ import { Account } from '../../interfaces/account';
 import { Operation } from '../../interfaces/operation';
 import { Plataform } from '../../interfaces/plataform';
 import { User } from '../../interfaces/user';
+import { Rate } from '../../interfaces/rate';
 
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
@@ -23,7 +24,8 @@ export class TransferComponent implements OnInit, OnChanges {
   @Output() view = new EventEmitter<String>();
 
   accounts: Account[];
-  exchangeRate: any;
+  exchangeRates: Rate[];
+  exchangeRate: number;
   operation: string;
   plataforms: Plataform[];
   
@@ -48,7 +50,7 @@ export class TransferComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.buildTransferForm();
     this.getPlataforms();
-    this.getExchangeRate();
+    this.getExchangeRates();
   }
 
   ngOnChanges() {
@@ -107,10 +109,15 @@ export class TransferComponent implements OnInit, OnChanges {
       }, error => console.error(error));
   }
 
-  getExchangeRate() {
-    this.userService.getExchangeRate()
-      .subscribe(rate => {
-        this.exchangeRate = rate;
+  getExchangeRates() {
+    this.userService.getExchangeRates()
+      .subscribe( (rates: Rate[]) => {
+        this.exchangeRates = rates;
+        for (let e = 0; e < this.exchangeRates.length; e++) {
+          if (this.exchangeRates[e].id === 'USDCOP') {
+            this.exchangeRate = this.exchangeRates[e].value;
+          }
+        }
       }, error => console.error(error));
   }
 
