@@ -23,6 +23,8 @@ export class WithdrawComponent implements OnInit, OnChanges {
   @Output() view = new EventEmitter<String>();
   
   accounts: Account[];
+  exchangeRate: any;
+  operation: string;
   plataforms: Plataform[];
 
   withdrawForm: FormGroup;
@@ -45,6 +47,7 @@ export class WithdrawComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.buildWithdrawForm();
     this.getPlataforms();
+    this.getExchangeRate();
   }
 
   ngOnChanges() {
@@ -98,26 +101,39 @@ export class WithdrawComponent implements OnInit, OnChanges {
       }, error => console.error(error));
   }
 
+  getExchangeRate() {
+    this.userService.getExchangeRate()
+      .subscribe(rate => {
+        this.exchangeRate = rate;
+      }, error => console.error(error));
+  }
+
   onChanges(): void {
     this.originAccount.valueChanges
-      .subscribe((originAccount: Account) => {
-        this.setToReceive();
+      .subscribe( () => {
+        this.detailedOperation();
       });
     this.amount.valueChanges
-      .subscribe((amount: number) => {
-        this.setToReceive();
+      .subscribe( () => {
+        this.detailedOperation();
       });
   }
 
-  setToReceive() {
+  detailedOperation() {
     if (!this.originAccount.value || !this.amount.value) {
       return;
     }
-    for (let i = 0; i < this.plataforms.length; i++) {
-      if (this.plataforms[i].name === this.originAccount.value.plataform) {
-        this.toReceive.tax = this.plataforms[i].tax;
-        this.toReceive.amount = this.amount.value * ((100 - this.toReceive.tax) / 100);
+    this.operation = `${this.originAccount.value.type}`;
+    if (this.operation === 'Monedero Electrónico') {
+      for (let i = 0; i < this.plataforms.length; i++) {
+        if (this.plataforms[i].name === this.originAccount.value.plataform) {
+          this.toReceive.tax = this.plataforms[i].tax;
+          this.toReceive.amount = ( this.amount.value * this.exchangeRate * ((100 - this.toReceive.tax) / 100) ).toFixed(2);
+        }
       }
+    }
+    if (this.operation === 'Cuenta Bancaria') {
+      this.toReceive.amount = ( this.amount.value / this.exchangeRate ).toFixed(2);
     }
   }
                

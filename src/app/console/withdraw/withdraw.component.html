@@ -37,10 +37,16 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="column is-half is-three-fifths-mobile">
-              <b>Monto a recibir: </b>
-              <span class="success" *ngIf="toReceive.amount && toReceive.tax">Recibirás una cantidad de USD {{toReceive.amount}}
-                (comisión de {{toReceive.tax}}%).</span>
+            <div class="column is-full is-three-fifths-mobile">
+              <b>Detalle de la operación: </b>
+              <span class="success" *ngIf="operation === 'Monedero Electrónico'">Por el envío de una cantidad de
+                {{amount.value}} USD {{originAccount.value.entity}}, recibirás una cantidad de 
+                {{toReceive.amount}} COP (comisión de {{toReceive.tax}}%).
+              </span>
+              <span class="success" *ngIf="operation === 'Cuenta Bancaria'">Por el envío de una cantidad de
+                {{amount.value}} COP {{originAccount.value.entity}}, recibirás una cantidad de
+                {{toReceive.amount}} Bs S.
+              </span>
             </div>
             <div class="column is-full is-four-fifths-mobile">
               <mat-form-field>

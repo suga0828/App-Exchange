@@ -51,7 +51,6 @@
             </div>
             <div class="column is-full is-three-fifths-mobile">
               <b>Detalle de la operación: </b>
-              <span *ngIf="operation">Tipo de operación: {{operation}} </span> 
               <span class="success" *ngIf="operation === 'Cuenta Bancaria a Monedero Electrónico'">Por el envío de una
                 cantidad de {{amount.value}} COP
                 {{originAccount.value.entity}}, recibirás una cantidad de {{toReceive.amount}} USD

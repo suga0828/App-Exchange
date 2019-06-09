@@ -147,7 +147,7 @@ export class TransferComponent implements OnInit, OnChanges {
       for (let i = 0; i < this.plataforms.length; i++) {
         if (this.plataforms[i].name === this.originAccount.value.plataform) {
           this.toReceive.tax = this.plataforms[i].tax;
-          this.toReceive.amount = this.amount.value * ((100 - this.toReceive.tax) / 100);
+          this.toReceive.amount = ( this.amount.value * ((100 - this.toReceive.tax) / 100) ).toFixed(2);
         }
       }
     }
@@ -155,7 +155,7 @@ export class TransferComponent implements OnInit, OnChanges {
       for (let i = 0; i < this.plataforms.length; i++) {
         if (this.plataforms[i].name === this.originAccount.value.plataform) {
           this.toReceive.tax = this.plataforms[i].tax;
-          this.toReceive.amount = this.amount.value * this.exchangeRate * ((100 - this.toReceive.tax) / 100);
+          this.toReceive.amount = ( this.amount.value * this.exchangeRate * ((100 - this.toReceive.tax) / 100) ).toFixed(2);
         }
       }
     }
