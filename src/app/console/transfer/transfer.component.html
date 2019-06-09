@@ -38,7 +38,7 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="column is-half is-three-fifths-mobile is-center">
+            <div class="column is-half is-three-fifths-mobile">
               <mat-form-field>
                 <input matInput type="number" placeholder="Cantidad a transferir" formControlName="amount" required>
                 <mat-error *ngIf="amount.hasError('required')">
@@ -49,9 +49,19 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="column is-half is-three-fifths-mobile">
-              <b>Monto a recibir: </b>
-              <span class="success" *ngIf="toReceive.amount && toReceive.tax">Recibirás una cantidad de USD {{toReceive.amount}} (comisión de {{toReceive.tax}}%).</span>
+            <div class="column is-full is-three-fifths-mobile">
+              <b>Detalle de la operación: </b>
+              <span *ngIf="operation">Tipo de operación: {{operation}} </span> 
+              <span class="success" *ngIf="operation === 'Cuenta Bancaria a Monedero Electrónico'">Por el envío de una
+                cantidad de {{amount.value}} COP
+                {{originAccount.value.entity}}, recibirás una cantidad de {{toReceive.amount}} USD
+                {{destinationAccount.value.plataform}} (comisión de {{toReceive.tax}}%).</span>
+              <span class="success" *ngIf="operation === 'Monedero Electrónico a Monedero Electrónico'">Por el envío de una cantidad de {{amount.value}} USD
+                {{originAccount.value.plataform}}, recibirás una cantidad de {{toReceive.amount}} USD
+                {{destinationAccount.value.plataform}} (comisión de {{toReceive.tax}}%).</span>
+              <span class="success" *ngIf="operation === 'Monedero Electrónico a Cuenta Bancaria'">Por el envío de una cantidad de {{amount.value}} USD
+                {{originAccount.value.plataform}}, recibirás una cantidad de {{toReceive.amount}} COP
+                {{destinationAccount.value.entity}} (comisión de {{toReceive.tax}}%).</span>
             </div>
             <div class="column is-full is-four-fifths-mobile">
               <mat-form-field>

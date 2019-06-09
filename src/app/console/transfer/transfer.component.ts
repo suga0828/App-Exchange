@@ -23,6 +23,8 @@ export class TransferComponent implements OnInit, OnChanges {
   @Output() view = new EventEmitter<String>();
 
   accounts: Account[];
+  exchangeRate: any;
+  operation: string;
   plataforms: Plataform[];
   
   transferForm: FormGroup;
@@ -46,6 +48,7 @@ export class TransferComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.buildTransferForm();
     this.getPlataforms();
+    this.getExchangeRate();
   }
 
   ngOnChanges() {
@@ -104,25 +107,56 @@ export class TransferComponent implements OnInit, OnChanges {
       }, error => console.error(error));
   }
 
+  getExchangeRate() {
+    this.userService.getExchangeRate()
+      .subscribe(rate => {
+        this.exchangeRate = rate;
+      }, error => console.error(error));
+  }
+
   onChanges(): void {
     this.originAccount.valueChanges
-      .subscribe((originAccount: Account) => {
-        this.setToReceive();
+      .subscribe( () => {
+        this.detailedOperation();
+      });
+    this.destinationAccount.valueChanges
+      .subscribe( () => {
+        this.detailedOperation();
       });
     this.amount.valueChanges
-      .subscribe( (amount: number) => {
-        this.setToReceive();
+      .subscribe( () => {
+        this.detailedOperation();
       });
   }
 
-  setToReceive() {
+  detailedOperation() {
     if (!this.originAccount.value || !this.destinationAccount.value || !this.amount.value) {
+      this.operation = '';
       return;
     }
-    for (let i = 0; i < this.plataforms.length; i++) {
-      if (this.plataforms[i].name === this.originAccount.value.plataform) {
-        this.toReceive.tax = this.plataforms[i].tax;
-        this.toReceive.amount = this.amount.value * ( (100 - this.toReceive.tax) / 100);
+    this.operation = `${ this.originAccount.value.type } a ${ this.destinationAccount.value.type}`;
+    if (this.operation === 'Cuenta Bancaria a Monedero Electrónico') {
+      for (let i = 0; i < this.plataforms.length; i++) {
+        if (this.plataforms[i].name === this.originAccount.value.entity) {
+          this.toReceive.tax = this.plataforms[i].tax;
+          this.toReceive.amount = ( (this.amount.value / this.exchangeRate) * ((100 - this.toReceive.tax) / 100) ).toFixed(2);
+        }
+      }
+    }
+    if (this.operation === 'Monedero Electrónico a Monedero Electrónico') {
+      for (let i = 0; i < this.plataforms.length; i++) {
+        if (this.plataforms[i].name === this.originAccount.value.plataform) {
+          this.toReceive.tax = this.plataforms[i].tax;
+          this.toReceive.amount = this.amount.value * ((100 - this.toReceive.tax) / 100);
+        }
+      }
+    }
+    if (this.operation === 'Monedero Electrónico a Cuenta Bancaria') {
+      for (let i = 0; i < this.plataforms.length; i++) {
+        if (this.plataforms[i].name === this.originAccount.value.plataform) {
+          this.toReceive.tax = this.plataforms[i].tax;
+          this.toReceive.amount = this.amount.value * this.exchangeRate * ((100 - this.toReceive.tax) / 100);
+        }
       }
     }
   }

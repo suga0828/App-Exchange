@@ -30,6 +30,16 @@
     <mat-dialog-content>
       <form [formGroup]="plataformForm">
         <mat-form-field>
+          <mat-select placeholder="Seleccione un tipo de plataforma" formControlName="type">
+            <mat-option *ngFor="let typeElem of typeAccounts | keyvalue" [value]="typeElem.value">
+              {{typeElem.value}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="type.hasError('required')">
+            El campo es requerido.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
           <input matInput type="text" name="name" placeholder="Nombre de la plataforma" formControlName="name" required>
           <mat-error *ngIf="name.hasError('required')">
             El campo es requerido.
@@ -85,10 +95,10 @@
       <p><b>Estado: </b>{{operation.status}}</p>
       <p><b>Tipo: </b>{{operation.type}}</p>
       <p><b>Fecha: </b>{{operation.date | date:'dd-MM-yyyy, hh:mm aa'}}</p>
-      <p><b>Monto: </b>{{operation.amount}}</p>
-      <p><b>Cantidad a recibir: </b>{{operation.toReceive}}</p>
       <p><b>Cuenta de Origen: </b>{{operation.originAccount.id}}</p>
+      <p><b>Monto: </b>{{operation.amount}}</p>
       <p *ngIf="operation.destinationAccount"><b>Cuenta Destino: </b>{{operation.destinationAccount.id}}</p>
+      <p><b>Cantidad a recibir: </b>{{operation.toReceive}}</p>
       <p *ngIf="operation.comment"><b>Comentario adicional: </b>{{operation.comment}}</p>
 
       <div class="space-container">

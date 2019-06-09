@@ -27,6 +27,11 @@ export class ModalComponent implements OnInit {
     id: null,
     name: '',
     tax: null,
+    type: null,
+  };
+  typeAccounts = {
+    plataform: 'Monedero Electrónico',
+    banking: 'Cuenta Bancaria'
   };
 
   newBalance: number;
@@ -73,7 +78,8 @@ export class ModalComponent implements OnInit {
         Validators.required,
         Validators.pattern('[0-9]+'),
         Validators.maxLength(3)
-      ])]
+      ])],
+      type: ['', Validators.required]
     });
   }
 
@@ -84,7 +90,8 @@ export class ModalComponent implements OnInit {
         Validators.required,
         Validators.maxLength(3),
         Validators.pattern('[0-9]+'),
-      ])]
+      ])],
+      type: [this.plataform.type, Validators.required]
     });
   }
 
@@ -94,6 +101,10 @@ export class ModalComponent implements OnInit {
 
   get tax() {
     return this.plataformForm.get('tax');
+  }
+
+  get type() {
+    return this.plataformForm.get('type');
   }
 
   verifyUser() {

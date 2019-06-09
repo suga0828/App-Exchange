@@ -135,9 +135,13 @@
           </mat-form-field>
           <mat-form-field *ngIf="registerAccountForm.value.type === typeAccounts.plataform">
             <mat-select placeholder="Plataforma electrónica" formControlName="plataform">
-              <mat-option *ngFor="let plataform of plataforms" [value]="plataform.name">
-                {{plataform.name}}
-              </mat-option>
+              <ng-container *ngFor="let plataform of plataforms">
+                <ng-container *ngIf="plataform.type === typeAccounts.plataform">
+                  <mat-option [value]="plataform.name">
+                    {{plataform.name}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
             </mat-select>
             <mat-error *ngIf="plataform.hasError('required')">
               El campo es requerido.
@@ -171,9 +175,17 @@
               Sólo números permitidos.
             </mat-error>
           </mat-form-field>
-          <mat-form-field *ngIf="type.value === typeAccounts.banking">
-            <input matInput type="text" placeholder="Entidad Bancaria" formControlName="entity">
-            <mat-error *ngIf="numberAccount.hasError('required')">
+          <mat-form-field *ngIf="registerAccountForm.value.type === typeAccounts.banking">
+            <mat-select placeholder="Entidad Bancaria" formControlName="entity">
+              <ng-container *ngFor="let plataform of plataforms">
+                <ng-container *ngIf="plataform.type === typeAccounts.banking">
+                  <mat-option [value]="plataform.name">
+                    {{plataform.name}}
+                  </mat-option>
+                </ng-container>
+              </ng-container>
+            </mat-select>
+            <mat-error *ngIf="plataform.hasError('required')">
               El campo es requerido.
             </mat-error>
           </mat-form-field>

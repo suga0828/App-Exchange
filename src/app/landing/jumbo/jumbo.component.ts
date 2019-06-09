@@ -19,7 +19,8 @@ export class JumboComponent implements OnInit {
     plataform: {
       name: '',
       tax: null,
-      id: null
+      id: null,
+      type: ''
     },
     amount: null
   }
@@ -62,7 +63,8 @@ export class JumboComponent implements OnInit {
       plataform: {
         name: '',
         tax: null,
-        id: null
+        id: null,
+        type: ''
       },
       amount: null
     }
