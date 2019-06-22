@@ -32,7 +32,7 @@ export class AuthenticationGuard implements CanActivate {
           if (this.isLogged) {
             return true;
           } else {
-            this.router.navigate(['console/login']);
+            this.router.navigate(['landing/login']);
             return false;
           }
         }));
