@@ -74,6 +74,12 @@
                 <mat-header-cell *matHeaderCellDef>País</mat-header-cell>
                 <mat-cell *matCellDef="let element">{{element.country}}</mat-cell>
               </ng-container>
+
+              <!-- Country Column -->
+              <ng-container matColumnDef="phoneNumber">
+                <mat-header-cell *matHeaderCellDef>Teléfono</mat-header-cell>
+                <mat-cell *matCellDef="let element">{{element.phoneNumber}}</mat-cell>
+              </ng-container>
       
               <!-- idDocument Column -->
               <ng-container matColumnDef="idDocument">

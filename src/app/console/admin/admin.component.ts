@@ -25,7 +25,7 @@ export class AdminComponent implements OnInit, OnChanges {
   @ViewChildren(MatPaginator) paginator = new QueryList<MatPaginator>();
   
   users: any;
-  usersColumns: string[] = ['displayName', 'country', 'idDocument', 'idDocumentImage', 'status', 'usersOptions'];
+  usersColumns: string[] = ['displayName', 'country', 'phoneNumber', 'idDocument', 'idDocumentImage', 'status', 'usersOptions'];
 
   newPlataform: string;
   newComission: number;
@@ -87,9 +87,29 @@ export class AdminComponent implements OnInit, OnChanges {
               this.sales.push(opsByUser[e]);
             }
           }
-        };
-        this.purchases = this.purchases.reverse();
-        this.sales = this.sales.reverse();
+        }
+        this.purchases = this.purchases.sort( (a, b) => {
+          if (a.date > b.date) {
+            return 1;
+          }
+          if (a.date < b.date) {
+            return -1;
+          }
+          // a must be equal to b
+          return 0;
+        }).reverse();
+        this.sales = this.sales.sort((a, b) => {
+          if (a.date > b.date) {
+            return 1;
+          }
+          if (a.date < b.date) {
+            return -1;
+          }
+          // a must be equal to b
+          return 0;
+        }).reverse();
+        console.table(this.purchases);
+        console.table(this.sales);
         this.purchasesOperations = new MatTableDataSource(this.purchases);
         this.purchasesOperations.paginator = this.paginator.toArray()[2];
         this.salesOperations = new MatTableDataSource(this.sales);
