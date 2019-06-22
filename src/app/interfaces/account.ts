@@ -1,5 +1,6 @@
 export interface Account {
   accountType?: any;
+  currency: string;
   date: number;
   email?: any;
   entity?: any;

@@ -38,21 +38,33 @@
               </mat-form-field>
             </div>
             <div class="column is-full is-three-fifths-mobile">
+              <mat-form-field>
+                <mat-select formControlName="currency" placeholder="Moneda de recibo" required>
+                  <ng-container *ngFor="let currency of currencies">
+                    <mat-option *ngIf="originAccount.value.currency !== currency" [value]="currency">
+                      {{currency}}
+                    </mat-option>
+                  </ng-container>
+                </mat-select>
+                <mat-error *ngIf="currency.hasError('required')">
+                  El campo es requerido.
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="column is-full is-three-fifths-mobile">
               <b>Detalle de la operación: </b>
-              <span class="success" *ngIf="operation === 'Monedero Electrónico'">Por el envío de una cantidad de
-                {{amount.value}} USD {{originAccount.value.entity}}, recibirás una cantidad de 
-                {{toReceive.amount}} COP (comisión de {{toReceive.tax}}%).
-              </span>
-              <span class="success" *ngIf="operation === 'Cuenta Bancaria'">Por el envío de una cantidad de
-                {{amount.value}} COP {{originAccount.value.entity}}, recibirás una cantidad de
-                {{toReceive.amount}} Bs S.
+              <span class="success" *ngIf="toReceive.tax && toReceive.amount">Por el envío de una cantidad de
+                {{amount.value}} {{originAccount.value.currency}} <ng-container *ngIf="originAccount.value.entity">{{originAccount.value.entity}}</ng-container>
+                <ng-container *ngIf="originAccount.value.plataform">{{originAccount.value.plataform}}</ng-container>
+                , recibirás una cantidad de 
+                {{toReceive.amount}} {{currency.value}} (comisión de {{toReceive.tax}}%).
               </span>
             </div>
             <div class="column is-full is-four-fifths-mobile">
               <mat-form-field>
                 <textarea matInput
                 rows="4"
-                placeholder="Si tienes algo más que comentar, escribe aquí."
+                placeholder="Agrega toda la información necesaria para realizar el pago."
                 formControlName="comment" maxlength="200"></textarea>
                 <mat-hint align="end" *ngIf="comment.value">{{comment.length}} / 200</mat-hint>
               </mat-form-field>

@@ -281,11 +281,12 @@ export class UserComponent implements OnInit, OnChanges {
     const date = Date.now();
     if (this.type.value === this.typeAccounts.plataform) {
       this.account = {
-        id: `${this.plataform.value}: ${this.email.value}`,
+        currency: this.plataform.value.currency,
+        id: `${this.plataform.value.name}: ${this.email.value}`,
         name: this.name.value,
         email: this.email.value,
         date: date,
-        plataform: this.plataform.value,
+        plataform: this.plataform.value.name,
         type: this.type.value
       }
       const controls = Object.values(this.account);
@@ -303,11 +304,12 @@ export class UserComponent implements OnInit, OnChanges {
       }
     } else if (this.type.value === this.typeAccounts.banking) {
       this.account = {
+        currency: this.entity.value.currency,
         name: this.name.value,
         accountType: this.accountType.value,
-        entity: this.entity.value,
+        entity: this.entity.value.name,
         date: date,
-        id: `${this.entity.value}: ${this.numberAccount.value}`,
+        id: `${this.entity.value.name}: ${this.numberAccount.value}`,
         numberAccount: this.numberAccount.value,
         type: this.type.value
       }

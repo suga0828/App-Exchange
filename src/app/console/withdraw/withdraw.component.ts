@@ -25,10 +25,9 @@ export class WithdrawComponent implements OnInit, OnChanges {
   
   accounts: Account[];
   exchangeRates: Rate[];
-  usdCop: number;
-  vefCop: number;
-  operation: string;
+  exchangeRate: Rate;
   plataforms: Plataform[];
+  currencies: string[] = [];
 
   withdrawForm: FormGroup;
   
@@ -64,7 +63,8 @@ export class WithdrawComponent implements OnInit, OnChanges {
         Validators.required,
         Validators.pattern('[0-9]+')
       ])],
-      comment: ['', Validators.maxLength(200)]
+      comment: ['', Validators.maxLength(200)],
+      currency: ['', Validators.required]
     });
     this.onChanges();
   }
@@ -79,6 +79,10 @@ export class WithdrawComponent implements OnInit, OnChanges {
 
   get comment() {
     return this.withdrawForm.get('comment');
+  }
+
+  get currency() {
+    return this.withdrawForm.get('currency');
   }
 
   getAccounts() {
@@ -104,18 +108,19 @@ export class WithdrawComponent implements OnInit, OnChanges {
       }, error => console.error(error));
   }
 
+  getCurrencies() {
+    for (let rate of this.exchangeRates) {
+      if (this.currencies.indexOf(rate.currencyTo) === -1) {
+        this.currencies.push(rate.currencyTo);
+      }
+    }
+  }
+
   getExchangeRates() {
     this.userService.getExchangeRates()
       .subscribe( (rates: Rate[]) => {
         this.exchangeRates = rates;
-        for (let e = 0; e < this.exchangeRates.length; e++) {
-          if (this.exchangeRates[e].id === 'USDCOP') {
-            this.usdCop = this.exchangeRates[e].value;
-          }
-          if (this.exchangeRates[e].id === 'VEFCOP') {
-            this.vefCop = this.exchangeRates[e].value;
-          }
-        }
+        this.getCurrencies();
       }, error => console.error(error));
   }
 
@@ -128,25 +133,30 @@ export class WithdrawComponent implements OnInit, OnChanges {
       .subscribe( () => {
         this.detailedOperation();
       });
+    this.currency.valueChanges
+      .subscribe(() => {
+        this.detailedOperation();
+      });
   }
 
   detailedOperation() {
-    if (!this.originAccount.value || !this.amount.value) {
+    if (!this.originAccount.value || !this.amount.value || !this.currency.value) {
       return;
     }
-    this.operation = `${this.originAccount.value.type}`;
-      if (this.operation === 'Monedero Electrónico') {
-      for (let i = 0; i < this.plataforms.length; i++) {
-        if (this.plataforms[i].name === this.originAccount.value.plataform) {
-          this.toReceive.tax = this.plataforms[i].tax;
-          this.toReceive.amount = ( this.amount.value * this.usdCop * ((100 - this.toReceive.tax) / 100) ).toFixed(2);
-        }
-       }
-     }
-     if (this.operation === 'Cuenta Bancaria') {
-       this.toReceive.amount = ( this.amount.value / this.vefCop ).toFixed(2);
-     }
-   }
+
+    const currencyFrom = this.originAccount.value.currency;
+    const currencyTo = this.currency.value;
+    this.exchangeRate = this.exchangeRates.find( el => {
+      return el.currencyFrom === currencyFrom && el.currencyTo === currencyTo;
+    });
+
+    const plataformName = this.originAccount.value.plataform;
+    const plataformEntity = this.originAccount.value.entity;
+    this.toReceive.tax = this.plataforms.find(el => {
+      return el.name === plataformName || el.name === plataformEntity;
+    }).tax;
+    this.toReceive.amount = (this.amount.value * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
+  }
                
   onSubmit() {
     if (!this.originAccount.value || !this.amount.value) {

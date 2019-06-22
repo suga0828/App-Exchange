@@ -137,7 +137,7 @@
             <mat-select placeholder="Plataforma electrónica" formControlName="plataform">
               <ng-container *ngFor="let plataform of plataforms">
                 <ng-container *ngIf="plataform.type === typeAccounts.plataform">
-                  <mat-option [value]="plataform.name">
+                  <mat-option [value]="plataform">
                     {{plataform.name}}
                   </mat-option>
                 </ng-container>
@@ -179,7 +179,7 @@
             <mat-select placeholder="Entidad Bancaria" formControlName="entity">
               <ng-container *ngFor="let plataform of plataforms">
                 <ng-container *ngIf="plataform.type === typeAccounts.banking">
-                  <mat-option [value]="plataform.name">
+                  <mat-option [value]="plataform">
                     {{plataform.name}}
                   </mat-option>
                 </ng-container>

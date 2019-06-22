@@ -25,7 +25,7 @@ export class TransferComponent implements OnInit, OnChanges {
 
   accounts: Account[];
   exchangeRates: Rate[];
-  exchangeRate: number;
+  exchangeRate: Rate;
   operation: string;
   plataforms: Plataform[];
   
@@ -113,11 +113,6 @@ export class TransferComponent implements OnInit, OnChanges {
     this.userService.getExchangeRates()
       .subscribe( (rates: Rate[]) => {
         this.exchangeRates = rates;
-        for (let e = 0; e < this.exchangeRates.length; e++) {
-          if (this.exchangeRates[e].id === 'USDCOP') {
-            this.exchangeRate = this.exchangeRates[e].value;
-          }
-        }
       }, error => console.error(error));
   }
 
@@ -137,35 +132,22 @@ export class TransferComponent implements OnInit, OnChanges {
   }
 
   detailedOperation() {
-    if (!this.originAccount.value || !this.destinationAccount.value || !this.amount.value) {
-      this.operation = '';
+    if (!this.originAccount.value || !this.amount.value || !this.destinationAccount.value) {
       return;
     }
-    this.operation = `${ this.originAccount.value.type } a ${ this.destinationAccount.value.type}`;
-    if (this.operation === 'Cuenta Bancaria a Monedero Electrónico') {
-      for (let i = 0; i < this.plataforms.length; i++) {
-        if (this.plataforms[i].name === this.originAccount.value.entity) {
-          this.toReceive.tax = this.plataforms[i].tax;
-          this.toReceive.amount = ( (this.amount.value / this.exchangeRate) * ((100 - this.toReceive.tax) / 100) ).toFixed(2);
-        }
-      }
-    }
-    if (this.operation === 'Monedero Electrónico a Monedero Electrónico') {
-      for (let i = 0; i < this.plataforms.length; i++) {
-        if (this.plataforms[i].name === this.originAccount.value.plataform) {
-          this.toReceive.tax = this.plataforms[i].tax;
-          this.toReceive.amount = ( this.amount.value * ((100 - this.toReceive.tax) / 100) ).toFixed(2);
-        }
-      }
-    }
-    if (this.operation === 'Monedero Electrónico a Cuenta Bancaria') {
-      for (let i = 0; i < this.plataforms.length; i++) {
-        if (this.plataforms[i].name === this.originAccount.value.plataform) {
-          this.toReceive.tax = this.plataforms[i].tax;
-          this.toReceive.amount = ( this.amount.value * this.exchangeRate * ((100 - this.toReceive.tax) / 100) ).toFixed(2);
-        }
-      }
-    }
+
+    const currencyFrom = this.originAccount.value.currency;
+    const currencyTo = this.destinationAccount.value.currency;
+    this.exchangeRate = this.exchangeRates.find(el => {
+      return el.currencyFrom === currencyFrom && el.currencyTo === currencyTo;
+    });
+
+    const plataformName = this.originAccount.value.plataform;
+    const plataformEntity = this.originAccount.value.entity;
+    this.toReceive.tax = this.plataforms.find(el => {
+      return el.name === plataformName || el.name === plataformEntity;
+    }).tax;
+    this.toReceive.amount = (this.amount.value * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
   }
 
   onSubmit() {

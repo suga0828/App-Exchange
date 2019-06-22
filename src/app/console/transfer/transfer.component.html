@@ -51,16 +51,13 @@
             </div>
             <div class="column is-full is-three-fifths-mobile">
               <b>Detalle de la operación: </b>
-              <span class="success" *ngIf="operation === 'Cuenta Bancaria a Monedero Electrónico'">Por el envío de una
-                cantidad de {{amount.value}} COP
-                {{originAccount.value.entity}}, recibirás una cantidad de {{toReceive.amount}} USD
-                {{destinationAccount.value.plataform}} (comisión de {{toReceive.tax}}%).</span>
-              <span class="success" *ngIf="operation === 'Monedero Electrónico a Monedero Electrónico'">Por el envío de una cantidad de {{amount.value}} USD
-                {{originAccount.value.plataform}}, recibirás una cantidad de {{toReceive.amount}} USD
-                {{destinationAccount.value.plataform}} (comisión de {{toReceive.tax}}%).</span>
-              <span class="success" *ngIf="operation === 'Monedero Electrónico a Cuenta Bancaria'">Por el envío de una cantidad de {{amount.value}} USD
-                {{originAccount.value.plataform}}, recibirás una cantidad de {{toReceive.amount}} COP
-                {{destinationAccount.value.entity}} (comisión de {{toReceive.tax}}%).</span>
+              <span class="success" *ngIf="toReceive.tax && toReceive.amount">Por el envío de una cantidad de
+                {{amount.value}} {{originAccount.value.currency}} 
+                <ng-container *ngIf="originAccount.value.entity">{{originAccount.value.entity}}</ng-container>
+                <ng-container *ngIf="originAccount.value.plataform">{{originAccount.value.plataform}}</ng-container>
+                , recibirás una cantidad de
+                {{toReceive.amount}} {{destinationAccount.value.currency}} (comisión de {{toReceive.tax}}%).
+              </span>
             </div>
             <div class="column is-full is-four-fifths-mobile">
               <mat-form-field>
