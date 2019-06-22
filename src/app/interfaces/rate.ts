@@ -1,5 +1,6 @@
 export interface Rate {
-	date: number;
+	currencyFrom: string;
+	currencyTo: string;
 	id: string;
 	value: number;
 }

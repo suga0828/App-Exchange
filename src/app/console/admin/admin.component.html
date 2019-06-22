@@ -7,16 +7,21 @@
       <mat-card-content>
         <mat-tab-group>
           <mat-tab label="Plataformas">
+            <h3 class="center-text">Tipos de cambio actual:</h3>
             <div class="center-container" *ngIf="exchangeRates">
-              <h3>Tipos de cambio actual:</h3>
-              <p *ngFor="let rate of exchangeRates">
-                <b>{{rate.value}} {{rate.id}}</b>
-              <button class="" mat-raised-button color="primary"
-                (click)="openDialog('exchangeRate', '', '', '', rate)">Editar</button>              
-              </p>
+              <div class="container-row" *ngFor="let rate of exchangeRates">
+                <p class="container-text">
+                  {{rate.currencyFrom}} a {{rate.currencyTo}}: <b>{{rate.value}}</b>
+                </p>
+                <button class="container-button" mat-raised-button color="primary"
+                  (click)="openDialog('editExchangeRate', '', '', '', rate)">Editar</button>
+                <button class="container-button" mat-raised-button color="secondary"
+                  (click)="openDialog('deleteExchangeRate', '', '', '', rate)">Eliminar</button>
+              </div>
             </div>
             <div class="center-container">
-              <button class="" mat-raised-button color="primary" (click)="openDialog('addPlataform')">Agregar plataforma</button>
+              <button mat-raised-button color="primary" (click)="openDialog('addExchangeRate')">Agregar tipo de cambio</button>
+              <button mat-raised-button color="primary" (click)="openDialog('addPlataform')">Agregar plataforma</button>
             </div>
             <mat-table [dataSource]="plataforms">
 

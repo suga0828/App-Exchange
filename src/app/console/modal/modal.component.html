@@ -46,6 +46,15 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field>
+          <input matInput type="text" placeholder="Código ISO de la moneda" formControlName="currency" maxlength="3" required>
+          <mat-error *ngIf="currency.hasError('required')">
+            El campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="currency.hasError('maxlength') || currency.hasError('minlength')">
+            El código ISO debe tener tres carácteres.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
           <input matInput type="text" placeholder="Comisión de la plataforma (%)" formControlName="tax" maxlength="2" required>
           <mat-error *ngIf="tax.hasError('required')">
             El campo es requerido.
@@ -233,21 +242,70 @@
     </mat-dialog-actions>
   </div>
 
-  <div *ngIf="action === 'exchangeRate'">
-    <h2 mat-dialog-title>Tipo de cambio</h2>
+  <div *ngIf="action === 'addExchangeRate' || action === 'editExchangeRate'">
+    <h2 mat-dialog-title>
+      <ng-container *ngIf="action === 'addExchangeRate'">Agregar tipo de cambio</ng-container>
+      <ng-container *ngIf="action === 'editExchangeRate'">Editar tipo de cambio</ng-container>
+    </h2>
     <mat-dialog-content>
       <div class="center-container" *ngIf="exchangeRate">
-        <h3>Tipos de cambio actual:</h3>
-        <p><b>{{exchangeRate.value}} {{exchangeRate.id}}</b></p>
+        <h3 class="center-text">Tipo de cambio actual:</h3>
+        <p>
+          {{exchangeRate.currencyFrom}} a {{exchangeRate.currencyTo}}: <b>{{exchangeRate.value}}</b>
+        </p>
       </div>
-      <mat-form-field>
-        <input matInput type="number" placeholder="Cambiar tipo de cambio USDCOP" [(ngModel)]="newExchangeRate">
-      </mat-form-field>
-      <p *ngIf="newExchangeRate" class="warning">¿Seguro quiere asignar {{newExchangeRate}} {{exchangeRate.id}} como tipo de cambio?</p>
+      <form [formGroup]="exchangeRateForm">
+        <mat-form-field>
+          <input matInput type="text" formControlName="currencyFrom" placeholder="Moneda de envío" maxlength="3" required>
+          <mat-error *ngIf="currencyFrom.hasError('required')">
+            El campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="currencyFrom.hasError('maxlength') || currencyFrom.hasError('minlength')">
+            El código ISO debe tener tres carácteres.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" formControlName="currencyTo" placeholder="Moneda de recibo" maxlength="3" required>
+          <mat-error *ngIf="currencyTo.hasError('required')">
+            El campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="currencyTo.hasError('maxlength') || currencyTo.hasError('minlength')">
+            El código ISO debe tener tres carácteres.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="number" formControlName="value" placeholder="Nuevo valor de tipo de cambio" required>
+          <mat-error *ngIf="value.hasError('required')">
+            El campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="value.hasError('pattern')">
+            Se aceptan máximo siete números decimales.
+          </mat-error>
+        </mat-form-field>
+      </form>
+      <p *ngIf="value.value && exchangeRate && exchangeRate.value !== value.value" class="warning">¿Seguro quiere asignar {{exchangeRate.currencyFrom}} a {{exchangeRate.currencyTo}}: <b>{{value.value}}</b> como tipo de cambio?</p>
     </mat-dialog-content>
     <mat-dialog-actions>
       <button mat-raised-button mat-dialog-close>Cerrar</button>
-      <button mat-raised-button color="primary" (click)="updateExchangeRates()">Actualizar Cambios</button>
+      <ng-container *ngIf="action === 'addExchangeRate'">
+        <button mat-raised-button color="primary" (click)="addExchangeRate()">Agregar tipo de cambio</button>        
+      </ng-container>
+      <ng-container *ngIf="action === 'editExchangeRate'">
+        <button mat-raised-button color="primary" (click)="updateExchangeRate()">Actualizar tipo de cambio</button>
+      </ng-container>
     </mat-dialog-actions>
   </div>
+
+  <div *ngIf="action === 'deleteExchangeRate'">
+    <h2 mat-dialog-title>Eliminar tipo de cambio</h2>
+    <mat-dialog-content>
+      <p>¿Seguro que desea eliminar el tipo de cambio <b>{{exchangeRate.currencyFrom}} a {{exchangeRate.currencyTo}}: {{exchangeRate.value}}</b>?
+      </p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button mat-dialog-close>Cancelar</button>
+      <button mat-raised-button color="primary" (click)="deleteExchangeRate()">Eliminar</button>
+    </mat-dialog-actions>
+  </div>
+
 </div>

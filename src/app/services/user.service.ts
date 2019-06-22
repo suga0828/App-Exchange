@@ -96,16 +96,20 @@ export class UserService {
     return this.angularFireDatabase.object('/plataforms/' + id).remove();
   }
 
-  setExchangeRate(newRate: Rate) {
-    return this.angularFireDatabase.object('/exchangeRates/' + newRate.id).set(newRate);
-  }
-
   getExchangeRates() {
     return this.angularFireDatabase.list('/exchangeRates/').valueChanges();
   }
 
+  addExchangeRate(newRate: Rate) {
+    return this.angularFireDatabase.object('/exchangeRates/' + newRate.id).set(newRate);
+  }
+
   editExchangeRate(rate: Rate) {
-    return this.angularFireDatabase.object('/exchangeRates/' + rate.date).update(rate);
+    return this.angularFireDatabase.object('/exchangeRates/' + rate.id).update(rate);
+  }
+
+  deleteExchangeRate(id: string) {
+    return this.angularFireDatabase.object('/exchangeRates/' + id).remove();
   }
   
 }

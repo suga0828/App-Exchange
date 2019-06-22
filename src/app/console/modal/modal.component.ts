@@ -24,12 +24,7 @@ export class ModalComponent implements OnInit {
   action: string
   operation: Operation;
   user: User;
-  plataform: Plataform = {
-    id: null,
-    name: '',
-    tax: null,
-    type: null,
-  };
+  plataform: Plataform;
   typeAccounts = {
     plataform: 'Monedero Electrónico',
     banking: 'Cuenta Bancaria'
@@ -46,7 +41,7 @@ export class ModalComponent implements OnInit {
   disabled = false;
 
   exchangeRate: Rate;
-  newExchangeRate: number;
+  exchangeRateForm: FormGroup;
   
   constructor(
     private dialogRef: MatDialogRef<ModalComponent>,
@@ -61,23 +56,31 @@ export class ModalComponent implements OnInit {
     this.user = this.data.user;
     this.operation = this.data.operation;
     this.plataform = this.data.plataform;
-    if (this.action === 'addPlataform' || this.action === 'editPlataform') {
+    this.exchangeRate = this.data.exchangeRate;
+    if (this.action === 'addPlataform') {
       this.buildPlataformForm();
     }
     if (this.action === 'editPlataform') {
         this.buildEditPlataformForm();
     }
-    if (this.action === 'exchangeRate') {
-      this.exchangeRate = this.data.exchangeRate;
+    if (this.action === 'addExchangeRate') {
+      this.buildExchangeRateForm();
+    }
+    if (this.action === 'editExchangeRate') {
+      this.buildEditExchangeRateForm();
     }
   }
 
   buildPlataformForm() {
     this.plataformForm = this.formBuilder.group({
+      currency: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(3)
+      ])],
       name: ['', Validators.required],
       tax: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('[0-9]+'),
+        Validators.pattern('^[0-9]+(\.[0-9]{0,4})?$'),
         Validators.maxLength(3)
       ])],
       type: ['', Validators.required]
@@ -86,14 +89,23 @@ export class ModalComponent implements OnInit {
 
   buildEditPlataformForm() {
     this.plataformForm = this.formBuilder.group({
+      currency: [this.plataform.currency, Validators.compose([
+        Validators.required,
+        Validators.maxLength(3),
+        Validators.minLength(3)
+      ])],
       name: [this.plataform.name, Validators.required],
       tax: [this.plataform.tax, Validators.compose([
         Validators.required,
         Validators.maxLength(3),
-        Validators.pattern('[0-9]+'),
+        Validators.pattern('^[0-9]+(\.[0-9]{0,4})?$'),
       ])],
       type: [this.plataform.type, Validators.required]
     });
+  }
+
+  get currency() {
+    return this.plataformForm.get('currency');
   }
 
   get name() {
@@ -106,6 +118,56 @@ export class ModalComponent implements OnInit {
 
   get type() {
     return this.plataformForm.get('type');
+  }
+
+  buildExchangeRateForm() {
+    this.exchangeRateForm = this.formBuilder.group({
+      currencyFrom: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(3),
+        Validators.minLength(3)
+      ])],
+      currencyTo: ['', Validators.compose([
+        Validators.required,
+        Validators.maxLength(3),
+        Validators.minLength(3)
+      ])],
+      value: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('^[0-9]+(\.[0-9]{0,7})?$'),
+      ])]
+    });
+  }
+
+  buildEditExchangeRateForm() {
+    this.exchangeRateForm = this.formBuilder.group({
+      currencyFrom: [this.exchangeRate.currencyFrom, Validators.compose([
+        Validators.required,
+        Validators.maxLength(3),
+        Validators.minLength(3)
+      ])],
+      currencyTo: [this.exchangeRate.currencyTo, Validators.compose([
+        Validators.required,
+        Validators.maxLength(3),
+        Validators.minLength(3)
+      ])],
+      value: [this.exchangeRate.value, Validators.compose([
+        Validators.required,
+        Validators.pattern('^[0-9]+(\.[0-9]{0,7})?$'),
+      ])]
+    });
+  }
+
+  get currencyFrom() {
+    return this.exchangeRateForm.get('currencyFrom');
+  }
+
+  get currencyTo() {
+    return this.exchangeRateForm.get('currencyTo');
+  }
+
+  get value() {
+    return this.exchangeRateForm.get('value');
   }
 
   verifyUser() {
@@ -208,15 +270,51 @@ export class ModalComponent implements OnInit {
       });
   }
 
-  updateExchangeRates() {
+  addExchangeRate() {
+    if (this.exchangeRateForm.invalid) {
+      this.markFormGroupTouched(this.exchangeRateForm);
+      return;
+    }
+    const newExchangeRate = {
+      ...this.exchangeRateForm.value,
+      id: Date.now(),
+    }
+    this.userService.addExchangeRate(newExchangeRate)
+      .then(data => {
+        const message = `Se ha agregado ${newExchangeRate.currencyFrom} a ${newExchangeRate.currencyTo}: ${newExchangeRate.value} como nuevo tipo de cambio exitosamente`;
+        this.close(data, message, 5000, 'x');
+      })
+      .catch(data => {
+        const message = `Ocurrió un error, intente de nuevo`;
+        this.close(data, message);
+      });
+  }
+
+  updateExchangeRate() {
+    if (this.exchangeRateForm.invalid) {
+      this.markFormGroupTouched(this.exchangeRateForm);
+      return;
+    }
     const newExchangeRate = {
       ...this.exchangeRate,
-      value: this.newExchangeRate
+      ...this.exchangeRateForm.value,
     }
     this.userService.editExchangeRate(newExchangeRate)
       .then(data => {
-        const message = `Se ha asignado ${this.newExchangeRate} ${this.exchangeRate.id} como nuevo tipo de cambio exitosamente`;
-        this.close(data, message, 10000, 'x');
+        const message = `Se ha asignado ${newExchangeRate.currencyFrom} a ${newExchangeRate.currencyTo}: ${newExchangeRate.value} como nuevo tipo de cambio exitosamente`;
+        this.close(data, message, 5000, 'x');
+      })
+      .catch(data => {
+        const message = `Ocurrió un error, intente de nuevo`;
+        this.close(data, message);
+      });
+  }
+
+  deleteExchangeRate() {
+    this.userService.deleteExchangeRate(this.exchangeRate.id)
+      .then(data => {
+        const message = `Se ha eliminado ${this.exchangeRate.currencyFrom} a ${this.exchangeRate.currencyTo}: ${this.exchangeRate.value} exitosamente`;
+        this.close(data, message, 5000, 'x');
       })
       .catch(data => {
         const message = `Ocurrió un error, intente de nuevo`;
