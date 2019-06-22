@@ -6,6 +6,10 @@ nav {
   box-shadow: none;
 }
 
+.navbar-item img {
+  max-height: 64px;
+}
+
 nav ul a {
   color: #32325d !important;
 }
@@ -34,7 +38,7 @@ nav ul a {
 	height: 44px;
   width: auto;
   border-radius: 50%;
-  margin-top: 10px;
+  margin-right: 10px;
 }
 
 .navbar-item {

@@ -12,8 +12,10 @@
   z-index: 3;
 }
 
-.jumbo-presentation {
-  padding-left: 70px;
+@media screen and (min-width: 768px) {
+  .jumbo-presentation {
+    padding-left: 70px;
+}
 }
 
 .jumbo-title {

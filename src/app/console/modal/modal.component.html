@@ -55,12 +55,12 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field>
-          <input matInput type="text" placeholder="Comisión de la plataforma (%)" formControlName="tax" maxlength="2" required>
+          <input matInput type="number" placeholder="Comisión de la plataforma (%)" formControlName="tax" required>
           <mat-error *ngIf="tax.hasError('required')">
             El campo es requerido.
           </mat-error>
           <mat-error *ngIf="tax.hasError('pattern')">
-            Ingrese una comisión entre 1 y 100.
+            Se aceptan máximo 4 decimales.
           </mat-error>
         </mat-form-field>
       </form>
@@ -159,6 +159,7 @@
       <p><b>Monto: </b>{{operation.amount}}</p>
       <p><b>Cuenta de Origen: </b>{{operation.originAccount.id}}</p>
       <p *ngIf="operation.destinationAccount"><b>Cuenta Destino: </b>{{operation.destinationAccount.id}}</p>
+      <p><b>Cantidad a recibir: </b>{{operation.toReceive}}</p>
       <p *ngIf="operation.comment"><b>Comentario adicional: </b>{{operation.comment}}</p>
 
       <div class="space-container">
@@ -279,7 +280,7 @@
             El campo es requerido.
           </mat-error>
           <mat-error *ngIf="value.hasError('pattern')">
-            Se aceptan máximo siete números decimales.
+            Se aceptan máximo 7 números decimales.
           </mat-error>
         </mat-form-field>
       </form>
