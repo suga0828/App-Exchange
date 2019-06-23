@@ -19,17 +19,17 @@
 						<mat-card-content class="columns is-multiline is-centered">
 							<mat-form-field class="column is-half">
 								<mat-label>Envia</mat-label>
-								<input matInput placeholder="Ingresa un monto" type="number" min="0" [(ngModel)]="sender.amount">
+								<input matInput placeholder="Ingresa un monto" type="number" min="0" [(ngModel)]="amount">
 							</mat-form-field>
 							<mat-form-field class="column is-half">
-								<mat-select placeholder="Monedero Electrónico" [(ngModel)]="sender.plataform">
+								<mat-select placeholder="Plataforma de origen" [(ngModel)]="originAccount">
 									<mat-option *ngFor="let plataform of plataforms" [value]="plataform">
 										{{plataform.name}}
 									</mat-option>
 								</mat-select>
 							</mat-form-field>
               <mat-form-field class="column is-half">
-                <mat-select placeholder="Monedero Electrónico" [(ngModel)]="receiver.plataform">
+                <mat-select placeholder="Plataforma de destino" [(ngModel)]="destinationAccount">
 									<mat-option *ngFor="let plataform of plataforms" [value]="plataform">
 										{{plataform.name}}
 									</mat-option>
@@ -37,10 +37,10 @@
               </mat-form-field>
 							<mat-form-field class="column is-half">
 								<mat-label>Recibe</mat-label>
-								<input matInput placeholder="Ingresa un monto" type="number" [ngModel]="receiver.amount" readonly>
+								<input matInput placeholder="Ingresa un monto" type="number" [ngModel]="toReceive.amount" readonly>
 							</mat-form-field>
 							<div class="column if-full">
-								<p class="tax-text" *ngIf="tax && comission">Comisión de {{ tax }}%: USD {{ comission }}</p>
+								<p class="tax-text" *ngIf="toReceive.tax">Comisión de {{ toReceive.tax }}%. {{toReceive.comissioned}}.</p>
 								<p class="tax-text">Transferencia mínima de USD 10.</p>
 							</div>
 						</mat-card-content>

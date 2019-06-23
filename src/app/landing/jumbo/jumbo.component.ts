@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { UserService } from '../../services/user.service';
 import { Plataform } from '../../interfaces/plataform';
+import { Rate } from '../../interfaces/rate';
 
 interface Calculate {
   plataform: Plataform;
@@ -15,33 +16,24 @@ interface Calculate {
 })
 export class JumboComponent implements OnInit {
 
-  sender: Calculate = {
-    plataform: {
-      name: '',
-      tax: null,
-      id: null,
-      type: ''
-    },
-    amount: null
-  }
-  receiver = {
-    plataform: {
-      name: '',
-      tax: null,
-      id: null
-    },
-    amount: null
-  }
+  originAccount: Plataform;
+  destinationAccount: Plataform;
+  amount: number;
+  toReceive = {
+    amount: null,
+    tax: null,
+    comissioned: null
+  };
 
-  tax: number;
-  comission: number;
-
+  exchangeRates: Rate[];
+  exchangeRate: Rate;
   plataforms: Plataform[];
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
     this.getPlataforms();
+    this.getExchangeRates();
   }
 
   getPlataforms() {
@@ -51,31 +43,44 @@ export class JumboComponent implements OnInit {
       });
   }
 
-  calculateShipping() {
-    this.receiver.amount = Number( (this.sender.amount * ( (100 - this.sender.plataform.tax) / 100) ).toFixed(2));
+  getExchangeRates() {
+    this.userService.getExchangeRates()
+      .subscribe((rates: Rate[]) => {
+        this.exchangeRates = rates;
+      }, error => console.error(error));
+  }
 
-    this.tax = this.sender.plataform.tax;
-    this.comission = Number((this.sender.amount - this.receiver.amount).toFixed(2));
+  calculateShipping() {
+    if (!this.originAccount || !this.amount || !this.destinationAccount) {
+      return;
+    }
+
+    const currencyFrom = this.originAccount.currency;
+    const currencyTo = this.destinationAccount.currency;
+    this.exchangeRate = this.exchangeRates.find(el => {
+      return el.currencyFrom === currencyFrom && el.currencyTo === currencyTo;
+    });
+
+    const plataformName = this.originAccount.name;
+    this.toReceive.tax = this.plataforms.find(el => el.name === plataformName).tax;
+    if (this.exchangeRate) {
+      this.toReceive.amount = (this.amount * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
+    } else {
+      this.toReceive.amount = (this.amount *  ((100 - this.toReceive.tax) / 100)).toFixed(2);
+    }
+    this.toReceive.comissioned = `${this.amount - this.toReceive.amount} ${currencyTo}`;
+
   }
 
   refresh() {
-    this.sender = {
-      plataform: {
-        name: '',
-        tax: null,
-        id: null,
-        type: ''
-      },
-      amount: null
-    }
-    this.receiver= {
-      plataform: {
-        name: '',
-        tax: null,
-        id: null
-      },
-      amount: null
-    }
+    this.originAccount = null;
+    this.amount = null;
+    this.destinationAccount = null;
+    this.toReceive = {
+      amount: null,
+      tax: null,
+      comissioned: null
+    };
   }
 
 }

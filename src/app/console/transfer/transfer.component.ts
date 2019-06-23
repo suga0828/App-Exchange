@@ -144,10 +144,12 @@ export class TransferComponent implements OnInit, OnChanges {
 
     const plataformName = this.originAccount.value.plataform;
     const plataformEntity = this.originAccount.value.entity;
-    this.toReceive.tax = this.plataforms.find(el => {
-      return el.name === plataformName || el.name === plataformEntity;
-    }).tax;
-    this.toReceive.amount = (this.amount.value * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
+    this.toReceive.tax = this.plataforms.find(el => el.name === plataformName || el.name === plataformEntity).tax;
+    if (this.exchangeRate) {
+      this.toReceive.amount = (this.amount.value * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
+    } else {
+      this.toReceive.amount = (this.amount.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
+    }
   }
 
   onSubmit() {
