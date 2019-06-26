@@ -40,7 +40,7 @@
 								<input matInput placeholder="Ingresa un monto" type="number" [ngModel]="toReceive.amount" readonly>
 							</mat-form-field>
 							<div class="column if-full">
-								<p class="tax-text" *ngIf="toReceive.tax">Comisión de {{ toReceive.tax }}%. {{toReceive.comissioned}}.</p>
+								<p class="tax-text" *ngIf="toReceive.tax">Comisión de {{ toReceive.tax }}%.</p>
 								<p class="tax-text">Transferencia mínima de USD 10.</p>
 							</div>
 						</mat-card-content>

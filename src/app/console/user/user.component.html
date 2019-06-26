@@ -8,43 +8,43 @@
       </a>
     </mat-card-title>
     <mat-card-content>
-      <div class="columns is-multiline is-centered" *ngIf="currentUser && !edit && !register">
-        <div class="column is-three-fifths">
+      <div class="columns is-multiline is-centered is-mobile" *ngIf="currentUser && !edit && !register">
+        <div class="column is-four-fifths">
           <b>Nombre: </b>{{currentUser.displayName}}
         </div>
         <mat-divider></mat-divider>
-        <div class="column is-three-fifths">
+        <div class="column is-four-fifths">
           <b>Email: </b>
           <span *ngIf="!currentUser.email">Ingrese su correo electrónico</span>
           <span *ngIf="currentUser.email">{{ currentUser.email }}</span>
         </div>
         <mat-divider></mat-divider>
-        <div class="column is-three-fifths">
+        <div class="column is-four-fifths">
           <b>Fecha de nacimiento: </b>
           <span *ngIf="!currentUser.birthdate">Ingrese su fecha de nacimiento.</span>
           <span *ngIf="currentUser.birthdate"> {{ currentUser.birthdate | date: 'shortDate' }}</span>
         </div>
         <mat-divider></mat-divider>
-        <div class="column is-three-fifths">
+        <div class="column is-four-fifths">
           <b>País de residencia: </b>
           <span>{{currentUser.country || 'Ingrese su país de residencia.'}}</span>
         </div>
         <mat-divider></mat-divider>
-        <div class="column is-three-fifths">
+        <div class="column is-four-fifths">
           <b>Número de teléfono: </b>
             <span>{{currentUser.phoneNumber || 'Agregue su número de teléfono.'}}</span>
         </div>
         <mat-divider></mat-divider>
-        <div class="column is-three-fifths">
+        <div class="column is-four-fifths">
           <b>Saldo en cuenta: </b>USD {{ currentUser.balance }}.
         </div>
         <mat-divider></mat-divider>
-        <div class="column is-three-fifths">
+        <div class="column is-four-fifths">
           <b>Documento de identificación (DI): </b>
           <span>{{currentUser.idDocument || 'Agregue su número de DI.'}}</span>
         </div>
         <mat-divider></mat-divider>
-        <div class="column is-three-fifths">
+        <div class="column is-four-fifths">
           <b>Imagen de DI: </b>
           <ng-container *ngIf="!edit">
             <span *ngIf="currentUser.idDocumentImage">Ya registró una imagen de su DI.</span>
@@ -57,8 +57,8 @@
         </div>
         <mat-divider></mat-divider>
       </div>
-      <form [formGroup]="editAccountForm" class="columns is-multiline is-centered" *ngIf="edit && !register">
-        <mat-form-field class="column is-three-fifths" *ngIf="!currentUser.email">
+      <form class="columns is-multiline is-centered is-mobile" [formGroup]="editAccountForm" *ngIf="edit && !register">
+        <mat-form-field class="column is-four-fifths" *ngIf="!currentUser.email">
           <input matInput type="email" placeholder="Ingrese su correo electrónico" formControlName="userEmail">
           <mat-error *ngIf="userEmail.hasError('required')">
             El campo es requerido.
@@ -67,7 +67,7 @@
             Ingrese un correo electrónico válido
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="column is-three-fifths">
+        <mat-form-field class="column is-four-fifths">
           <input matInput name="birthdate" [min]="aHundredYearsAgo" [max]="now" [matDatepicker]="picker"
             formControlName="birthDate" placeholder="Ingrese su fecha de nacimiento">
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -76,7 +76,7 @@
             El campo es requerido.
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="column is-three-fifths">
+        <mat-form-field class="column is-four-fifths">
           <mat-select placeholder="Ingrese su país de residencia" formControlName="country">
             <mat-option *ngFor="let country of countries" value="{{country.name}}">{{country.name}}</mat-option>
           </mat-select>
@@ -84,7 +84,7 @@
             El campo es requerido.
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="column is-three-fifths">
+        <mat-form-field class="column is-four-fifths">
           <input matInput type="tel" placeholder="Ingrese su número de teléfono" formControlName="phoneNumber">
           <mat-error *ngIf="phoneNumber.hasError('required')">
             El campo es requerido.
@@ -93,7 +93,7 @@
             Sólo números aceptados.
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="column is-three-fifths">
+        <mat-form-field class="column is-four-fifths">
           <input matInput type="number" placeholder="Ingrese su número de DI" formControlName="documentNumber">
           <mat-error *ngIf="documentNumber.hasError('required')">
             El campo es requerido.
@@ -102,7 +102,7 @@
             Sólo carácteres alfanuméricos aceptados (letras y números).
           </mat-error>
         </mat-form-field>
-        <div class="column is-three-fifths">
+        <div class="column is-four-fifths">
           <label for="idDocumentImage">
             <a mat-raised-button class="inputFileButton" (click)="image.click()">
               Agregar imagen de documento de indentificación
@@ -112,7 +112,6 @@
           <input type="file" #image (change)="changeImage($event)" accept="image/*" style="display:none;"/>
           <p *ngIf="updateImageName">{{updateImageName}}</p>
           <img [src]="currentUser.idDocumentImage" class="img-responsive" *ngIf="currentUser.idDocumentImage && !updateImage">
-          <!-- <img [src]="updateImageUrl" class="img-responsive" *ngIf="updateImageUrl"> -->
         </div>
       </form>
       <div class="columns is-multiline is-centered" *ngIf="register">

@@ -11,10 +11,10 @@
         </ng-container>
         <br>
       </mat-list>
-      <form class="columns is-multiline is-centered" [formGroup]="transferForm" (ngSubmit)="onSubmit()">
-        <div class="column is-four-fifths">
-          <div class="columns is-multiline is-centered">
-            <div class="column is-half is-three-fifths-mobile is-center">
+      <form class="columns is-multiline is-centered is-mobile" [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+        <div class="column is-full-mobile is-four-fifths-tablet">
+          <div class="columns is-multiline is-centered is-mobile">
+            <div class="column is-three-fifths-mobile is-half-tablet">
               <mat-form-field>
                 <mat-select formControlName="originAccount" placeholder="Cuenta de origen" required>
                   <mat-option *ngFor="let account of accounts" [value]="account">
@@ -26,7 +26,7 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="column is-half is-three-fifths-mobile is-center">
+            <div class="column is-three-fifths-mobile is-half-tablet">
               <mat-form-field>
                 <mat-select formControlName="destinationAccount" placeholder="Cuenta de destino" required>
                   <mat-option *ngFor="let account of accounts" [value]="account">
@@ -38,7 +38,7 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="column is-half is-three-fifths-mobile">
+            <div class="column is-three-fifths-mobile is-half-tablet">
               <mat-form-field>
                 <input matInput type="number" placeholder="Cantidad a transferir" formControlName="amount" required>
                 <mat-error *ngIf="amount.hasError('required')">
@@ -49,17 +49,16 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="column is-full is-three-fifths-mobile">
+            <div class="column is-three-fifths-mobile is-half-tablet">
               <b>Detalle de la operación: </b>
               <span class="success" *ngIf="toReceive.tax && toReceive.amount">Por el envío de una cantidad de
                 {{amount.value}} {{originAccount.value.currency}} 
                 <ng-container *ngIf="originAccount.value.entity">{{originAccount.value.entity}}</ng-container>
-                <ng-container *ngIf="originAccount.value.plataform">{{originAccount.value.plataform}}</ng-container>
-                , recibirás una cantidad de
-                {{toReceive.amount}} {{destinationAccount.value.currency}} (comisión de {{toReceive.tax}}%).
+                <ng-container *ngIf="originAccount.value.plataform">{{originAccount.value.plataform}}</ng-container>,
+                recibirás una cantidad de {{toReceive.amount}} {{destinationAccount.value.currency}} (comisión de {{toReceive.tax}}%).
               </span>
             </div>
-            <div class="column is-full is-four-fifths-mobile">
+            <div class="column is-three-fifths-mobile is-full-tablet">
               <mat-form-field>
                 <textarea matInput
                 rows="4"

@@ -51,7 +51,7 @@
           <ng-container matColumnDef="options">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let element">
-              <button *ngIf="element.status !== 'Cancelada'" mat-icon-button [matMenuTriggerFor]="appMenu">
+              <button mat-icon-button color="warn" *ngIf="element.status !== 'Cancelada'" [matMenuTriggerFor]="appMenu">
                 <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>
               </button>
               <mat-menu #appMenu="matMenu" xPosition="after" [overlapTrigger]="false">

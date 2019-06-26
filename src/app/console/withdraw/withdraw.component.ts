@@ -39,6 +39,7 @@ export class WithdrawComponent implements OnInit, OnChanges {
   messages = [
     'Retira dinero desde tu cuenta bancaria nacional a otra cuenta de otro país (moneda local a monera extranjera).',
     'Retira dinero desde un monedero electrónico a tu cuenta bancaria nacional (dólar a moneda local).',
+    'Retira de tu monedero electrónico preferido hacia otros monederos u otras cuentas de amigos (dólar a otros medios).'
   ]
 
   constructor(
@@ -178,10 +179,11 @@ export class WithdrawComponent implements OnInit, OnChanges {
     }
     this.userService.registerOperation(withdraw)
       .then(r => {
+        const msj = `Administración le contactará a la brevedad. Puede ver y seguir el estado de su operación en <b>Historial</b>`;
         swal.fire({
+          html: msj,
           type: 'success',
           title: 'Solicitud de retiro realizada',
-          text: `Su solicitud de retiro será procesada a la brevedad posible.`,
         });
         this.changeView('historicalView');
       })

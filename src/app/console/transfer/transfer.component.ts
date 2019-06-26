@@ -173,10 +173,11 @@ export class TransferComponent implements OnInit, OnChanges {
     }
     this.userService.registerOperation(transference)
       .then( r => {
+        const msj = `Administración le contactará a la brevedad. Puede ver y seguir el estado de su operación en <b>Historial</b>`;
         swal.fire({
+          html: msj,
           type: 'success',
           title: 'Solicitud de transferencia realizada',
-          text: `Su solicitud de transferencia será procesada a la brevedad posible.`,
         });
         this.changeView('historicalView');
       })
