@@ -66,7 +66,7 @@ export class JumboComponent implements OnInit {
     if (this.exchangeRate) {
       this.toReceive.amount = (this.amount * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
     } else {
-      this.toReceive.amount = (this.amount *  ((100 - this.toReceive.tax) / 100)).toFixed(2);
+      this.toReceive.amount = (this.amount *  ((100 - this.toReceive.tax) / 100)).toFixed(0);
     }
     this.toReceive.comissioned = `${this.amount - this.toReceive.amount} ${currencyTo}`;
 
