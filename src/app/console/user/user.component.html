@@ -1,7 +1,8 @@
 <section id="profile">
   <mat-card>
     <mat-card-title class="header">
-      <h2 class="title">Información Personal</h2>
+      <h2 class="title" *ngIf="!register">Información Personal</h2>
+      <h2 class="title" *ngIf="register">Cuentas</h2>
       <a class="edit" (click)="changeToEdit()" *ngIf="!edit && !register">
         <fa-icon [icon]="['fas', 'edit']" size="lg"></fa-icon>
         Editar 
@@ -114,8 +115,8 @@
           <img [src]="currentUser.idDocumentImage" class="img-responsive" *ngIf="currentUser.idDocumentImage && !updateImage">
         </div>
       </form>
-      <div class="columns is-multiline is-centered" *ngIf="register">
-        <form [formGroup]="registerAccountForm" class="column is-three-fifths">
+      <div class="columns is-multiline is-centered is-mobile" *ngIf="register" id="accounts">
+        <form [formGroup]="registerAccountForm" class="column is-three-fifths" *ngIf="addAccount || editAccount">
           <mat-form-field>
             <mat-select placeholder="Seleccione un tipo de cuenta" formControlName="type">
               <mat-option *ngFor="let type of typeAccounts | keyvalue" [value]="type.value">
@@ -189,21 +190,41 @@
             </mat-error>
           </mat-form-field>
         </form>
+        <ng-container *ngIf="accounts && register && !addAccount && !editAccount">
+          <ng-container *ngFor="let account of accounts">
+            <div class="column is-half-mobile is-two-fifths-tablet center-container" id="account">
+              {{account.id}}
+            </div>
+            <div class="column is-half-mobile is-two-fifths-tablet center-container">
+              <button mat-raised-button color="primary" (click)="showEditAccount(account)" type="button">Editar</button>              
+              <button mat-raised-button color="primary" (click)="openDialog('deleteAccount', currentUser, '', '', '', account)" type="button">Eliminar</button>              
+            </div>
+            <mat-divider></mat-divider>
+          </ng-container>
+        </ng-container>
+        <mat-toolbar color="primary" *ngIf="!accounts.length && register && !addAccount && !editAccount">
+          No tienes cuentas
+        </mat-toolbar>
       </div>
     </mat-card-content>
     <mat-card-actions class="columns is-mobile is-multiline is-centered">
       <div class="column is-narrow">
         <button mat-raised-button color="primary" *ngIf="!edit && !register" (click)="changeView('transferView')" type="button">Quiero Transferir</button>
         <button mat-raised-button color="primary" *ngIf="edit && !register" (click)="changeToEdit()" type="button" [disabled]="disabled">Cancelar</button>
-        <button mat-raised-button color="primary" *ngIf="register && !edit" (click)="changeToRegister()" type="button" [disabled]="disabled">Cancelar</button>
+        <button mat-raised-button color="primary" *ngIf="register && !edit && !addAccount && !editAccount" (click)="changeToRegister()" type="button" [disabled]="disabled">Volver</button>
+        <button mat-raised-button color="primary" *ngIf="register && addAccount" (click)="addAccount = false" type="button">Cancelar</button>
+        <button mat-raised-button color="primary" *ngIf="register && editAccount" (click)="editAccount = false" type="button">Cancelar</button>
       </div>
       <div class="column is-narrow">
         <button mat-raised-button color="primary" *ngIf="!edit && !register" (click)="changeView('withdrawView')" type="button">Quiero Retirar</button>
         <button mat-raised-button color="primary" *ngIf="edit && !register" (click)="onEditSubmit()" [disabled]="disabled">Actualizar</button>
-        <button mat-raised-button color="primary" *ngIf="register && !edit" (click)="registerAccount()" [disabled]="disabled">Registrar</button>
+        <button mat-raised-button color="primary" *ngIf="register && !edit && addAccount" (click)="registerAccount()" [disabled]="disabled">Registrar Cuenta</button>
+        <button mat-raised-button color="primary" *ngIf="register && !edit && editAccount" (click)="updateAccount()" [disabled]="disabled">Editar Cuenta</button>
+        <button mat-raised-button color="primary" *ngIf="register && !edit && !addAccount && !editAccount" (click)="showAddAccount()">Agregar Cuenta</button>
+
       </div>
       <div class="column is-narrow">
-        <button mat-raised-button color="primary" *ngIf="!register && !edit" (click)="changeToRegister()">Agregar Cuenta</button>
+        <button mat-raised-button color="primary" *ngIf="!register && !edit" (click)="changeToRegister()">Cuentas</button>
       </div>
     </mat-card-actions>
   </mat-card>

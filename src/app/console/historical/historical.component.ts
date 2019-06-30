@@ -1,7 +1,6 @@
-import { Component, Input, OnInit, OnChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, ViewChild, OnDestroy } from '@angular/core';
 
 import { UserService } from '../../services/user.service';
-
 import { User } from '../../interfaces/user';
 import { Operation } from '../../interfaces/operation';
 
@@ -9,14 +8,17 @@ import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angul
 
 import { ModalComponent } from '../modal/modal.component';
 
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-historical',
   templateUrl: './historical.component.html',
   styleUrls: ['./historical.component.scss']
 })
-export class HistoricalComponent implements OnInit, OnChanges {
+export class HistoricalComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public currentUser: User;
+  operationsSubscription: Subscription;
 
   messages = [
     'Aún no tiene operaciones realizadas.',
@@ -43,13 +45,13 @@ export class HistoricalComponent implements OnInit, OnChanges {
   }
 
   getOperations() {
-    this.userService.getUserOperations(this.currentUser.uid)
+    this.operationsSubscription = this.userService.getUserOperations(this.currentUser.uid)
       .subscribe( (operations: Operation[]) => {
         this.dataSource = new MatTableDataSource(operations.reverse());
         this.dataSource.paginator = this.paginator;
-      }, (err) => {
+      }, (error) => {
           this.dataSource = new MatTableDataSource();
-          console.error(err);
+          console.error(error);
       });
   }
 
@@ -76,6 +78,10 @@ export class HistoricalComponent implements OnInit, OnChanges {
     this.snackBar.open(message, action, {
       duration: 2500,
     });
+  }
+
+  ngOnDestroy() {
+    this.operationsSubscription.unsubscribe();
   }
 
 }

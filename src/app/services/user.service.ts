@@ -44,12 +44,24 @@ export class UserService {
     return this.angularFireDatabase.object('/operations/' + uid + '/' + date + '/voucherAdminImage').set(path);
   }
 
-  registerAccount(account: Account, uid: string) {
+  registerAccount(newAccount: Account, uid: string) {
+    if(newAccount.email) {
+      const cleanEmail = newAccount.email.replace('.', ',') //Firebase don't accept dot in string.
+      newAccount.email = cleanEmail;
+    }
+    return this.angularFireDatabase.object('/accounts/' + uid + '/' + newAccount.date ).set(newAccount);
+  }
+
+  editAccount(account: Account, uid: string) {
     if(account.email) {
       const cleanEmail = account.email.replace('.', ',') //Firebase don't accept dot in string.
       account.email = cleanEmail;
     }
-    return this.angularFireDatabase.object('/accounts/' + uid + '/' + account.date ).set(account);
+    return this.angularFireDatabase.object('/accounts/' +uid + '/' + account.date ).update(account);
+  }
+
+  deleteAccount(account: Account, uid: string) {
+    return this.angularFireDatabase.object('/accounts/' + uid + '/' + account.date).remove();
   }
 
   getUserAccounts(uid: string) {

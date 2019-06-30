@@ -44,17 +44,17 @@ export class ConsoleComponent implements OnInit, OnDestroy {
   }
 
   emitLogout(e) {
+    this.userSubscription.unsubscribe();
     if (e) {
-      this.authenticationService.logOut();
-      console.log('Sesión cerrada.');
       this.ngZone.run(() => {
         this.router.navigate(['/landing/login']);
       });
+      this.authenticationService.logOut();
+      console.log('Sesión cerrada.');
     }
   }
 
   ngOnDestroy() {
-    this.userSubscription.unsubscribe();
     this.authSubscription.unsubscribe();
   }
 

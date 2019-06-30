@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, ViewChildren, QueryList } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, ViewChildren, QueryList, OnDestroy } from '@angular/core';
 
 import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angular/material';
 
@@ -10,14 +10,18 @@ import { Rate } from '../../interfaces/rate';
 
 import { ModalComponent } from '../modal/modal.component';
 
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
-export class AdminComponent implements OnInit, OnChanges {
+export class AdminComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public currentUser: User;
+  usersSubscription: Subscription;
+  operationsSubscription: Subscription;
 
   exchangeRates: Rate[];
   plataforms: any;
@@ -66,7 +70,7 @@ export class AdminComponent implements OnInit, OnChanges {
   }
 
   getUsers() {
-    this.userService.getUsers()
+    this.usersSubscription = this.userService.getUsers()
       .subscribe((users: User[]) => {
         this.users = new MatTableDataSource(users);
         this.users.paginator = this.paginator.toArray()[1];
@@ -74,7 +78,7 @@ export class AdminComponent implements OnInit, OnChanges {
   }
 
   getOperations() {
-    this.userService.getOperations()
+    this.operationsSubscription = this.userService.getOperations()
       .subscribe( (allOperations: Operation[][]) => {
         this.purchases = [];
         this.sales = [];
@@ -108,8 +112,6 @@ export class AdminComponent implements OnInit, OnChanges {
           // a must be equal to b
           return 0;
         }).reverse();
-        console.table(this.purchases);
-        console.table(this.sales);
         this.purchasesOperations = new MatTableDataSource(this.purchases);
         this.purchasesOperations.paginator = this.paginator.toArray()[2];
         this.salesOperations = new MatTableDataSource(this.sales);
@@ -153,5 +155,8 @@ export class AdminComponent implements OnInit, OnChanges {
     });
   }
   
-
+  ngOnDestroy() {
+    this.usersSubscription.unsubscribe();
+    this.operationsSubscription.unsubscribe();
+  }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
 
 import { GetCountriesService } from '../../services/get-countries.service';
 import { UserService } from '../../services/user.service';
@@ -7,6 +7,9 @@ import { Country } from '../../interfaces/country';
 import { Account } from '../../interfaces/account';
 import { Plataform } from '../../interfaces/plataform';
 import { User } from '../../interfaces/user';
+
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { ModalComponent } from '../modal/modal.component';
 
 import { AngularFireStorage } from '@angular/fire/storage';
 
@@ -22,16 +25,19 @@ import swal from 'sweetalert2';
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit, OnChanges {
+export class UserComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public currentUser: User;
-  plataformSubscription: Subscription;
+  accountsSubscription: Subscription;
 
   @Output() view = new EventEmitter<String>();
 
   private user: User;
   messages: String;
   account: Account;
+  accounts: Account[];
+  addAccount = false;
+  editAccount = false;
 
   typeAccount: any;
   register = false;
@@ -59,12 +65,15 @@ export class UserComponent implements OnInit, OnChanges {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private firebaseStorage: AngularFireStorage,
-    private countriesService: GetCountriesService
+    private countriesService: GetCountriesService,
+    public dialog: MatDialog,
+    public snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() { }
 
   ngOnChanges() {
+    this.getAccounts();
     if (this.currentUser) {
       if (Object.keys(this.currentUser).length < 10) {
         swal.fire({
@@ -73,6 +82,15 @@ export class UserComponent implements OnInit, OnChanges {
           timer: 1500
         });
       }
+    }
+  }
+
+  getAccounts() {
+    if (this.currentUser) {
+      this.accountsSubscription = this.userService.getUserAccounts(this.currentUser.uid)
+        .subscribe((accounts: Account[]) => {
+          this.accounts = accounts;
+        }, error => console.error(error));
     }
   }
 
@@ -93,6 +111,40 @@ export class UserComponent implements OnInit, OnChanges {
       ])],
       accountType: ['', Validators.required]
     });
+  }
+
+  buildEditAccountForm(account: Account) {
+    if (account.email) {
+      const cleanEmail = account.email.replace(',', '.') //Firebase don't accept dot in string.
+      account.email = cleanEmail;
+    }
+    this.plataform.setValue(account.plataform)
+    this.entity.setValue(account.entity)
+    this.registerAccountForm = this.formBuilder.group({
+      date: [account.date],
+      type: [account.type, Validators.required],
+      plataform: ['', Validators.required],
+      name: [account.name, Validators.required],
+      entity: ['', Validators.required],
+      email: [account.email, [Validators.required, Validators.email]],
+      numberAccount: [account.numberAccount, Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]+')
+      ])],
+      accountType: [account.accountType, Validators.required]
+    });
+    if (account.plataform) {
+      const accountPlataform = this.plataforms.find(pl => {
+        return pl.name == account.plataform.name;
+      });
+      this.plataform.setValue(accountPlataform)
+    }
+    if (account.entity) {
+      const accountEntity = this.plataforms.find(pl => {
+        return pl.name == account.entity.name;
+      });
+      this.entity.setValue(accountEntity)
+    }
   }
 
   buildEditForm() {
@@ -187,14 +239,14 @@ export class UserComponent implements OnInit, OnChanges {
     this.register = !this.register;
     if (this.register) {
       this.buildRegisterForm();
-      this.plataformSubscription = this.userService.getPlataforms()
-        .subscribe( (plataforms: Plataform[]) => {
-          this.plataforms = plataforms;
-        });
     }
   }
   
   //- Register form vars
+  get date() {
+    return this.registerAccountForm.get('date');
+  }
+  
   get type() {
     return this.registerAccountForm.get('type');
   }
@@ -277,6 +329,11 @@ export class UserComponent implements OnInit, OnChanges {
       }, error => console.error(error));
   }
 
+  showAddAccount() {
+    this.addAccount = true;
+    this.buildRegisterForm();
+  }
+
   registerAccount() {
     const date = Date.now();
     if (this.type.value === this.typeAccounts.plataform) {
@@ -286,7 +343,7 @@ export class UserComponent implements OnInit, OnChanges {
         name: this.name.value,
         email: this.email.value,
         date: date,
-        plataform: this.plataform.value.name,
+        plataform: this.plataform.value,
         type: this.type.value
       }
       const controls = Object.values(this.account);
@@ -307,7 +364,7 @@ export class UserComponent implements OnInit, OnChanges {
         currency: this.entity.value.currency,
         name: this.name.value,
         accountType: this.accountType.value,
-        entity: this.entity.value.name,
+        entity: this.entity.value,
         date: date,
         id: `${this.entity.value.name}: ${this.numberAccount.value}`,
         numberAccount: this.numberAccount.value,
@@ -345,11 +402,119 @@ export class UserComponent implements OnInit, OnChanges {
           title: 'Ocurrió un error registrando su cuenta'
         });
       });
-    this.changeToRegister();
+      this.addAccount = false;
+  }
+
+  showEditAccount(account: Account) {
+    this.editAccount = true;
+    this.buildEditAccountForm(account);
+  }
+
+  updateAccount() {
+    if (this.type.value === this.typeAccounts.plataform) {
+      this.account = {
+        date: this.date.value,
+        currency: this.plataform.value.currency,
+        id: `${this.plataform.value.name}: ${this.email.value}`,
+        name: this.name.value,
+        email: this.email.value,
+        plataform: this.plataform.value,
+        type: this.type.value
+      }
+      const controls = Object.values(this.account);
+      for (let i = 0; i < controls.length; i++) {
+        if (controls[i] === '') {
+          swal.fire({
+            type: 'warning',
+            title: 'Complete los campos solicitados'
+          });
+          return
+        }
+      }
+      if (this.email.hasError('email')) {
+        return
+      }
+    } else if (this.type.value === this.typeAccounts.banking) {
+      this.account = {
+        date: this.date.value,
+        currency: this.entity.value.currency,
+        name: this.name.value,
+        accountType: this.accountType.value,
+        entity: this.entity.value,
+        id: `${this.entity.value.name}: ${this.numberAccount.value}`,
+        numberAccount: this.numberAccount.value,
+        type: this.type.value
+      }
+      const controls = Object.values(this.account);
+      for (let i = 0; i < controls.length; i++) {
+        if (controls[i] === '') {
+          swal.fire({
+            type: 'warning',
+            title: 'Complete los campos solicitados'
+          });
+          return
+        }
+      }
+    } else {
+      swal.fire({
+        type: 'warning',
+        title: 'Seleccione un tipo de cuenta'
+      });
+      return;
+    }
+    this.userService.editAccount(this.account, this.currentUser.uid)
+      .then(r => {
+        swal.fire({
+          type: 'success',
+          title: 'Actualización de cuenta realizada',
+          text: `Su cuenta  ${this.account.type} ha sido actualizada exitosamente.`,
+        });
+      })
+      .catch(error => {
+        console.error(error)
+        swal.fire({
+          type: 'error',
+          title: 'Ocurrió un error actualizando su cuenta'
+        });
+      });
+    this.editAccount = false;
+  }
+
+  openDialog(action: string, user?: User, operation?, plataform?, exchangeRate?, account?: Account) {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      width: '360px',
+      data: {
+        action: action,
+        user: user,
+        operation: operation,
+        plataform: plataform,
+        exchangeRate: exchangeRate,
+        account: account
+      }
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.openSnackBar(result.message, result.action, result.time);
+        }
+      }, error => {
+        console.error(error);
+        this.openSnackBar('Ocurrió un error al realizar la operación', error);
+      });
+  }
+
+  openSnackBar(message: string, action: string = '', time?: number) {
+    this.snackBar.open(message, action, {
+      duration: time || 2500,
+    });
   }
 
   changeView(view: String) {
     this.view.emit(view);
+  }
+
+  ngOnDestroy() {
+    this.accountsSubscription.unsubscribe();
   }
 
 }

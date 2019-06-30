@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, EventEmitter, Output } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, EventEmitter, Output, OnDestroy } from '@angular/core';
 
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
@@ -13,14 +13,17 @@ import { Rate } from '../../interfaces/rate';
 // ES6 Modules or TypeScript
 import swal from 'sweetalert2';
 
+import { Subscription } from 'rxjs';
+
 @Component({
   selector: 'app-withdraw',
   templateUrl: './withdraw.component.html',
   styleUrls: ['./withdraw.component.scss']
 })
-export class WithdrawComponent implements OnInit, OnChanges {
+export class WithdrawComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() public currentUser: User;
+  accountsSubscription: Subscription;
   @Output() view = new EventEmitter<String>();
   
   accounts: Account[];
@@ -88,7 +91,7 @@ export class WithdrawComponent implements OnInit, OnChanges {
 
   getAccounts() {
     if (this.currentUser) {
-      this.userService.getUserAccounts(this.currentUser.uid)
+      this.accountsSubscription = this.userService.getUserAccounts(this.currentUser.uid)
         .subscribe( (accounts: Account[]) => {
           this.accounts = accounts;
           if (!accounts.length) {
@@ -198,5 +201,9 @@ export class WithdrawComponent implements OnInit, OnChanges {
 
   changeView(view: String) {
     this.view.emit(view);
+  }
+
+  ngOnDestroy() {
+    this.accountsSubscription.unsubscribe();
   }
 }

@@ -64,6 +64,27 @@ mat-radio-button:first-of-type {
   white-space: pre-wrap;
 }
 
+#accounts {
+  justify-content: center;
+  align-items: center;
+}
+
+#account {
+  word-break: break-all;
+}
+
+.center-container {
+  text-align: center;
+
+  button {
+    margin: 5px;
+  }
+}
+
+mat-toolbar {
+  margin: 0 2px;
+}
+
 @media screen and (min-width: 480px){
   mat-card{
     width: 90%;

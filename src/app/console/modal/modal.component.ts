@@ -3,6 +3,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { UserService } from '../../services/user.service';
+import { Account } from '../../interfaces/account';
 import { User } from '../../interfaces/user';
 import { Operation } from '../../interfaces/operation';
 import { Plataform } from '../../interfaces/plataform';
@@ -21,7 +22,8 @@ import swal from 'sweetalert2';
 })
 export class ModalComponent implements OnInit {
 
-  action: string
+  action: string;
+  account: Account;
   operation: Operation;
   user: User;
   plataform: Plataform;
@@ -57,6 +59,7 @@ export class ModalComponent implements OnInit {
     this.operation = this.data.operation;
     this.plataform = this.data.plataform;
     this.exchangeRate = this.data.exchangeRate;
+    this.account = this.data.account
     if (this.action === 'addPlataform') {
       this.buildPlataformForm();
     }
@@ -456,6 +459,18 @@ export class ModalComponent implements OnInit {
         this.close(data, message);
       })
       .catch( data => {
+        const message = `Ocurrió un error, intente de nuevo`;
+        this.close(data, message);
+      });
+  }
+
+  deleteAccount() {
+    this.userService.deleteAccount(this.account, this.user.uid)
+      .then(data => {
+        const message = `La cuenta se eliminó exitosamente`;
+        this.close(data, message);
+      })
+      .catch(data => {
         const message = `Ocurrió un error, intente de nuevo`;
         this.close(data, message);
       });

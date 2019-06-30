@@ -309,4 +309,15 @@
     </mat-dialog-actions>
   </div>
 
+  <div *ngIf="action === 'deleteAccount'">
+    <h2 mat-dialog-title>Eliminar cuenta</h2>
+    <mat-dialog-content>
+      <p>¿Seguro quiere eliminar su cuenta {{account.id}}?</p>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+      <button mat-raised-button mat-dialog-close>Cancelar</button>
+      <button mat-raised-button color="primary" (click)="deleteAccount()">Eliminar</button>
+    </mat-dialog-actions>
+  </div>
+
 </div>
