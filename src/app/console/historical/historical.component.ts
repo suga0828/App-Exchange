@@ -4,7 +4,10 @@ import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user';
 import { Operation } from '../../interfaces/operation';
 
-import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ModalComponent } from '../modal/modal.component';
 
@@ -28,7 +31,7 @@ export class HistoricalComponent implements OnInit, OnChanges, OnDestroy {
 
   dataSource: any;
   displayedColumns: string[] = ['date', 'type', 'origin_account', 'amount', 'destination_account', 'status', 'options'];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,

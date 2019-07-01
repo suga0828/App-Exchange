@@ -8,7 +8,9 @@ import { Account } from '../../interfaces/account';
 import { Plataform } from '../../interfaces/plataform';
 import { User } from '../../interfaces/user';
 
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { ModalComponent } from '../modal/modal.component';
 
 import { AngularFireStorage } from '@angular/fire/storage';

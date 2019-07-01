@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 
 import { User } from '../../interfaces/user';
 

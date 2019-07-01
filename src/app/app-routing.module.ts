@@ -12,11 +12,11 @@ const routes: Routes = [
   },
   {
     path: 'landing',
-    loadChildren: './landing/landing.module#LandingModule'
+    loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule)
   },
   {
     path: 'console',
-    loadChildren: './console/console.module#ConsoleModule',
+    loadChildren: () => import('./console/console.module').then(m => m.ConsoleModule),
     canActivate: [AuthenticationGuard]
   },
 

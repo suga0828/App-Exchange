@@ -1,6 +1,9 @@
 import { Component, Input, OnInit, OnChanges, ViewChildren, QueryList, OnDestroy } from '@angular/core';
 
-import { MatTableDataSource, MatPaginator, MatDialog, MatSnackBar } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { UserService } from '../../services/user.service';
 import { User } from '../../interfaces/user';
