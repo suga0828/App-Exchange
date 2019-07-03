@@ -54,8 +54,8 @@
             <div class="column is-three-fifths-mobile is-half-tablet">
               <b>Detalle de la operación: </b>
               <span class="success" *ngIf="toReceive.tax && toReceive.amount">Por el envío de una cantidad de
-                {{amount.value}} {{originAccount.value.currency}} <ng-container *ngIf="originAccount.value.entity">{{originAccount.value.entity}}</ng-container>
-                <ng-container *ngIf="originAccount.value.plataform">{{originAccount.value.plataform}}</ng-container>
+                {{amount.value}} {{originAccount.value.currency}} <ng-container *ngIf="originAccount.value.entity">{{originAccount.value.entity.name}}</ng-container>
+                <ng-container *ngIf="originAccount.value.plataform">{{originAccount.value.plataform.name}}</ng-container>
                 , recibirás una cantidad de 
                 {{toReceive.amount}} {{currency.value}} (comisión de {{toReceive.tax}}%).
               </span>

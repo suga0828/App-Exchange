@@ -145,9 +145,17 @@ export class TransferComponent implements OnInit, OnChanges, OnDestroy {
       return el.currencyFrom === currencyFrom && el.currencyTo === currencyTo;
     });
 
-    const plataformName = this.originAccount.value.plataform;
-    const plataformEntity = this.originAccount.value.entity;
-    this.toReceive.tax = this.plataforms.find(el => el.name === plataformName || el.name === plataformEntity).tax;
+    const plataform = this.originAccount.value.plataform;
+    const entity = this.originAccount.value.entity;
+    this.toReceive.tax = this.plataforms.find(el => {
+      if (plataform) {
+        return el.id === plataform.id;
+      }
+      if (entity) {
+        return el.name === entity.name;
+
+      }
+    }).tax;
     if (this.exchangeRate) {
       this.toReceive.amount = (this.amount.value * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
     } else {

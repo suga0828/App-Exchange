@@ -154,12 +154,23 @@ export class WithdrawComponent implements OnInit, OnChanges, OnDestroy {
       return el.currencyFrom === currencyFrom && el.currencyTo === currencyTo;
     });
 
-    const plataformName = this.originAccount.value.plataform;
-    const plataformEntity = this.originAccount.value.entity;
+    const plataform = this.originAccount.value.plataform;
+    const entity = this.originAccount.value.entity;
     this.toReceive.tax = this.plataforms.find(el => {
-      return el.name === plataformName || el.name === plataformEntity;
+      if (plataform) {
+        return el.id === plataform.id;
+      }
+      else if (entity) {
+        return el.name === entity.name;
+
+      }
     }).tax;
-    this.toReceive.amount = (this.amount.value * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
+    if (this.exchangeRate) {
+      this.toReceive.amount = (this.amount.value * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
+    } else {
+      this.toReceive.amount = null;
+      this.toReceive.tax = null;
+    }
   }
                
   onSubmit() {
