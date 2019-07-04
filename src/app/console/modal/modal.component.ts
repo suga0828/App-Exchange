@@ -137,7 +137,7 @@ export class ModalComponent implements OnInit {
       ])],
       value: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9]+(\.[0-9]{0,11})?$'),
+        Validators.pattern('^[0-9]+(\.[0-9]{0,15})?$'),
       ])]
     });
   }
