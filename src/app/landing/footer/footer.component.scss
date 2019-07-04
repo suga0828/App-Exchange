@@ -50,7 +50,7 @@
 }
 
 .footer-icon {
-  width: 40px;
+  width: 70px;
 }
 
 .icon-black {
@@ -61,7 +61,7 @@
   color: #d02121;
 }
 
-@media screen and (min-width: 769px) {
+@media screen and (min-width: 768px) {
   .footer-button {
     display: inline-block;
     margin: 0 8px 8px 0;
@@ -69,5 +69,9 @@
 
   .footer-button:last-of-type {
     margin: 0;
+  }
+
+  .footer-network {
+    font-size: 19px
   }
 }

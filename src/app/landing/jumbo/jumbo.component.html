@@ -37,10 +37,12 @@
               </mat-form-field>
 							<mat-form-field class="column is-half">
 								<mat-label>Recibe</mat-label>
-								<input matInput placeholder="Ingresa un monto" type="number" [ngModel]="toReceive.amount" readonly>
+								<input matInput placeholder="Monto a recibir" type="number" [ngModel]="toReceive.amount" readonly>
 							</mat-form-field>
 							<div class="column if-full">
-								<p class="tax-text" *ngIf="toReceive.tax">Comisión de {{ toReceive.tax }}%.</p>
+								<p class="tax-text" *ngIf="toReceive.tax">
+                Por el envío de una cantidad de {{amount}} {{originAccount.currency}} {{originAccount.name}},
+                recibirás una cantidad de {{toReceive.amount}} {{destinationAccount.currency}} {{destinationAccount.name}}. Comisión de {{ toReceive.tax }}%.</p>
 								<p class="tax-text">Transferencia mínima de USD 10.</p>
 							</div>
 						</mat-card-content>

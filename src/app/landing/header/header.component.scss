@@ -10,8 +10,17 @@ nav {
   max-height: 64px;
 }
 
+.navbar-title {
+  font-size: 16px;
+  transition: all 800ms ease-in-out;
+}
+
 nav ul a {
   color: #32325d !important;
+}
+
+nav a:hover {
+  color: inherit;
 }
 
 .scroll {
@@ -50,6 +59,18 @@ nav ul a {
   top: 35px;
 	left: 35px;
 	z-index: 1 !important;
+}
+
+@media screen and (min-width: 480px) {
+  .navbar-title {
+    font-size: 26px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .navbar-title {
+    font-size: 34px;
+  }
 }
 
 @media screen and (min-width: 992px) {
