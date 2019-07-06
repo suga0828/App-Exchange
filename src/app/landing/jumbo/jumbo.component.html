@@ -19,17 +19,17 @@
 						<mat-card-content class="columns is-multiline is-centered">
 							<mat-form-field class="column is-half">
 								<mat-label>Envia</mat-label>
-								<input matInput placeholder="Ingresa un monto" type="number" min="0" [(ngModel)]="amount">
-							</mat-form-field>
+								<input matInput placeholder="Ingresa un monto" type="number" min="0" [(ngModel)]="amount" (change)="calculateShipping()">
+              </mat-form-field>
 							<mat-form-field class="column is-half">
-								<mat-select placeholder="Plataforma de origen" [(ngModel)]="originAccount">
+								<mat-select placeholder="Plataforma de origen" [(ngModel)]="originAccount" (selectionChange)="calculateShipping()">
 									<mat-option *ngFor="let plataform of plataforms" [value]="plataform">
 										{{plataform.name}}
 									</mat-option>
 								</mat-select>
 							</mat-form-field>
               <mat-form-field class="column is-half">
-                <mat-select placeholder="Plataforma de destino" [(ngModel)]="destinationAccount">
+                <mat-select placeholder="Plataforma de destino" [(ngModel)]="destinationAccount" (selectionChange)="calculateShipping()">
 									<mat-option *ngFor="let plataform of plataforms" [value]="plataform">
 										{{plataform.name}}
 									</mat-option>

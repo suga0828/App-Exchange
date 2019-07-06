@@ -66,7 +66,7 @@ export class TransferComponent implements OnInit, OnChanges, OnDestroy {
       destinationAccount: ['', Validators.required],
       amount: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('[0-9]+')
+        Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$'),
       ])],
       comment: ['', Validators.maxLength(200)]
     });
@@ -136,6 +136,10 @@ export class TransferComponent implements OnInit, OnChanges, OnDestroy {
 
   detailedOperation() {
     if (!this.originAccount.value || !this.amount.value || !this.destinationAccount.value) {
+      this.toReceive = {
+        amount: null,
+        tax: null,
+      }
       return;
     }
 
@@ -157,18 +161,17 @@ export class TransferComponent implements OnInit, OnChanges, OnDestroy {
       }
     }).tax;
     if (this.exchangeRate) {
-      this.toReceive.amount = (this.amount.value * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
+      this.toReceive.amount = (this.amount.value * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2).toString();
     } else {
-      this.toReceive.amount = (this.amount.value * ((100 - this.toReceive.tax) / 100)).toFixed(2);
+      this.toReceive.amount = (this.amount.value * ((100 - this.toReceive.tax) / 100)).toFixed(2).toString();
     }
   }
 
   onSubmit() {
-    if (!this.originAccount.value || !this.destinationAccount.value || !this.amount.value) {
-      swal.fire({
-        type: 'warning',
-        title: 'Seleccione una cuenta de origen, una de destino y un monto'
-      });
+    if (this.transferForm.invalid) {
+      for (let i in this.transferForm.controls) {
+        this.transferForm.controls[i].markAsTouched();
+      }
       return;
     }
     const transference: Operation = {
@@ -184,7 +187,7 @@ export class TransferComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.userService.registerOperation(transference)
       .then( r => {
-        const msj = `Administración le contactará a la brevedad. Puede ver y seguir el estado de su operación en <b>Historial</b>`;
+        const msj = `En minutos atenderemos su solicitud, puede hacer seguimiento y ver el estado de su operación en el <b>Historial</b> de operaciones`;
         swal.fire({
           html: msj,
           type: 'success',

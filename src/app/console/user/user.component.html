@@ -167,12 +167,12 @@
             </mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="type.value === typeAccounts.banking">
-            <input matInput type="number" placeholder="Número de cuenta" formControlName="numberAccount">
+            <input matInput type="number" placeholder="Número de cuenta" formControlName="numberAccount" min="0">
             <mat-error *ngIf="numberAccount.hasError('required')">
               El campo es requerido.
             </mat-error>
             <mat-error *ngIf="numberAccount.hasError('pattern')">
-              Sólo números permitidos.
+              Sólo números sin decimales permitidos.
             </mat-error>
           </mat-form-field>
           <mat-form-field *ngIf="registerAccountForm.value.type === typeAccounts.banking">
@@ -190,21 +190,34 @@
             </mat-error>
           </mat-form-field>
         </form>
-        <ng-container *ngIf="accounts && register && !addAccount && !editAccount">
-          <ng-container *ngFor="let account of accounts">
-            <div class="column is-half-mobile is-two-fifths-tablet center-container" id="account">
-              {{account.id}}
-            </div>
-            <div class="column is-half-mobile is-two-fifths-tablet center-container">
+        <ng-container *ngIf="register && !addAccount && !editAccount">
+          <ng-container *ngIf="plataformAccounts.length">
+            <div class="column is-four-fifths-mobile is-half-tablet center-container">
+            <div><b>Monederos Electrónicos</b></div>
+            <mat-divider></mat-divider>
+            <div *ngFor="let account of plataformAccounts">
+              <p>{{account.id}}</p>
               <button mat-raised-button color="primary" (click)="showEditAccount(account)" type="button">Editar</button>              
               <button mat-raised-button color="primary" (click)="openDialog('deleteAccount', currentUser, '', '', '', account)" type="button">Eliminar</button>              
             </div>
-            <mat-divider></mat-divider>
+          </div>
+          </ng-container>
+          <ng-container *ngIf="bankingAccounts.length">
+            <div class="column is-four-fifths-mobile is-half-tablet center-container">
+              <div><b>Cuentas Bancarias</b></div>
+              <mat-divider></mat-divider>
+              <div *ngFor="let account of bankingAccounts">
+                <p>{{account.id}}</p>              
+                <button mat-raised-button color="primary" (click)="showEditAccount(account)" type="button">Editar</button>              
+                <button mat-raised-button color="primary" (click)="openDialog('deleteAccount', currentUser, '', '', '', account)" type="button">Eliminar</button>              
+              </div>
+            </div>
           </ng-container>
         </ng-container>
-        <mat-toolbar color="primary" *ngIf="!accounts.length && register && !addAccount && !editAccount">
+        <mat-toolbar color="primary" *ngIf="!plataformAccounts.length && !bankingAccounts.length && register && !addAccount && !editAccount">
           No tienes cuentas
         </mat-toolbar>
+        <mat-divider></mat-divider>
       </div>
     </mat-card-content>
     <mat-card-actions class="columns is-mobile is-multiline is-centered">

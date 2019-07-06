@@ -49,7 +49,7 @@
 
           <!-- Options Column -->
           <ng-container matColumnDef="options">
-            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>Detalles</mat-header-cell>
             <mat-cell *matCellDef="let element">
               <button mat-icon-button color="warn" *ngIf="element.status !== 'Cancelada'" [matMenuTriggerFor]="appMenu">
                 <fa-icon [icon]="['fas', 'ellipsis-v']" size="lg"></fa-icon>

@@ -64,9 +64,9 @@ export class JumboComponent implements OnInit {
     const plataformName = this.originAccount.name;
     this.toReceive.tax = this.plataforms.find(el => el.name === plataformName).tax;
     if (this.exchangeRate) {
-      this.toReceive.amount = (this.amount * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(0);
+      this.toReceive.amount = (this.amount * this.exchangeRate.value * ((100 - this.toReceive.tax) / 100)).toFixed(2).toString();
     } else {
-      this.toReceive.amount = (this.amount *  ((100 - this.toReceive.tax) / 100)).toFixed(0);
+      this.toReceive.amount = (this.amount *  ((100 - this.toReceive.tax) / 100)).toFixed(2).toString();
     }
     this.toReceive.comissioned = `${this.amount - this.toReceive.amount} ${currencyTo}`;
 

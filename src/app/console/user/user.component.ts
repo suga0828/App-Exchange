@@ -52,6 +52,8 @@ export class UserComponent implements OnInit, OnChanges, OnDestroy {
   countries: Country[];
   editAccountForm: FormGroup;
   registerAccountForm: FormGroup;
+  plataformAccounts: Account[];
+  bankingAccounts: Account[];
   typeAccounts = {
     plataform: 'Monedero Electrónico',
     banking: 'Cuenta Bancaria'
@@ -88,8 +90,16 @@ export class UserComponent implements OnInit, OnChanges, OnDestroy {
   getAccounts() {
     if (this.currentUser) {
       this.accountsSubscription = this.userService.getUserAccounts(this.currentUser.uid)
-        .subscribe((accounts: Account[]) => {
-          this.accounts = accounts;
+        .subscribe((allAccounts: Account[]) => {
+          this.plataformAccounts = [];
+          this.bankingAccounts = [];
+          for(let i = 0; i < allAccounts.length; i++) {
+            if (allAccounts[i].type === this.typeAccounts.banking) {
+              this.bankingAccounts.push(allAccounts[i]);
+            } else if (allAccounts[i].type === this.typeAccounts.plataform) {
+              this.plataformAccounts.push(allAccounts[i]);
+            }
+          }
         }, error => console.error(error));
     }
   }
