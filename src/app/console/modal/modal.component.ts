@@ -137,7 +137,6 @@ export class ModalComponent implements OnInit {
       ])],
       value: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9]+(\.[0-9]{0,15})?$'),
       ])]
     });
   }
@@ -156,7 +155,6 @@ export class ModalComponent implements OnInit {
       ])],
       value: [this.exchangeRate.value, Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9]+(\.[0-9]{0,15})?$'),
       ])]
     });
   }

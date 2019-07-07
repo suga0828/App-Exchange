@@ -66,7 +66,7 @@ export class TransferComponent implements OnInit, OnChanges, OnDestroy {
       destinationAccount: ['', Validators.required],
       amount: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$'),
+        Validators.pattern('^[0-9]+(\.[0-9]{1,15})?$'),
       ])],
       comment: ['', Validators.maxLength(200)]
     });

@@ -65,7 +65,7 @@ export class WithdrawComponent implements OnInit, OnChanges, OnDestroy {
       originAccount: ['', Validators.required],
       amount: ['', Validators.compose([
         Validators.required,
-        Validators.pattern('^[0-9]+(\.[0-9]{1,2})?$')
+        Validators.pattern('^[0-9]+(\.[0-9]{1,15})?$')
       ])],
       comment: ['', Validators.maxLength(200)],
       currency: ['', Validators.required]
