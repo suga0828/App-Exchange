@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthenticationService } from '../services/authentication.service';
@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './console.component.html',
   styleUrls: ['./console.component.scss']
 })
-export class ConsoleComponent implements OnInit, OnDestroy {
+export class ConsoleComponent implements OnInit {
 
   public currentUser: User;
   public userSubscription: Subscription;
@@ -44,18 +44,14 @@ export class ConsoleComponent implements OnInit, OnDestroy {
   }
 
   emitLogout(e) {
+    this.authSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
+    this.authenticationService.logOut();
     if (e) {
       this.ngZone.run(() => {
         this.router.navigate(['/landing/login']);
       });
-      this.authenticationService.logOut();
       console.log('Sesión cerrada.');
     }
   }
-
-  ngOnDestroy() {
-    this.authSubscription.unsubscribe();
-  }
-
 }
