@@ -6,6 +6,7 @@ export interface Account {
   entity?: any;
   id: string;
   name: any;
+  identificationDocument?: number;
   plataform?: any;
   numberAccount?: any;
   type: any;

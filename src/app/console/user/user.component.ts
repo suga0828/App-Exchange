@@ -119,6 +119,10 @@ export class UserComponent implements OnInit, OnChanges, OnDestroy {
         Validators.required,
         Validators.pattern('[0-9]+')
       ])],
+      identificationDocument: ['', Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]+')
+      ])],
       accountType: ['', Validators.required]
     });
   }
@@ -138,6 +142,10 @@ export class UserComponent implements OnInit, OnChanges, OnDestroy {
       entity: ['', Validators.required],
       email: [account.email, [Validators.required, Validators.email]],
       numberAccount: [account.numberAccount, Validators.compose([
+        Validators.required,
+        Validators.pattern('[0-9]+')
+      ])],
+      identificationDocument: [account.identificationDocument, Validators.compose([
         Validators.required,
         Validators.pattern('[0-9]+')
       ])],
@@ -285,6 +293,10 @@ export class UserComponent implements OnInit, OnChanges, OnDestroy {
     return this.registerAccountForm.get('accountType');
   }
 
+  get identificationDocument() {
+    return this.registerAccountForm.get('identificationDocument');
+  }
+
   saveImage() {
     const currentPictureId = Date.now();
     const pictures = this.firebaseStorage.ref('pictures/' + currentPictureId + '.jpg').putString(this.userImage, 'data_url');
@@ -373,6 +385,7 @@ export class UserComponent implements OnInit, OnChanges, OnDestroy {
       this.account = {
         currency: this.entity.value.currency,
         name: this.name.value,
+        identificationDocument: this.identificationDocument.value,
         accountType: this.accountType.value,
         entity: this.entity.value,
         date: date,
@@ -449,6 +462,7 @@ export class UserComponent implements OnInit, OnChanges, OnDestroy {
         date: this.date.value,
         currency: this.entity.value.currency,
         name: this.name.value,
+        identificationDocument: this.identificationDocument.value,
         accountType: this.accountType.value,
         entity: this.entity.value,
         id: `${this.entity.value.name}: ${this.numberAccount.value}`,

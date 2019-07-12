@@ -133,6 +133,15 @@
               El campo es requerido.
             </mat-error>
           </mat-form-field>
+          <mat-form-field *ngIf="type.value === typeAccounts.banking">
+            <input matInput type="number" placeholder="Documento de identificación del titular" formControlName="identificationDocument" min="0">
+            <mat-error *ngIf="identificationDocument.hasError('required')">
+              El campo es requerido.
+            </mat-error>
+            <mat-error *ngIf="identificationDocument.hasError('pattern')">
+              Sólo números sin decimales permitidos.
+            </mat-error>
+          </mat-form-field>
           <mat-form-field *ngIf="registerAccountForm.value.type === typeAccounts.plataform">
             <mat-select placeholder="Plataforma electrónica" formControlName="plataform">
               <ng-container *ngFor="let plataform of plataforms">
